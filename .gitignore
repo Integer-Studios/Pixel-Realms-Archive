@@ -1,0 +1,7 @@
+*.DS_STORE
+classpath
+bin
+tiles.dat
+pieces.dat
+entities.dat
+player.dat

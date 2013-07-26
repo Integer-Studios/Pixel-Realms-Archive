@@ -1,0 +1,32 @@
+package com.pixel.building;
+
+public class BuildingInfo {
+
+	public int width, height;
+	public int id;
+	public String texture;
+	public BuildingDoor door;
+	
+	public BuildingInfo(int id, int width, int height) {
+		
+		this.id = id;
+		this.width = width;
+		this.height = height;
+		
+	}
+	
+	public BuildingInfo setTexture(String texture) {
+		
+		this.texture = texture;
+		return this;
+		
+	}
+	
+	public BuildingInfo setDoor(BuildingDoor door) {
+		
+		this.door = door;
+		return this;
+		
+	}
+	
+}

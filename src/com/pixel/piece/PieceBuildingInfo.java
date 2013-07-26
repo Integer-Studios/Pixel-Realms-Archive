@@ -1,0 +1,51 @@
+package com.pixel.piece;
+
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+
+import com.pixel.building.Building;
+import com.pixel.entity.EntityPlayer;
+import com.pixel.start.TextureLoader;
+import com.pixel.world.World;
+
+public class PieceBuildingInfo extends PieceInfo {
+
+	public Building building;
+	
+	public PieceBuildingInfo(int buildingID) {
+		
+		super("");
+		building = new Building(buildingID);
+		this.width = building.width;
+		this.height = building.height;
+		this.texture = Building.info.get(buildingID).texture;
+		setSize(0F, 0F, 4F, 2.2F);
+		maxDamage = 1000;
+		
+	}
+	
+	public void onCreated(Piece p) {
+
+		
+	}
+	
+	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
+
+		//request load of world!
+		
+	}
+	
+	public void render(GameContainer c, Graphics g, World w, Piece p) {
+
+		if (image != null) 
+			image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY, World.tileConstant * building.width, World.tileConstant * building.height);
+		else {
+			if (texture != null && texture.length() > 0) {
+				image = TextureLoader.load(texture);
+				image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY, World.tileConstant * building.width, World.tileConstant * building.height);
+			}
+		}
+
+	}
+	
+}
