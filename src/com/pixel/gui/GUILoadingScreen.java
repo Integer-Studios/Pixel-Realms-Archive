@@ -12,7 +12,7 @@ public class GUILoadingScreen extends GUIComponentSet {
 	public GUILoadingScreen () {
 		
 		super(0, 0, 128, 48, new GUIComponent[]{
-				new GUIComponent(0, 0, Display.getWidth(), Display.getHeight(), "resources/gui/multiplayer/loading/0.png")
+				new GUIComponent(0, 0, Display.getWidth(), Display.getHeight(), "resources/gui/multiplayer/loading/loading.png")
 		});
 
 		this.setPosition(0, 0);

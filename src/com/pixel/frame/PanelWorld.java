@@ -4,6 +4,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import com.pixel.communication.CommunicationClient;
+import com.pixel.gui.GUI;
+import com.pixel.gui.GUILoadingScreen;
 import com.pixel.input.KeyCode;
 import com.pixel.input.KeyboardListener;
 import com.pixel.start.PixelRealms;
@@ -15,14 +17,7 @@ public class PanelWorld extends Panel {
 	public static Thread clientThread;
 
 	public PanelWorld() {
-		CommunicationClient client = new CommunicationClient(PixelRealms.ip);
-		clientThread = new Thread(client);
-		clientThread.start();     
-		world = new World(this);
-		PixelRealms.world = world;
-
-		KeyboardListener.clearKeyBindings();
-		initializeKeyBindings();
+	
 		
 	}
 	
@@ -50,10 +45,32 @@ public class PanelWorld extends Panel {
 		KeyboardListener.addKeyBinding("HideMenu", KeyCode.KEY_UP);
 
 	}
+	
+	public void update (GameContainer c, int delta) {
+
+		if (World.loadingScreen != null && clientThread == null) {
+			CommunicationClient client = new CommunicationClient(PixelRealms.ip);
+			clientThread = new Thread(client);
+			clientThread.start();     
+			world = new World(this);
+			PixelRealms.world = world;
+
+			KeyboardListener.clearKeyBindings();
+			initializeKeyBindings();
+		}
+
+	}
 
 	public void render(GameContainer c, Graphics g) {
+		
 		if (World.loaded)
 			world.render(c, g);
+		else if (World.loadingScreen == null) {
+			
+			World.loadingScreen = new GUILoadingScreen();
+			GUI.addGUIComponent(World.loadingScreen);
+			
+		}
 	}
 
 }

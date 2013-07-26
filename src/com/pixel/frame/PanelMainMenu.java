@@ -23,7 +23,11 @@ public class PanelMainMenu extends Panel {
 		width = -1;
 		updateRenderSize();
 	}
-	
+
+	public void update(GameContainer c, int delta) {
+		
+	}
+
 	public void render(GameContainer c, Graphics g) {
 		updateRenderSize();
 		if (news.getOnMouseUp()) {
@@ -41,11 +45,11 @@ public class PanelMainMenu extends Panel {
 		} 
 		
 		if (multiPlayer.getOnMouseUp()) {
-//			CommunicationClient client = new CommunicationClient("localhost");
 			MainLoop.setPanel(2);
 			PixelRealms.server = true;
 
 		}
+		
 	}
 	
 	public void updateRenderSize() {

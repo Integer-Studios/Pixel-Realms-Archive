@@ -10,7 +10,6 @@ import com.pixel.communication.GetBunnies;
 import com.pixel.communication.PlayerManager;
 import com.pixel.communication.packet.PacketUpdatePlayer;
 import com.pixel.communication.packet.PacketUpdateWorld;
-//import com.lunumia.frame.PanelWorld;
 import com.pixel.gui.GUIHotbar;
 import com.pixel.gui.PlayerInterfaceManager;
 import com.pixel.input.KeyboardListener;
@@ -18,6 +17,7 @@ import com.pixel.input.MouseClickListener;
 import com.pixel.inventory.Inventory;
 import com.pixel.item.ItemFood;
 import com.pixel.item.ItemStack;
+import com.pixel.piece.PieceInfo;
 import com.pixel.player.PlayerInventory;
 import com.pixel.player.PlayerMotionManager;
 import com.pixel.player.RelativeActionPunching;
@@ -44,6 +44,7 @@ public class EntityPlayer extends EntityHuman {
 	public boolean punchEnacted = false;
 	public int jumpWait;
 	public int punchingIndex;
+	public boolean interfaceInitialized;
 
 	public EntityPlayer(int x, int y) {
 		super(x, y, .2F, .2F);
@@ -52,7 +53,6 @@ public class EntityPlayer extends EntityHuman {
 		loadedX = x;
 		loadedY = y;
 		interfaceManager = new PlayerInterfaceManager(this);
-		interfaceManager.initializeInterface();
 		new GetBunnies(this).start();
 	}
 	
@@ -242,6 +242,14 @@ public class EntityPlayer extends EntityHuman {
 
 	public void render(GameContainer c, Graphics g, World w) {
 		super.render(c, g, w);
+		if (World.loadingScreenDone && !interfaceInitialized) {
+			
+			interfaceInitialized = true;
+			interfaceManager.initializeInterface();
+			PieceInfo.pickupSound.setFramePosition(0);
+			PieceInfo.pickupSound.start();
+			
+		}
 		body.render(c, g, w);
 	}
 

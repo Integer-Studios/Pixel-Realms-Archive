@@ -51,7 +51,7 @@ public class World {
 	public float pieceLayerOffset = 0.85F;
 	public float clipConstant = 0.4F;
 	public PanelWorld panelWorld;
-	public GUILoadingScreen loadingScreen;
+	public static GUILoadingScreen loadingScreen;
 	public LightingManager lightingManager;
 	public long time = 12000;
 	public long dayLength = 24000;
@@ -60,13 +60,12 @@ public class World {
 		PixelRealms.world = this;
 
 		panelWorld = p;
-
+		
 		loaded = false;
 		player = new EntityPlayer(152, 152);
+		
 		CommunicationClient.addPacket(new PacketLogin(PlayerManager.currentPlayer, PlayerManager.session));
 
-//		loadingScreen = new GUILoadingScreen();
-//		GUI.addGUIComponent(loadingScreen);
 		pieces = new Piece[c * c];
 		herds.clear();
 		tiles.clear();
@@ -206,16 +205,14 @@ public class World {
 
 	public void render(GameContainer c, Graphics g) {
 		
-//		if (!loadingScreenDone)
-//			loadingScreen.tick();
+		if (!loadingScreenDone)
+			loadingScreen.tick();
 
 		if (!loaded) {
 			
 			return;
 			
 		}
-
-//		tick();
 
 		loaded = true;
 		
@@ -350,7 +347,6 @@ public class World {
 		
 		if (play == 1 && Sound.getCurrentSong() == Sound.Music.OFF) {
 			
-			System.out.println("ASD");
 			PixelRealms.playSong(Music.ROB_IN_WHITE_SATIN);
 			
 		}

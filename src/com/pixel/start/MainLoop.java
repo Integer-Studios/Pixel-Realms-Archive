@@ -72,6 +72,7 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
 	@Override
 	public void update(GameContainer c, int delta) throws SlickException {
 		// TODO Auto-generated method stub
+		panel.update(c, delta);
 		MouseClickListener.update(c, delta);
 		KeyboardListener.update(c, delta);
 		if (World.loaded) {

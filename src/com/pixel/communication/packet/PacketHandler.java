@@ -40,7 +40,7 @@ public class PacketHandler {
 		} else if (packet.inventory == 2) {
 			PixelRealms.world.player.inventory.inventoryRight.serverSetContent(packet.x, packet.y, new ItemStack(Item.getItemForId(packet.itemID), packet.size));
 		} 
-		if (World.loaded) {
+		if (World.loaded && PixelRealms.world.player.interfaceInitialized) {
 			PieceInfo.pickupSound.setFramePosition(0);
 			PieceInfo.pickupSound.start();
 		}
