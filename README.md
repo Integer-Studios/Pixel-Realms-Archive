@@ -1,5 +1,5 @@
 Pixel Realms
-=======
+============
 
 Pixel Realms is an R.P.G. adventure sandbox - or should we say it WILL be. You see we are currently in our development 
 stage and adding more and more every week, and we were hoping you could join us for the ride! But enough about that, 
