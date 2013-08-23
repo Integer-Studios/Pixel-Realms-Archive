@@ -79,7 +79,7 @@ public class MouseClickListener {
 		posY = y;
 		lastClickedPosX = posX;
 		lastClickedPosY = posY;
-		if(button == 3) {
+		if(button == 1) {
 			rightClick = true;
 		} else {
 			rightClick = false;
@@ -100,7 +100,7 @@ public class MouseClickListener {
 		lastClickedPosX = posX;
 		lastClickedPosY = posY;
 		onMouseUp = false;
-		if(button == 3) {
+		if(button == 1) {
 			rightClick = true;
 		} else {
 			rightClick = false;
@@ -120,7 +120,7 @@ public class MouseClickListener {
 		posX = x;
 		posY = y;
 		onMouseUp = true;
-		if(button == 3) {
+		if(button == 1) {
 			rightClick = true;
 		} else {
 			rightClick = false;
