@@ -43,8 +43,9 @@ public class PacketUpdateWorld extends Packet {
 			int id = input.readInt();
 			int posX = input.readInt();
 			int posY = input.readInt();
+			int metadata = input.readInt();
 
-			new Tile(posX, posY, id, true);
+			new Tile(posX, posY, id, metadata, true);
 
 		}
 		

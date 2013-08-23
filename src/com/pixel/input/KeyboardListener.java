@@ -66,7 +66,7 @@ public class KeyboardListener {
 		if (World.loaded) {
 
 			if (code == KeyCode.KEY_N) {
-//				new PieceBuilding(Math.round(PixelRealms.world.player.getX()) - 2, Math.round(PixelRealms.world.player.getY()) - 2, 0);
+				PixelRealms.world.setTile((int)PixelRealms.world.player.getX(), (int)PixelRealms.world.player.getY(), 7, 0);
 			}
 
 			if (code == KeyCode.KEY_ENTER) {

@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class PacketUpdateTile extends Packet {
 	
-	public int tileID, posX, posY;
+	public int tileID, posX, posY, metadata;
 
 	public PacketUpdateTile() {}
 	
@@ -25,6 +25,8 @@ public class PacketUpdateTile extends Packet {
 		output.writeInt(tileID);
 		output.writeInt(posX);
 		output.writeInt(posY);
+		output.writeInt(metadata);
+
 
 	}
 
@@ -34,6 +36,7 @@ public class PacketUpdateTile extends Packet {
 		tileID = input.readInt();
 		posX = input.readInt();
 		posY = input.readInt();
+		metadata = input.readInt();
 
 		PacketHandler.processTileUpdate(this);
 		loaded = true;

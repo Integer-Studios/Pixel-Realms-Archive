@@ -2,18 +2,19 @@ package com.pixel.tile;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 
 import com.pixel.start.PixelRealms;
+import com.pixel.tile.TileHill;
 import com.pixel.util.Toolkit;
 import com.pixel.world.World;
 
 public class Tile {
 	
-	public Tile(int x, int y, int i, boolean propagate) {
+	public Tile(int x, int y, int i, int m, boolean propagate) {
 		id = i;
 		posX = x;
 		posY = y;
+		metadata = m;
 		
 		if (propagate)
 			World.propagateTile(this);
@@ -30,34 +31,7 @@ public class Tile {
 			info[id].onPlayerWalkOver(w, this, w.player);
 		}
 	}
-	
-	public void setPreviousNeighbors(boolean l, boolean r, boolean d, boolean u) {
-		if (l) {
-			prevl = true;
-		} else {
-			prevl = false;
-		}
-		
-		if (r) {
-			prevr = true;
-		} else {
-			prevr = false;
-		}
-		
-		if (d) {
-			prevd = true;
-		} else {
-			prevd = false;
-		}
-		
-		if (u) {
-			prevu = true;
-		} else {
-			prevu = false;
-		}
-	
-	}
-	
+
 	static {
 		Toolkit t = new Toolkit();
 		String path = t.getPath();
@@ -70,6 +44,8 @@ public class Tile {
 				new TileRoundedAnimate(path+"resources" + PixelRealms.t.separator + "tiles" + PixelRealms.t.separator + "water" + PixelRealms.t.separator, 2, 20), //water rounded 4
 				new TileInfo(path+"resources" + PixelRealms.t.separator + "tiles" + PixelRealms.t.separator + "cobble" + PixelRealms.t.separator + "cobble.png"), //cobble flat 5
 				new TileRounded(path+"resources" + PixelRealms.t.separator + "tiles" + PixelRealms.t.separator + "cobble" + PixelRealms.t.separator + "cobble"),//cobble rounded 6
+				new TileHill(path+"resources" + PixelRealms.t.separator + "tiles" + PixelRealms.t.separator + "hill" + PixelRealms.t.separator + "hill"),//hill front 7
+
 		};
 		
 	}
@@ -77,9 +53,8 @@ public class Tile {
 	public int id;
 	public int posX;
 	public int posY;
+	public int metadata = -1;
 	public static TileInfo[] info;
 	
-	public Image prevImage;
-	public boolean prevl, prevr, prevd, prevu;
 	public int background = 0;
 }

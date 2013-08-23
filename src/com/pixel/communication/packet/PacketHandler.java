@@ -16,7 +16,7 @@ public class PacketHandler {
 	
 	public static void processTileUpdate(PacketUpdateTile packet) {
 		
-		PixelRealms.world.setTile(packet.posX, packet.posY, packet.tileID);
+		PixelRealms.world.setTile(packet.posX, packet.posY, packet.tileID, packet.metadata);
 		
 	}
 

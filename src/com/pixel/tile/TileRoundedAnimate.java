@@ -19,9 +19,6 @@ public class TileRoundedAnimate extends TileRounded {
 	}
 	
 	public void tick(World w, Tile t) {
-		if (shouldRepaint) {
-			t.prevImage = null;
-		}
 		super.tick(w, t);
 	}
 	
