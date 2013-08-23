@@ -84,8 +84,8 @@ public class World {
 		
 	}
 
-	public void setTile(int x, int y, int id) {
-		tiles.put((y * c) + x, new Tile(x, y, id, true));
+	public void setTile(int x, int y, int id, int metadata) {
+		tiles.put((y * c) + x, new Tile(x, y, id, metadata, true));
 		CommunicationClient.addPacket(new PacketUpdateTile(id, x, y));
 	}
 
