@@ -169,6 +169,12 @@ public class RelativeBody {
 		}
 	}
 	
+	public void selectItem(int itemID) {
+		
+		
+		
+	}
+	
 	public void lookToMouse() {
 //		int x = Math.round(MouseClickListener.getXWorldMousePosition());
 //		int y = Math.round(MouseClickListener.getYWorldMousePosition());

@@ -2,29 +2,47 @@ package com.pixel.animation;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 
-import com.pixel.start.TextureLoader;
+import com.pixel.item.Item;
+import com.pixel.start.PixelRealms;
 import com.pixel.world.World;
 
 public class RelativePositionImageRotatable extends RelativePositionImage {
 	
 	public float[] rads;
+	public int itemID = -1;
+	public boolean flipped = true;
 
-	public RelativePositionImageRotatable(String texture, int width,
+	public RelativePositionImageRotatable(int itemID, int width,
 			int height, int[] x, int[] y, float[] rads) {
-		super(texture, width, height, x, y);
+		super("", width, height, x, y);
+		this.itemID = itemID;
 		this.rads = rads;
 	}
 	
 	public void render(GameContainer c, Graphics g, World w, RelativePositionAnimation anim) {
-		Image img;
-		try {
-		img = TextureLoader.load(texture);
-		} catch (RuntimeException e) {
-			return;
+		int posX, posY;
+
+		if (image == null) {
+			
+			try {
+				this.image = Item.items[itemID].image.copy();
+				this.render(c, g, w, anim);
+
+			} catch (RuntimeException e) {
+				this.image = null;
+				e.printStackTrace();
+				return;
+			}
+		} 
+		
+		if (anim.flip && !flipped) {
+			System.out.println("flipped");
+			flipped = true;
+			this.image = image.getFlippedCopy(true, false);
 		}
-		int /* posx, posY,*/ offsetX, offsetY;
+
+		int offsetX, offsetY;
 		
 		offsetX = 0;
 		offsetY = 0 - height;
@@ -32,38 +50,73 @@ public class RelativePositionImageRotatable extends RelativePositionImage {
 			offsetX = 0 - width;
 		}
 		
-		if (playing) {
+		if (playing && image != null) {
 			
-//			posX = (int)(anim.entity.getX() * World.tileConstant + World.globalOffsetX)  + x[currentFrame];
-//			posY = (int)(anim.entity.getY() * World.tileConstant + World.globalOffsetY) + y[currentFrame];
+			posX = (int)(anim.entity.getX() * World.tileConstant + World.globalOffsetX)  + x[currentFrame];
+			posY = (int)(anim.entity.getY() * World.tileConstant + World.globalOffsetY) + y[currentFrame];
 			
-//			g2.translate(posX, posY);
-//			g2.rotate(Math.PI * rads[currentFrame]);
-			img.draw(offsetX, offsetY, width, height);
 			
-//			g2.rotate(-1 * Math.PI * rads[currentFrame]);
-//			g2.translate(-1*posX, -1*posY);
+			image.setCenterOfRotation(offsetX*-1, offsetY*-1);
+			image.setRotation((float) Math.toDegrees(Math.PI * rads[currentFrame]));
+			
+			image.draw(posX+offsetX, posY+offsetY, width, height);
 			
 			wait++;
 			if (wait == anim.speed) {
 				wait = 0;
 				currentFrame++;
+
+				if (currentFrame != 0 && currentFrame != frames && actionID == 2) {
+					
+					if (PixelRealms.world.player.punchEnacted && PixelRealms.world.player.punching) {
+						PixelRealms.world.player.punchEnacted = false;
+					}
+					
+				}
+				
 				if (currentFrame == frames) {
+					if (actionID == 2) {
+						
+						//punch image
+						if (!PixelRealms.world.player.punchEnacted && PixelRealms.world.player.punching) {
+							PixelRealms.world.player.enactPunch(w);
+							PixelRealms.world.player.punchEnacted = true;
+						}
+						
+					}
 					currentFrame = 0;
 				}
 			}
-		} else {
-//			posX = (int)(anim.entity.getX() * World.tileConstant + World.globalOffsetX)  + x[0];
-//			posY = (int)(anim.entity.getY() * World.tileConstant + World.globalOffsetY) + y[0];
+		} else if (image != null) {
+			posX = (int)(anim.entity.getX() * World.tileConstant + World.globalOffsetX)  + x[0];
+			posY = (int)(anim.entity.getY() * World.tileConstant + World.globalOffsetY) + y[0];
 			
-//			g2.translate(posX, posY);
-//			g2.rotate(Math.PI * rads[0]);
+			
+			image.setCenterOfRotation(offsetX*-1, offsetY*-1);
+			image.setRotation((float) Math.toDegrees(Math.PI * rads[0]));
+			
+			image.draw(posX+offsetX, posY+offsetY, width, height);
+		} 
 		
-			img.draw(offsetX, offsetY, width, height);
-		
-//			g2.rotate(-1 * Math.PI * rads[0]);
-//			g2.translate(-1*posX, -1*posY);
-		}
 	}
+	
+	public void setItemID(int itemID) {
+		
+		if (this.itemID != -1)
+			flipped = false;
+			
+		this.itemID = itemID;
+		
+		try {
+			this.image = Item.items[itemID].image.copy();
+
+		} catch (RuntimeException e) {
+			this.image = null;
+			e.printStackTrace();
+			return;
+		}
+		
+	}
+	
 
 }
