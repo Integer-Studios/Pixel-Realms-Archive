@@ -4,6 +4,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import com.pixel.building.Building;
+import com.pixel.communication.CommunicationClient;
+import com.pixel.communication.packet.PacketLoadInterior;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.start.TextureLoader;
 import com.pixel.world.World;
@@ -31,7 +33,7 @@ public class PieceBuildingInfo extends PieceInfo {
 	
 	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
 
-		//request load of world!
+		CommunicationClient.addPacket(new PacketLoadInterior(((PieceBuilding) p).worldID));
 		
 	}
 	

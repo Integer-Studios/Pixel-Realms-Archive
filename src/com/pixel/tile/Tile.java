@@ -10,12 +10,13 @@ import com.pixel.world.World;
 
 public class Tile {
 	
-	public Tile(int x, int y, int i) {
+	public Tile(int x, int y, int i, boolean propagate) {
 		id = i;
 		posX = x;
 		posY = y;
 		
-		World.propagateTile(this);
+		if (propagate)
+			World.propagateTile(this);
 		
 	}
 	

@@ -7,6 +7,7 @@ import com.pixel.gui.GUIComponent;
 import com.pixel.gui.GUIInventorySlot;
 import com.pixel.gui.GUITextBox;
 import com.pixel.gui.GUIWindow;
+import com.pixel.start.PixelRealms;
 import com.pixel.world.World;
 
 
@@ -87,6 +88,13 @@ public class MouseClickListener {
 
 	public static void mousePressed(int button, int x, int y) {
 		pressed = true;
+		
+		if (World.loaded) {
+			
+			PixelRealms.world.player.interfaceManager.onMousePressed(x, y, (button == 3));
+			
+		}
+		
 		posX = x;
 		posY = y;
 		lastClickedPosX = posX;
@@ -102,6 +110,12 @@ public class MouseClickListener {
 	
 	public static void mouseReleased(int button, int x, int y) {
 
+		if (World.loaded) {
+			
+			PixelRealms.world.player.interfaceManager.onMouseReleased(x, y, (button == 3));
+			
+		}
+		
 		pressed = false;
 		posX = x;
 		posY = y;

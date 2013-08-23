@@ -4,12 +4,14 @@ public class BuildingInfo {
 
 	public int width, height;
 	public int id;
+	public int floorID;
 	public String texture;
 	public BuildingDoor door;
 	
 	public BuildingInfo(int id, int width, int height) {
 		
 		this.id = id;
+		this.floorID = 3;
 		this.width = width;
 		this.height = height;
 		

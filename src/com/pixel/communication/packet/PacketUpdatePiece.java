@@ -9,7 +9,7 @@ import com.pixel.piece.PieceBuilding;
 
 public class PacketUpdatePiece extends Packet {
 
-	public int pieceID, posX, posY, damage, metadata, buildingID;
+	public int pieceID, posX, posY, damage, metadata, buildingID, worldID;
 	public Piece piece;
 	
 	public PacketUpdatePiece() {}
@@ -38,6 +38,7 @@ public class PacketUpdatePiece extends Packet {
 		if (piece instanceof PieceBuilding) {
 			
 			output.writeBoolean(true);
+			output.writeInt(((PieceBuilding) piece).building.worldID);
 			output.writeInt(((PieceBuilding) piece).building.id);
 			
 		} else {
@@ -59,6 +60,7 @@ public class PacketUpdatePiece extends Packet {
 		
 		if (input.readBoolean()) {
 			
+			worldID = input.readInt();
 			buildingID = input.readInt();
 			
 		} else {

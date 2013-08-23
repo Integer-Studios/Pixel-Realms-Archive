@@ -53,9 +53,11 @@ public abstract class Packet {
 		try {
 			
 			int id = input.readInt();
+				
 			int userID = input.readInt();
 
 			Packet packet = getPacket(id);
+
 			packet.userID = userID;
 			packet.id = id;
 			packet.readData(input);
@@ -120,6 +122,15 @@ public abstract class Packet {
         try
         {
             Class packetClass = (Class)packetMap.get(id);
+            	
+            if (id == 14) {
+            	
+            	PacketLoadInterior l = (PacketLoadInterior)packetClass.newInstance();
+            	
+            	return l;
+            	
+            }
+            
             return packetClass == null ? null : (Packet)packetClass.newInstance();
         }
         catch (Exception e)
@@ -134,7 +145,7 @@ public abstract class Packet {
 	
 	public abstract void readData(DataInputStream input) throws IOException;
 
-	static {
+	public static void init() {
 		
 		packetMap.put(0, PacketBlank.class);
 		packetMap.put(1, PacketLogin.class);
@@ -150,6 +161,7 @@ public abstract class Packet {
 		packetMap.put(11, PacketUpdateInventoryContent.class);
 		packetMap.put(12, PacketDamageEntity.class);
 		packetMap.put(13, PacketDamagePlayer.class);
+		packetMap.put(14, PacketLoadInterior.class);
 
 	}
 	

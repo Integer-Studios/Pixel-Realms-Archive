@@ -6,11 +6,12 @@ public class Building {
 
 	public static ArrayList<BuildingInfo> info = new ArrayList<BuildingInfo>();
 
-	public int id, x, y, width, height;
+	public int worldID, id, x, y, width, height, floorID;;
 	public BuildingDoor door;
 	
-	public Building(int id, int x, int y) {
+	public Building(int worldID, int id, int x, int y) {
 		
+		this.worldID = worldID;
 		this.id = id;
 		this.x = x;
 		this.y = y;
@@ -18,6 +19,7 @@ public class Building {
 		this.width = info.get(id).width;
 		this.height = info.get(id).height;
 		this.door = info.get(id).door;
+		this.floorID = info.get(id).floorID;
 
 	}
 	
@@ -28,6 +30,7 @@ public class Building {
 		this.width = info.get(id).width;
 		this.height = info.get(id).height;
 		this.door = info.get(id).door;
+		this.floorID = info.get(id).floorID;
 
 	}
 	

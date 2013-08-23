@@ -24,6 +24,12 @@ public class GUIInventorySlot extends GUIComponentSet {
 	public void render(GameContainer c, Graphics g) {
 		setPressed(MouseClickListener.getIsPressedInInventorySlot(this));
 		super.render(c, g);
+		if (inventory.id != 0) {
+			
+			if (this.y > 0)
+				System.out.println("A");
+			
+		}
 	}
 	
 	public void setPressed(boolean b) {

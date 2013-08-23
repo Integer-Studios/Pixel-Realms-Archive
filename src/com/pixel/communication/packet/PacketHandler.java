@@ -22,7 +22,7 @@ public class PacketHandler {
 
 	public static void processPieceUpdate(PacketUpdatePiece packet) {
 		
-		PixelRealms.world.setPiece(packet.posX, packet.posY, packet.pieceID, packet.damage, packet.metadata, packet.buildingID);
+		PixelRealms.world.setPiece(packet.posX, packet.posY, packet.pieceID, packet.damage, packet.metadata, packet.buildingID, packet.worldID);
 		
 	}
 	

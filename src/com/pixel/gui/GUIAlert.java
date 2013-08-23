@@ -2,6 +2,8 @@ package com.pixel.gui;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 
 import com.pixel.communication.CommunicationClient;
 
@@ -49,7 +51,7 @@ public class GUIAlert extends GUIComponentBlank {
 
 	}
 	
-	public void paint() {
+	public void render(GameContainer c, Graphics g) {
 		
 		if (shouldRemoveFromGUI) {
 			

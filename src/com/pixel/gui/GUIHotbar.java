@@ -7,6 +7,7 @@ import com.pixel.entity.EntityPlayer;
 import com.pixel.sound.Sound;
 import com.pixel.start.PixelRealms;
 import com.pixel.start.TextureLoader;
+import com.pixel.util.CoordinateKey;
 
 public class GUIHotbar {
 	
@@ -15,7 +16,7 @@ public class GUIHotbar {
 	public GUIInventory inventory;
 	public GUIEnergyBar energyBar;
 	public Image selectedSlotImage, slotImage;
-	public static int selectedSlot;
+	public static CoordinateKey selectedSlot;
 	public int originX, originY;
 
 	public GUIHotbar(EntityPlayer player) {
@@ -23,16 +24,17 @@ public class GUIHotbar {
 		this.player = player;
 		originX = Display.getWidth()/2-250;
 		originY = 0;
+		selectedSlot = new CoordinateKey(0, 0);
 		slotImage = TextureLoader.load("resources/gui/inventory/slot.png");
 		selectedSlotImage = TextureLoader.load("resources/gui/inventory/selectedSlot.png");
 		window = new GUIComponent(originX, originY, 500, 70, "resources/gui/interface/hotbar/window.png");
 		inventory = new GUIInventory(originX+6, originY+5, player.getHotbar());
 		energyBar = new GUIEnergyBar(originX+12, originY+52, player);
-		
+
 	}
-	
+
 	public void tick() {
-		((GUIInventorySlot) inventory.components[selectedSlot]).components[0].texture = "resources/gui/inventory/selectedSlot.png";
+			((GUIInventorySlot) inventory.slots.get(selectedSlot)).texture = ("resources/gui/inventory/selectedSlot.png");
 	}
 
 	public void addToGUI() {
@@ -46,14 +48,15 @@ public class GUIHotbar {
 		
 	}
 	
-	public void selectSlot(int slot) {
+	public void selectSlot(int x, int y) {
 		
-		((GUIInventorySlot) inventory.components[selectedSlot]).components[0].setImage(slotImage);
-		((GUIInventorySlot) inventory.components[slot]).components[0].setImage(selectedSlotImage);
+		((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[0].setImage(slotImage);
 		
-		selectedSlot = slot;
-		if (((GUIItemStack) ((GUIInventorySlot) inventory.components[slot]).components[1]).itemstack != null) {
-			int id = ((GUIItemStack) ((GUIInventorySlot) inventory.components[slot]).components[1]).itemstack.item.id;
+		selectedSlot = new CoordinateKey(x, y);
+		((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[0].setImage(selectedSlotImage);
+
+		if (((GUIItemStack) ((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[1]).itemstack != null) {
+			int id = ((GUIItemStack) ((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[1]).itemstack.item.id;
 			if (id == 7 || id == 8) {
 				
 				if (Sound.currentSong != Sound.Music.PEACE_LEAF)
@@ -65,7 +68,7 @@ public class GUIHotbar {
 				Sound.stopSong();
 				
 			}
-			PixelRealms.world.player.setSelectedItem(((GUIItemStack) ((GUIInventorySlot) inventory.components[slot]).components[1]).itemstack);
+			PixelRealms.world.player.setSelectedItem(((GUIItemStack) ((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[1]).itemstack);
 		}
 	}
 	

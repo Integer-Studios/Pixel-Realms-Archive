@@ -20,7 +20,7 @@ import com.pixel.world.World;
 
 public class Piece {
 	
-	public Piece(int x, int y, int i) {
+	public Piece(int x, int y, int i, boolean propagate) {
 		id = i;
 		posX = x;
 		posY = y;
@@ -28,11 +28,12 @@ public class Piece {
 		info[id].onCreated(this);
 		collisionBox = new Rectangle(posX + info[id].xOffset, posY + info[id].yOffset, info[id].width, info[id].height);
 	
-		World.propagatePiece(this);
+		if (propagate)
+			World.propagatePiece(this);
 	
 	}
 	
-	public Piece(int x, int y, int i, int damage, int metadata) {
+	public Piece(int x, int y, int i, int damage, int metadata, boolean propagate) {
 		id = i;
 		posX = x;
 		posY = y;
@@ -41,8 +42,9 @@ public class Piece {
 		info[id].onCreated(this);
 		collisionBox = new Rectangle(posX + info[id].xOffset, posY + info[id].yOffset, info[id].width, info[id].height);
 	
-		World.propagatePiece(this);
-	
+		if (propagate)
+			World.propagatePiece(this);
+		
 	}
 	
 	public void render(GameContainer c, Graphics g, World w) {

@@ -22,6 +22,7 @@ public class PanelWorld extends Panel {
 	}
 	
 	public void disinstantiate() {
+		World.loadingScreen = null;
 		world.disinstantiate();
 		world = null;
 		CommunicationClient.disinstantiate();

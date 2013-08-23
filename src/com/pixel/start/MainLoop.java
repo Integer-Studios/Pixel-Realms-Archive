@@ -77,7 +77,6 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
 		KeyboardListener.update(c, delta);
 		if (World.loaded) {
 			PixelRealms.world.tick();
-			PixelRealms.world.player.interfaceManager.tick();
 		}
 
 	}

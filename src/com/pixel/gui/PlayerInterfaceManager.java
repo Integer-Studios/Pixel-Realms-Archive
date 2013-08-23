@@ -54,6 +54,26 @@ public class PlayerInterfaceManager {
 		
 	}
 	
+	public void onMouseReleased(int x, int y, boolean right) {
+
+		if (pauseMenu.isInGUI && !right) {
+			
+			pauseMenu.onMouseReleased(x, y);
+			
+		}
+		
+	}
+	
+	public void onMousePressed(int x, int y, boolean right) {
+		
+		if (pauseMenu.isInGUI && !right) {
+			
+			pauseMenu.onMousePressed(x, y);
+			
+		}
+		
+	}
+	
 	public void tick() {
 		
 		if (KeyboardListener.keyBindings.get("Inventory").onKeyUp) {

@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.pixel.communication.packet.Packet;
 import com.pixel.gui.GUIAlert;
+import com.pixel.start.MainLoop;
 import com.pixel.start.PixelRealms;
 
 public class CommunicationClient implements Runnable {
@@ -37,6 +38,7 @@ public class CommunicationClient implements Runnable {
 	public void run() {
 
 		try {
+			Packet.init();
 			socket = new Socket(host, 25566);
 			output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream(), 5120));
 			input = new DataInputStream(socket.getInputStream());
@@ -137,7 +139,7 @@ public class CommunicationClient implements Runnable {
 	public static void alertReturn() {
 		
 		PixelRealms.world.panelWorld.disinstantiate();
-//    	MainFrame.setPanel(new PanelMainMenu());
+		MainLoop.setPanel(1);
 		
 	}
 	

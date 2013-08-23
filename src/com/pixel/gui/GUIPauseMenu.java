@@ -2,6 +2,7 @@ package com.pixel.gui;
 
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.packet.PacketLogout;
+import com.pixel.start.MainLoop;
 import com.pixel.start.PixelRealms;
 
 public class GUIPauseMenu extends GUIInGameMenu {
@@ -29,6 +30,44 @@ public class GUIPauseMenu extends GUIInGameMenu {
 		super.removeFromGUI();
 	}
 	
+	public void onMouseReleased(int posX, int posY) {
+		
+		if (quitGame.pressed) {
+			quitGame.setPressed(false);
+			CommunicationClient.addPacket(new PacketLogout());
+
+			PixelRealms.world.panelWorld.disinstantiate();
+			MainLoop.setPanel(1);
+		}
+		if (backToGame.pressed) {
+			backToGame.setPressed(false);
+			shouldRemoveFromGUI = true;
+		}
+		if (options.pressed) {
+			options.setPressed(false);
+			shouldRemoveFromGUI = true;
+			shouldOpenOptionsMenu = true;
+		}
+		
+	}
+	
+	public void onMousePressed(int posX, int posY) {
+		
+		GUIButton btn = quitGame;
+		if ((posX > btn.posX && posX < btn.posX+btn.width) && (posY > btn.y && posY < btn.y+btn.height)) {
+			quitGame.setPressed(true);
+		}
+		btn = backToGame;
+		if ((posX > btn.posX && posX < btn.posX+btn.width) && (posY > btn.y && posY < btn.y+btn.height)) {
+			backToGame.setPressed(true);
+		}
+		btn = options;
+		if ((posX > btn.posX && posX < btn.posX+btn.width) && (posY > btn.y && posY < btn.y+btn.height)) {
+			options.setPressed(true);
+		}
+		
+	}
+	
 	public void tick(){
 		if (shouldRemoveFromGUI) {
 			shouldRemoveFromGUI = false;
@@ -39,19 +78,6 @@ public class GUIPauseMenu extends GUIInGameMenu {
 			}
 		}
 		
-		if (backToGame.onMouseUp) {
-			shouldRemoveFromGUI = true;
-		} 
-		if (quitGame.onMouseUp) {
-			CommunicationClient.addPacket(new PacketLogout());
-
-			PixelRealms.world.panelWorld.disinstantiate();
-//        	MainFrame.setPanel(new PanelMainMenu(frame));
-		}
-		if (options.onMouseUp) {
-			shouldRemoveFromGUI = true;
-			shouldOpenOptionsMenu = true;
-		} 
 	}
 
 	public GUIButton backToGame, quitGame, options;

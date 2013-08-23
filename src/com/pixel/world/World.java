@@ -1,7 +1,6 @@
 package com.pixel.world;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.lwjgl.opengl.Display;
@@ -12,10 +11,10 @@ import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
 import com.pixel.communication.packet.PacketLogin;
 import com.pixel.communication.packet.PacketUpdateTile;
+import com.pixel.communication.packet.PacketWorldData;
 import com.pixel.effects.Particle;
 import com.pixel.entity.Entity;
 import com.pixel.entity.EntityAnimal;
-import com.pixel.entity.EntityBunny;
 import com.pixel.entity.EntityOnlinePlayer;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.entity.ai.Herd;
@@ -85,70 +84,8 @@ public class World {
 		
 	}
 
-	public void generateSquareMap() {
-		Random r = new Random();
-
-		for (int y = 0; y < c; y++) {
-			for (int x = 0; x < c; x++) {
-				new Tile(x, y, 0);
-				
-				if ((x < 20 && x >= 10) && (y > 10 && y < c-11) && r.nextInt(x-9) == 0) {
-					new Piece(x, y, 16);
-				} else
-				if ((x > c-21 && x <= c-11) && (y > 10 && y < c-11) && r.nextInt(c-10-x) == 0) {
-					new Piece(x, y, 16);
-				} else
-				if ((y < 20 && y >= 10) && (x > 10 && x < c-11) && r.nextInt(y-9) == 0) {
-					new Piece(x, y, 16);
-				} else
-				if ((y > c-21 && y < c-11) && (x > 10 && x < c-11) && r.nextInt(c-10-y) == 0) {
-					new Piece(x, y, 16);
-				} else
-				if (x < 10 || x > c-11 || y < 10 || y > c-11) {
-					new Piece(x, y, 16);
-				} else
-				if (r.nextInt(10) == 0) {
-					new Piece(x, y, 1);
-				} else
-				if (r.nextInt(10) == 0) {
-					new Piece(x, y, 2);
-				}  else
-				if (r.nextInt(10) == 0) {
-					new Piece(x, y, 5);
-				} else
-				if (r.nextInt(40) == 0) {
-					new Piece(x, y, 10);
-				} else
-				if (r.nextInt(40) == 0) {
-					new Piece(x, y, 3);
-				} else
-				if (r.nextInt(40) == 0) {
-					new Piece(x, y, 4);
-				} else
-				if (r.nextInt(80) == 0) {
-					new Piece(x, y, 9);
-				}
-				else {
-					new Piece(x, y, 0);
-				}
-			}
-		}
-
-		new EntityBunny(138, 148);
-		new EntityBunny(152, 143);
-		new EntityBunny(124, 148);
-		new EntityBunny(148, 156);
-		new EntityBunny(131, 142);
-		new EntityBunny(143, 124);
-		new EntityBunny(156, 139);
-		new EntityBunny(176, 148);
-		new EntityBunny(163, 153);
-		new EntityBunny(148, 148);
-		
-	}
-	
 	public void setTile(int x, int y, int id) {
-		tiles.put((y * c) + x, new Tile(x, y, id));
+		tiles.put((y * c) + x, new Tile(x, y, id, true));
 		CommunicationClient.addPacket(new PacketUpdateTile(id, x, y));
 	}
 
@@ -168,16 +105,16 @@ public class World {
 	}
 
 	public void setPiece(int x, int y, int id) {
-		pieces[((y * c) + x)] = new Piece(x, y, id);
+		pieces[((y * c) + x)] = new Piece(x, y, id, true);
 
 	}
 
-	public void setPiece(int x, int y, int id, int damage, int metadata, int buildingID) {
+	public void setPiece(int x, int y, int id, int damage, int metadata, int buildingID, int worldID) {
 		
 		if (buildingID == -1)
-			pieces[((y * c) + x)] = new Piece(x, y, id);
+			pieces[((y * c) + x)] = new Piece(x, y, id, true);
 		else 
-			pieces[((y * c) + x)] = new PieceBuilding(x, y, buildingID);
+			pieces[((y * c) + x)] = new PieceBuilding(worldID, x, y, buildingID);
 		
 		pieces[((y * c) + x)].damage = damage;
 		pieces[((y * c) + x)].metadata = metadata;
@@ -201,6 +138,31 @@ public class World {
 	
 	public static Entity getEntity(int serverID) {
 		return entities.get(serverID);
+	}
+	
+	public void loadInterior(int worldID) {
+		
+		InteriorWorld w = InteriorWorldManager.interiors.get(worldID);
+		
+		tiles.clear();
+		pieces = new Piece[w.pieces.length];
+		entities.clear();
+		
+		tiles = w.tiles;
+		pieces = w.pieces;
+		entities = w.entities;
+		c = w.c;
+		
+	}
+	
+	public void leaveInterior() {
+		
+		tiles.clear();
+		pieces = new Piece[0];
+		entities.clear();
+		
+		CommunicationClient.addPacket(new PacketWorldData());
+		
 	}
 
 	public void render(GameContainer c, Graphics g) {
@@ -459,4 +421,4 @@ public class World {
 		
 	}
 
-		}
+}

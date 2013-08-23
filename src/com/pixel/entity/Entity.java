@@ -22,6 +22,7 @@ public class Entity {
 	public boolean collision;
 	public int id;
 	public int serverID;
+	public int worldID;
 	public float health = 10.0F;
 	public float floatingOffset = 0.0F;
 	@SuppressWarnings("rawtypes")

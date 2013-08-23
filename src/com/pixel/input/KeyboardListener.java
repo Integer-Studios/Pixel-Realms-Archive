@@ -7,7 +7,6 @@ import org.newdawn.slick.GameContainer;
 
 import com.pixel.gui.GUIBox;
 import com.pixel.gui.GUIKeyBindingButton;
-import com.pixel.piece.PieceBuilding;
 import com.pixel.start.PixelRealms;
 import com.pixel.world.World;
 
@@ -67,7 +66,7 @@ public class KeyboardListener {
 		if (World.loaded) {
 
 			if (code == KeyCode.KEY_N) {
-				new PieceBuilding(Math.round(PixelRealms.world.player.getX()) - 2, Math.round(PixelRealms.world.player.getY()) - 2, 0);
+//				new PieceBuilding(Math.round(PixelRealms.world.player.getX()) - 2, Math.round(PixelRealms.world.player.getY()) - 2, 0);
 			}
 
 			if (code == KeyCode.KEY_ENTER) {
@@ -106,44 +105,43 @@ public class KeyboardListener {
 			switch(code) {
 
 			case KeyCode.KEY_1:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(0);
+				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(0, 0);
 				break;
 
 			case KeyCode.KEY_2:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(1);
+				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(1, 0);
 				break;
 
 			case KeyCode.KEY_3:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(2);
+				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(2, 0);
 				break;
 
 			case KeyCode.KEY_4:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(3);
-				break;
+				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(3, 0);
 
 			case KeyCode.KEY_5:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(4);
+				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(4, 0);
 
 				break;
 
 			case KeyCode.KEY_6:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(5);
+				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(5, 0);
 				break;
 
 			case KeyCode.KEY_7:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(6);
+				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(6, 0);
 				break;
 
 			case KeyCode.KEY_8:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(7);
+				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(7, 0);
 				break;
 
 			case KeyCode.KEY_9:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(8);
+				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(8, 0);
 				break;
 
 			case KeyCode.KEY_0:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(9);
+				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(9, 0);
 				break;
 
 			}

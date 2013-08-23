@@ -81,6 +81,24 @@ public class RelativePositionAnimation {
 		for (int i = 0; i < images.length; i++) {
 			images[i].render(c, g, w, this);
 		}
+		
+		if (flip && !flipped) {
+			
+			for (int i = 0; i < images.length; i++) {
+				if (images[i].image != null)
+					images[i].image = images[i].image.getFlippedCopy(true, false);
+			}
+			flipped = true;
+			
+		} else if (!flip && flipped) {
+			
+			for (int i = 0; i < images.length; i++) {
+				if (images[i].image != null)
+					images[i].image = images[i].image.getFlippedCopy(false, false);
+			}
+			flipped = false;
+			
+		}
 
 	}
 	
@@ -128,6 +146,7 @@ public class RelativePositionAnimation {
 	public RelativePositionImage[] images;
 	public int speed;
 	public boolean flip = false;
+	public boolean flipped = false;
 
 //				if (!stringContainsItemFromList(images[i].texture, pausedImages)) {
 //

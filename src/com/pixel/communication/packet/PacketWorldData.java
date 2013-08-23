@@ -29,6 +29,8 @@ public class PacketWorldData extends Packet {
 	@Override
 	public void readData(DataInputStream input) throws IOException {
 
+		int c = input.readInt();
+		World.c = c;
 		int tileAmount = input.readInt();
 		World.tiles.clear();
 		
@@ -38,7 +40,7 @@ public class PacketWorldData extends Packet {
 			int posX = input.readInt();
 			int posY = input.readInt();
 
-			new Tile(posX, posY, id);
+			new Tile(posX, posY, id, true);
 
 		}
 		
@@ -54,13 +56,15 @@ public class PacketWorldData extends Packet {
 			int damage = input.readInt();
 			int metadata = input.readInt();
 			int buildingID = -1;
+			int worldID = -1;
 			
 			if (input.readBoolean()) {
+				worldID = input.readInt();
 				buildingID = input.readInt();
-				new PieceBuilding(posX, posY, buildingID, damage, metadata);
+				new PieceBuilding(worldID, posX, posY, buildingID, damage, metadata);
 				
 			} else
-				new Piece(posX, posY, id, damage, metadata);
+				new Piece(posX, posY, id, damage, metadata, true);
 
 		}
 

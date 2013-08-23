@@ -32,10 +32,10 @@ public class GUICenterFold {
 	public void addToGUI() {
 		originX = Display.getWidth()/2-225;
 		originY = -315;
-		window = new GUIComponent(originX, originY, 450, 400, "resources/gui/interface/centerFold/window.png");
-		leftInv = new GUIInventory(originX + 45, originY + 45, player.getLeftInventory());
-		rightInv = new GUIInventory(originX + 258, originY + 45, player.getRightInventory());
-		decor = new GUIComponent(originX+211, originY+70, 28, 250, "resources/gui/interface/centerFold/decor.png");
+//		window = new GUIComponent(originX, originY, 450, 400, "resources/gui/interface/centerFold/window.png");
+//		leftInv = new GUIInventory(originX + 45, originY + 45, player.getLeftInventory());
+//		rightInv = new GUIInventory(originX + 258, originY + 45, player.getRightInventory());
+//		decor = new GUIComponent(originX+211, originY+70, 28, 250, "resources/gui/interface/centerFold/decor.png");
 		
 		window = (GUIComponent) GUI.addGUIComponent(window);
 		leftInv = (GUIInventory) GUI.addGUIComponent(leftInv);

@@ -59,7 +59,11 @@ public class EntityPlayer extends EntityHuman {
 	public void tick(World w) {
 				
 //		w.setTile(Math.round(posX), Math.round(posY), 6);
-		
+		if (World.loaded) {
+			
+			interfaceManager.tick();
+			
+		}
 		if ((Math.sqrt((loadedX - posX)*(loadedX - posX) + (loadedY - posY)*(loadedY - posY)) >= 25) && updated) {
 			
 			updated = false;
@@ -86,7 +90,7 @@ public class EntityPlayer extends EntityHuman {
 		
 		if (MouseClickListener.onMouseUp && MouseClickListener.rightClick) {
 			if (selectedItem.item instanceof ItemFood && eatFood((ItemFood) selectedItem.item)) {
-				inventory.hotbar.depleteContent(GUIHotbar.selectedSlot, 0, 1);
+				inventory.hotbar.depleteContent(GUIHotbar.selectedSlot.x, GUIHotbar.selectedSlot.y, 1);
 			}
 		}
 		

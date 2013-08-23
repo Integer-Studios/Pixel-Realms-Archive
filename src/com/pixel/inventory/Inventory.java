@@ -1,21 +1,22 @@
 package com.pixel.inventory;
 
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.packet.PacketUpdateInventoryContent;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
+import com.pixel.util.CoordinateKey;
 
 public class Inventory {
 	
 	public Inventory(EntityPlayer p, int w, int h, int id) {
-		this(p, w, h, new ArrayList<InventoryContent>());
+		this(p, w, h, new ConcurrentHashMap<CoordinateKey, InventoryContent>());
 		this.id = id;
 	}
 	
-	public Inventory(EntityPlayer p, int w, int h, ArrayList<InventoryContent> ic) {
+	public Inventory(EntityPlayer p, int w, int h, ConcurrentHashMap<CoordinateKey, InventoryContent> ic) {
 		width = w;
 		height = h;
 		content = ic;
@@ -31,40 +32,49 @@ public class Inventory {
 	}
 	
 	public InventoryContent getContent(int x, int y) {
-		for (int i = 0; i < content.size(); i++) {
-			if (content.get(i).x == x && content.get(i).y == y) {
-				return content.get(i);
-			}
-		}
-		return new InventoryContent(x, y, new ItemStack(Item.blank, 0));
+		
+		if (content.containsKey(new CoordinateKey(x, y))) {
+			
+			return content.get(new CoordinateKey(x, y));
+			
+		} else
+			return new InventoryContent(x, y, new ItemStack(Item.blank, 0));
+		
 	}
 	
 	public void setGUIContent() {
 		if (id == 0) {
+			player.interfaceManager.hotbarWindow.inventory.setInventoryAndRepaint(this);
+		} else
+		if (id == 1) {
+			player.interfaceManager.centerFold.leftInv.setInventoryAndRepaint(this);
+		} else
+		if (id == 2) {
+			player.interfaceManager.centerFold.rightInv.setInventoryAndRepaint(this);
+		}
+	}
+	
+	public void setGUIContent(int x, int y) {
+		if (id == 0) {
 			player.interfaceManager.hotbarWindow.inventory.setInventory(this);
+			player.interfaceManager.hotbarWindow.inventory.updateSlot(x, y);
 		} else
 		if (id == 1) {
 			player.interfaceManager.centerFold.leftInv.setInventory(this);
+			player.interfaceManager.centerFold.leftInv.updateSlot(x, y);
 		} else
 		if (id == 2) {
 			player.interfaceManager.centerFold.rightInv.setInventory(this);
+			player.interfaceManager.centerFold.rightInv.updateSlot(x, y);
 		}
 	}
-	
+
 	public void setContent(int x, int y, ItemStack itemstack) {
-		for (int i = 0; i < content.size(); i++) {
-			if (content.get(i).x == x && content.get(i).y == y) {
-				content.set(i, new InventoryContent(x, y, itemstack));
-//				setGUIContent();
-				CommunicationClient.addPacket(new PacketUpdateInventoryContent(x,y,itemstack.item.id, itemstack.size, id));
-				return;
-			}
-		}
-		content.add(new InventoryContent(x, y, itemstack));
-//		setGUIContent();
+		content.put(new CoordinateKey(x, y), new InventoryContent(x, y, itemstack));
+		setGUIContent(x, y);
 		CommunicationClient.addPacket(new PacketUpdateInventoryContent(x,y,itemstack.item.id, itemstack.size, id));
 	}
-	
+
 	public void depleteContent(int x, int y, int amount) {
 		ItemStack is = getContent(x, y).itemstack;
 		if (is.size-amount > 0)
@@ -74,17 +84,11 @@ public class Inventory {
 	}
 	
 	public void serverSetContent(int x, int y, ItemStack itemstack) {
-		for (int i = 0; i < content.size(); i++) {
-			if (content.get(i).x == x && content.get(i).y == y) {
-				content.set(i, new InventoryContent(x, y, itemstack));
-				setGUIContent();
-				return;
-			}
-		}
-		content.add(new InventoryContent(x, y, itemstack));
-		setGUIContent();
+		content.put(new CoordinateKey(x, y), new InventoryContent(x, y, itemstack));
+		setGUIContent(x, y);
+		return;
 	}
-	
+
 	public boolean addItem(Item i, int s) {
 		if (updateNextCoords(new ItemStack(i, s))) {
 			ItemStack its = getContent(nextX, nextY).itemstack;
@@ -128,7 +132,7 @@ public class Inventory {
 
 	public int nextX, nextY;
 	public int width, height;
-	public ArrayList<InventoryContent> content;
+	public ConcurrentHashMap<CoordinateKey, InventoryContent> content;
 	public EntityPlayer player;
 	public int id;
 

@@ -62,7 +62,7 @@ public class GUIButton extends GUIComponentSet{
 	
 	public void render(GameContainer c, Graphics g) {
 		if (pressed) {
-			setPressed(MouseClickListener.left);
+			setPressed(MouseClickListener.pressed);
 		} else {
 			setPressed(MouseClickListener.getIsPressedInButton(this));
 		}

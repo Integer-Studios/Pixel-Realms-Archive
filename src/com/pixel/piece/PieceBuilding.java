@@ -6,20 +6,23 @@ import com.pixel.building.Building;
 public class PieceBuilding extends Piece {
 
 	public Building building;
+	public int worldID;
 	
-	public PieceBuilding(int x, int y, int i) {
-		super(x, y, 17);
+	public PieceBuilding(int worldID, int x, int y, int i) {
+		super(x, y, 17, true);
 		
-		this.building = new Building(i, x, y);
+		this.worldID = worldID;
+		this.building = new Building(worldID, i, x, y);
 		
 		init();
 		
 	}
 	
-	public PieceBuilding(int x, int y, int i, int damage, int metadata) {
-		super(x, y, 17);
+	public PieceBuilding(int worldID, int x, int y, int i, int damage, int metadata) {
+		super(x, y, 17, true);
 		
-		this.building = new Building(i, x, y);
+		this.worldID = worldID;
+		this.building = new Building(worldID, i, x, y);
 		this.damage = damage;
 		this.metadata = metadata;
 		
