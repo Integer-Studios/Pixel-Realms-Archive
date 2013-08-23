@@ -19,12 +19,9 @@ public class GUIInventory extends GUIComponentSet {
 	}
 
 	public void createSlots() {
-		int count = 0;
 		for (int x = 0; x < inventory.getWidth(); x++) {
 			for (int y = 0; y < inventory.getHeight(); y++) {
 				slots.put(new CoordinateKey(x, y), new GUIInventorySlot(this.x + x*49, this.y + y*49, inventory.getContent(x, y), inventory));
-				System.out.println(count + " " + inventory.id);
-				count ++;
 			}
 		}
 	}
@@ -49,6 +46,28 @@ public class GUIInventory extends GUIComponentSet {
 	
 	public void setInventory(Inventory i) {
 		inventory = i;
+	}
+	
+	@Override 
+	public void setY(int y) {
+		
+		int deltaY = y - this.y;
+		for (GUIInventorySlot slot : slots.values()) {
+			slot.setY(slot.y+deltaY);
+		}
+		this.y = y;
+		
+	}
+	
+	@Override 
+	public void setX(int x) {
+		
+		int deltaX = x - this.x;
+		for (GUIInventorySlot slot : slots.values()) {
+			slot.setX(slot.x+deltaX);
+		}
+		this.x = x;
+		
 	}
 
 	public Inventory inventory;
