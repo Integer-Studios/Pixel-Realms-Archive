@@ -33,15 +33,21 @@ public class PieceBuildingInfo extends PieceInfo {
 	
 	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
 
-		CommunicationClient.addPacket(new PacketLoadInterior(((PieceBuilding) p).worldID));
+		if (player.collisionBox.overlaps(building.door.box)) {
+			
+			CommunicationClient.addPacket(new PacketLoadInterior(((PieceBuilding) p).worldID));
+			
+		}
 		
 	}
 	
 	public void render(GameContainer c, Graphics g, World w, Piece p) {
 
-		if (image != null) 
+		if (image != null) {
 			image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY, World.tileConstant * building.width, World.tileConstant * building.height);
-		else {
+			image.draw(p.posX*World.tileConstant+World.globalOffsetX + building.door.x, p.posY*World.tileConstant+World.globalOffsetY + building.door.y, building.door.width, building.door.height);
+
+		} else {
 			if (texture != null && texture.length() > 0) {
 				image = TextureLoader.load(texture);
 				image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY, World.tileConstant * building.width, World.tileConstant * building.height);

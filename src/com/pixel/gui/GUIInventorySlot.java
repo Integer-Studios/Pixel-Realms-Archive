@@ -8,22 +8,36 @@ import com.pixel.inventory.Inventory;
 import com.pixel.inventory.InventoryContent;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
-import com.pixel.start.PixelRealms;
 
 public class GUIInventorySlot extends GUIComponentSet {
 
 	public GUIInventorySlot(int x, int y, InventoryContent c, Inventory i) {
 		super(x, y, 45, 45, new GUIComponent[]{
-				new GUIComponent(x, y, 45, 45, GUI.t.getPath() + "resources" + PixelRealms.t.separator + "gui" + PixelRealms.t.separator + "inventory" + PixelRealms.t.separator + "slot.png"),
+				new GUIComponent(x, y, 45, 45, PlayerInterfaceManager.slotImage),
 				new GUIItemStack(x+6, y+6, c.itemstack)
 		});
 		content = c;
 		inventory = i;
 	}
 	
+	public void setItem(InventoryContent content, Inventory i) {
+		
+		((GUIItemStack) components[1]).setItemStack(content.itemstack);
+		
+		this.content = content;
+		this.inventory = i;
+		
+	}
+	
 	public void render(GameContainer c, Graphics g) {
 		setPressed(MouseClickListener.getIsPressedInInventorySlot(this));
 		super.render(c, g);
+	}
+	
+	public void setItem(ItemStack itemstack) {
+		
+		this.content = new InventoryContent(0, 0, itemstack);
+		
 	}
 	
 	public void setPressed(boolean b) {

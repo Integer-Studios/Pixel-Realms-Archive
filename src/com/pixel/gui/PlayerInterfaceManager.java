@@ -1,9 +1,11 @@
 package com.pixel.gui;
 
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.Image;
 
 import com.pixel.entity.EntityPlayer;
 import com.pixel.input.KeyboardListener;
+import com.pixel.start.TextureLoader;
 
 public class PlayerInterfaceManager {
 	
@@ -25,10 +27,15 @@ public class PlayerInterfaceManager {
 	public boolean leftSliding, isLeftOpen;
 	public boolean rightSliding, isRightOpen;
 	public boolean menuSliding, isMenuOpen;
+	public static Image recipeSlot;
+
+	public static Image slotImage;
 	
 	public PlayerInterfaceManager(EntityPlayer player) {
 		this.player = player;
 		bunnyCounter = new GUIBunnyCounter();
+		slotImage = TextureLoader.load("resources/gui/inventory/slot.png");
+		recipeSlot = TextureLoader.load("resources/gui/interface/foldRight/recipeSlot.png");
 		chat = new GUIChat();
 		centerFold = new GUICenterFold(player);
 		hotbarWindow = new GUIHotbar(player);
@@ -38,7 +45,7 @@ public class PlayerInterfaceManager {
 		foldLeft = new GUIFoldLeft(player);
 		pauseMenu = new GUIPauseMenu();
 		optionsMenu = new GUIOptionsMenu();
-		
+
 	}
 	
 	public void initializeInterface() {

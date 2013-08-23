@@ -20,8 +20,9 @@ public class GUICraftingBook extends GUIComponentSet {
 		currentPage = 0;
 		this.book = book;
 	}
-	
+
 	public void render(GameContainer c, Graphics g) {
+		
 		if (((GUIArrowButton)components[2]).onMouseUp) {
 			//back
 			if (currentPage - 1 >= 0) {
@@ -35,6 +36,7 @@ public class GUICraftingBook extends GUIComponentSet {
 			if (currentPage + 1 < book.pages.length) {
 				currentPage ++;
 				((GUICraftingPage)components[1]).setPage(book.pages[currentPage]);
+
 			}
 		}
 		super.render(c, g);

@@ -15,7 +15,7 @@ public class GUIRecipeSlot extends GUIComponentSet {
 
 	public GUIRecipeSlot(int x, int y, Item i, int current, int needed) {
 		super(x, y, 26, 26, new GUIComponent[]{
-				new GUIComponent(x, y, 26, 26, "resources/gui/interface/foldRight/recipeSlot.png"),
+				new GUIComponent(x, y, 26, 26, PlayerInterfaceManager.recipeSlot),
 				new GUIRecipeStack(x+5, y+5, i, current, needed),
 		});
 		this.current = current;
@@ -25,7 +25,7 @@ public class GUIRecipeSlot extends GUIComponentSet {
 	
 	public GUIRecipeSlot(int x, int y) {
 		super(x, y, 26, 26, new GUIComponent[]{
-				new GUIComponent(x, y, 26, 26, "resources/gui/interface/foldRight/recipeSlot.png"),
+				new GUIComponent(x, y, 26, 26, PlayerInterfaceManager.recipeSlot),
 				new GUIRecipeStack(x+5, y+5, Item.blank, 0, 0),
 		});
 		this.current = 0;
@@ -34,7 +34,8 @@ public class GUIRecipeSlot extends GUIComponentSet {
 	}
 	
 	public void setRecipe(Item i, int current, int needed) {
-		components[1] = new GUIRecipeStack(x+5, y+5, i, current, needed);
+
+		((GUIRecipeStack)components[1]).setRecipe(i, current, needed);
 		this.current = current;
 		this.needed = needed;
 		itemstack = new ItemStack(i, needed);

@@ -15,7 +15,8 @@ public class GUIHotbar {
 	public GUIComponent window;
 	public GUIInventory inventory;
 	public GUIEnergyBar energyBar;
-	public Image selectedSlotImage, slotImage;
+	public Image selectedSlotImage;
+	public static Image slotImage;
 	public static CoordinateKey selectedSlot;
 	public int originX, originY;
 

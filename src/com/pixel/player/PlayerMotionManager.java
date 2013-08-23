@@ -4,6 +4,7 @@ import org.lwjgl.opengl.Display;
 
 import com.pixel.entity.EntityPlayer;
 import com.pixel.input.KeyboardListener;
+import com.pixel.start.PixelRealms;
 import com.pixel.world.World;
 
 public class PlayerMotionManager {
@@ -58,6 +59,17 @@ public class PlayerMotionManager {
 				clearTarget();
 			}
 		}
+		
+		if (player.inside && PixelRealms.world.interior) {
+			
+			if (player.getX() <= 0 || player.getX() >= Math.sqrt(PixelRealms.world.interiorWorld.c) || player.getY() <= 0 || player.getY() >= Math.sqrt(PixelRealms.world.interiorWorld.c)) {
+				
+				PixelRealms.world.leaveInterior();
+				
+			}
+			
+		}
+			
 		
 		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.getX() * World.tileConstant);
 		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.getY() * World.tileConstant);

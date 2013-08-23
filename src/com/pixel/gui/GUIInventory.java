@@ -28,7 +28,10 @@ public class GUIInventory extends GUIComponentSet {
 	
 	public void updateSlot(int x, int y) {
 		
-		slots.put(new CoordinateKey(x, y), new GUIInventorySlot(this.x + x*49, this.y + y*49, inventory.getContent(x, y), inventory));
+		if (slots.containsKey(new CoordinateKey(x, y)))
+			slots.get(new CoordinateKey(x, y)).setItem(inventory.getContent(x, y), inventory);
+		else
+			slots.put(new CoordinateKey(x, y), new GUIInventorySlot(this.x + x*49, this.y + y*49, inventory.getContent(x, y), inventory));
 		
 	}
 	

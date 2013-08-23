@@ -41,8 +41,6 @@ public class PacketUpdateInventoryContent extends Packet {
 		size = input.readInt();
 		inventory = input.readInt();
 		
-		System.out.println(inventory + " " + x + " " + y);
-		
 		if (inventory != 0 || y < 1)
 		PacketHandler.processUpdateInventoryContent(this);
 		

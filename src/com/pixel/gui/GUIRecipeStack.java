@@ -13,7 +13,7 @@ public class GUIRecipeStack extends GUIItemStack {
 
 	public GUIRecipeStack(int x, int y, Item i, int current, int needed) {
 		super(x, y, 16, 16, new ItemStack(i, 1), new GUIComponent[]{
-				new GUIComponent(x, y, 16, 16, i.image),
+				new GUIComponent(x, y, 16, 16, Item.items[i.id].image),
 				new GUIComponentText(current + "/" + needed, x+0, y+0, 12)
 				});
 		if (current == 0 && needed == 0) {
@@ -25,6 +25,16 @@ public class GUIRecipeStack extends GUIItemStack {
 		item = i;
 		this.current = current;
 		this.needed = needed;
+	}
+	
+	public void setRecipe(Item i, int current, int needed) {
+		
+		this.item = i;
+		this.current = current;
+		this.needed = needed;
+		components[0].image = Item.items[i.id].image;
+		((GUIComponentText)this.components[1]).setText(current + "/" + needed);
+		
 	}
 	
 	public void render(GameContainer c, Graphics g) {

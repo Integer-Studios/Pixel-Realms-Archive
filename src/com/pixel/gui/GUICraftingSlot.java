@@ -90,7 +90,6 @@ public class GUICraftingSlot extends GUIComponent {
 	}
 	
 	public void addItemStackToCrafting(ItemStack is) {
-		System.out.println("adding " + is.size + " of " + is.item.id);
 		for (int i = 0; i < itemsInCrafting.size(); i++) {
 			if (itemsInCrafting.get(i).item.id == is.item.id) {
 				itemsInCrafting.set(i, new ItemStack(is.item, is.size + itemsInCrafting.get(i).size));

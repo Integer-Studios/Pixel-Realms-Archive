@@ -112,6 +112,55 @@ public class CollisionBox {
 
 	}
 	
+//	public static boolean testBoxAgainstEntity(Entity e, Rectangle boxOne, World w, boolean b) {
+//		
+//		if (e.getCollisionBox().overlaps(boxOne)) {
+//			if (b) {
+//				if (e.getPreviousX() > boxOne.getX() && e.getPreviousX() < boxOne.getX() + boxOne.getWidth()) {
+//					int diff;
+//					if (e.getPreviousY() < e.getY()) {
+//						diff = -1;
+//					} else  if (e.getPreviousY() > e.getY()) {
+//						diff = 1;
+//					} else {
+//						diff = 0;
+//					}
+//					float borderTop = boxOne.getY();
+//					float borderBottom = boxOne.getY() + boxOne.getHeight();
+//					if (Math.abs(e.getPreviousY()-borderTop) < Math.abs(e.getPreviousY()-borderBottom)) {
+//						if (diff == -1)
+//							e.setY(e.getPreviousY());
+//					} else {
+//						if (diff == 1)
+//							e.setY(e.getPreviousY());
+//					}
+//				} else
+//				if (e.getPreviousY() > boxOne.getY() && e.getPreviousY() < boxOne.getY() + boxOne.getHeight()) {
+//					int diff;
+//					if (e.getPreviousX() < e.getX()) {
+//						diff = -1;
+//					} else  if (e.getPreviousX() > e.getX()) {
+//						diff = 1;
+//					} else {
+//						diff = 0;
+//					}
+//					float borderLeft = boxOne.getX();
+//					float borderRight = boxOne.getX() + boxOne.getWidth();
+//					if (Math.abs(e.getPreviousX()-borderLeft) < Math.abs(e.getPreviousX()-borderRight)) {
+//						if (diff == -1)
+//							e.setX(e.getPreviousX());
+//					} else {
+//						if (diff == 1)
+//							e.setX(e.getPreviousX());
+//					}
+//				} 
+//			}
+//			return true;
+//		} 
+//		return false;
+//		
+//	}
+	
 	public static boolean testPieceAgainstEntity(Piece p, Entity e, World w, boolean b) {
 		if (e.getCollisionBox().overlaps(p.getCollisionBox())) {
 			if (b) {

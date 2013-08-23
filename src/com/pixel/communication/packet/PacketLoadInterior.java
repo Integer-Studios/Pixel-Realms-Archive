@@ -49,7 +49,7 @@ public class PacketLoadInterior extends Packet {
 			int tileID = input.readInt();
 			int posX = input.readInt();
 			int posY = input.readInt();
-			tiles.put((posY * c) + posX, new Tile(tileID, posX, posY, false));
+			tiles.put((posY * c) + posX, new Tile(posX, posY, tileID , false));
 
 		}
 		
@@ -62,7 +62,7 @@ public class PacketLoadInterior extends Packet {
 			int posY = input.readInt();
 			int metadata = input.readInt();
 			int damage = input.readInt();
-			pieces[(posY * c) + posX] = new Piece(pieceID, posX, posY, damage, metadata, false);
+			pieces[(posY * c) + posX] = new Piece(posX, posY, pieceID, damage, metadata, false);
 
 		}
 		
@@ -86,8 +86,8 @@ public class PacketLoadInterior extends Packet {
 			entities.put(serverID, entity);
 
 		}
-System.out.println(entityAmount + " B");
-
+		System.out.println(entityAmount + " B");
+		
 		new InteriorWorld(worldID, c, tiles, pieces, entities);
 		
 		PixelRealms.world.loadInterior(worldID);

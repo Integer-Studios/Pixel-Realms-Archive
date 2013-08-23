@@ -11,7 +11,7 @@ import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
 import com.pixel.communication.packet.PacketLogin;
 import com.pixel.communication.packet.PacketUpdateTile;
-import com.pixel.communication.packet.PacketWorldData;
+import com.pixel.communication.packet.PacketUpdateWorld;
 import com.pixel.effects.Particle;
 import com.pixel.entity.Entity;
 import com.pixel.entity.EntityAnimal;
@@ -54,6 +54,8 @@ public class World {
 	public LightingManager lightingManager;
 	public long time = 12000;
 	public long dayLength = 24000;
+	public boolean interior;
+	public InteriorWorld interiorWorld;
 	
 	public World(PanelWorld p) {
 		PixelRealms.world = this;
@@ -144,6 +146,10 @@ public class World {
 		
 		InteriorWorld w = InteriorWorldManager.interiors.get(worldID);
 		
+		interior = true;
+		player.inside = true;
+		interiorWorld = w;
+		
 		tiles.clear();
 		pieces = new Piece[w.pieces.length];
 		entities.clear();
@@ -151,17 +157,30 @@ public class World {
 		tiles = w.tiles;
 		pieces = w.pieces;
 		entities = w.entities;
-		c = w.c;
+		
+		oldX = player.getX();
+		oldY = player.getY();
+		float center = (float) Math.sqrt(w.c) / 2;
+		
+		player.setPosition(center, center);
 		
 	}
+	
+	float oldX, oldY;
 	
 	public void leaveInterior() {
 		
 		tiles.clear();
-		pieces = new Piece[0];
+		pieces = new Piece[c * c];
 		entities.clear();
+		interior = false;
+		player.inside = false;
+		interiorWorld = null;
+		System.out.println("ASD");
 		
-		CommunicationClient.addPacket(new PacketWorldData());
+		player.setPosition(oldX, oldY);
+		
+		CommunicationClient.addPacket(new PacketUpdateWorld());
 		
 	}
 

@@ -45,6 +45,7 @@ public class EntityPlayer extends EntityHuman {
 	public int jumpWait;
 	public int punchingIndex;
 	public boolean interfaceInitialized;
+	public boolean inside;
 
 	public EntityPlayer(int x, int y) {
 		super(x, y, .2F, .2F);
@@ -64,17 +65,22 @@ public class EntityPlayer extends EntityHuman {
 			interfaceManager.tick();
 			
 		}
-		if ((Math.sqrt((loadedX - posX)*(loadedX - posX) + (loadedY - posY)*(loadedY - posY)) >= 25) && updated) {
+		if (!inside && (Math.sqrt((loadedX - posX)*(loadedX - posX) + (loadedY - posY)*(loadedY - posY)) >= 25) && updated) {
 			
 			updated = false;
 			CommunicationClient.addPacket(new PacketUpdateWorld());
-			
-		}
-		
-		if ((PixelRealms.world.getPiece((int)MouseClickListener.getXWorldMousePosition(), (int)MouseClickListener.getYWorldMousePosition())) == 0) {
 
-			targetPiece = null;
-			
+		}
+
+		try {
+			if ((PixelRealms.world.getPiece((int)MouseClickListener.getXWorldMousePosition(), (int)MouseClickListener.getYWorldMousePosition())) == 0) {
+
+				targetPiece = null;
+
+			}
+		} catch (Exception e){
+
+
 		}
 		
 		if (MouseClickListener.isPressed() && !MouseClickListener.rightClick && punchingIndex == 0 && !punching && !punchEnacted && !interfaceManager.getIntercept()) {
