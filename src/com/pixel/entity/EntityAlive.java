@@ -5,6 +5,7 @@ import com.pixel.world.World;
 public class EntityAlive extends Entity {
 	
 	public float health, satisfaction;
+	public int bodyID = -1;
 
 	public EntityAlive(float width, float height) {
 		super(width, height);
@@ -24,6 +25,10 @@ public class EntityAlive extends Entity {
 		
 		this.health = health;
 		
+	}
+	
+	public void setBodyPiece(int i) {
+		bodyID = i;
 	}
 	
 	public float getHealth() {
@@ -70,9 +75,9 @@ public class EntityAlive extends Entity {
 		int newX = Math.round(posX);
 		int newY = Math.round(posY);
 		
-		if (this instanceof EntityBunny) {
+		if (bodyID != -1) {
 			
-			w.setPiece(newX, newY, 15);
+			w.setPiece(newX, newY, bodyID);
 			
 		}
 		

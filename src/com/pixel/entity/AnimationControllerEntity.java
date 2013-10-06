@@ -6,9 +6,9 @@ import org.newdawn.slick.Graphics;
 import com.pixel.animation.AnimationEntity;
 import com.pixel.world.World;
 
-public class EntityAnimationController {
+public class AnimationControllerEntity {
 	
-	public EntityAnimationController(Entity e, AnimationEntity a) {
+	public AnimationControllerEntity(Entity e, AnimationEntity a) {
 		entity = e;
 		animation = a;
 	}

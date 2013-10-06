@@ -5,6 +5,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.pixel.body.RelativeActionPunching;
+import com.pixel.body.RelativeBody;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.GetBunnies;
 import com.pixel.communication.PlayerManager;
@@ -20,8 +22,6 @@ import com.pixel.item.ItemStack;
 import com.pixel.piece.PieceInfo;
 import com.pixel.player.PlayerInventory;
 import com.pixel.player.PlayerMotionManager;
-import com.pixel.player.RelativeActionPunching;
-import com.pixel.player.RelativeBody;
 import com.pixel.start.PixelRealms;
 import com.pixel.util.CollisionBox;
 import com.pixel.world.World;

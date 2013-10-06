@@ -118,7 +118,7 @@ public class Entity {
 		
 	}
 	
-	public void onWalkingOverPiece(World w, int x, int y) {
+	public void onOverPiece(World w, int x, int y) {
 		
 	}
 	

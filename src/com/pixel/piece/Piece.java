@@ -82,7 +82,7 @@ public class Piece {
 		} else {
 			if (CollisionBox.testPieceAgainstEntity(this, w.player, w, false)) {
 				info[id].onPlayerCollided(w, this, w.player);
-				w.player.onWalkingOverPiece(w, posX, posY);
+				w.player.onOverPiece(w, posX, posY);
 			}
 			try {
 				for (int x = 0; x < World.entities.size(); x++) {
