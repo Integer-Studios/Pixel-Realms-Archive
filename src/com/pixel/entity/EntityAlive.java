@@ -4,7 +4,7 @@ import com.pixel.world.World;
 
 public class EntityAlive extends Entity {
 	
-	public float health, satisfaction;
+	public float satisfaction;
 	public int bodyID = -1;
 
 	public EntityAlive(float width, float height) {
