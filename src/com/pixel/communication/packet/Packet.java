@@ -162,6 +162,8 @@ public abstract class Packet {
 		packetMap.put(12, PacketDamageEntity.class);
 		packetMap.put(13, PacketDamagePlayer.class);
 		packetMap.put(14, PacketLoadInterior.class);
+		packetMap.put(15, PacketMoveLivingEntity.class);
+		packetMap.put(16, PacketMovePlayer.class);
 
 	}
 	
