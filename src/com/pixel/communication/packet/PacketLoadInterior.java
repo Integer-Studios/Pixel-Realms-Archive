@@ -50,7 +50,7 @@ public class PacketLoadInterior extends Packet {
 			int posX = input.readInt();
 			int posY = input.readInt();
 			int metadata = input.readInt();
-			tiles.put((posY * c) + posX, new Tile(tileID, posX, posY, metadata, false));
+			tiles.put((posY * c) + posX, new Tile(posX, posY, tileID, metadata, false));
 
 		}
 		

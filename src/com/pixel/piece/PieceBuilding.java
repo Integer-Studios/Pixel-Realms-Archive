@@ -2,6 +2,7 @@ package com.pixel.piece;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.pixel.building.Building;
+import com.pixel.world.World;
 
 public class PieceBuilding extends Piece {
 
@@ -28,6 +29,16 @@ public class PieceBuilding extends Piece {
 		
 		init();
 		
+	}
+	
+	public void tick(World w) {
+		super.tick(w);
+//		if (CollisionBox.testEntityAgainstBox(w.player, building.door.box, w)) {
+			
+//			System.out.println("A");
+//			CommunicationClient.addPacket(new PacketLoadInterior(((PieceBuilding) p).worldID));
+			
+//		}		
 	}
 	
 	public void init() {

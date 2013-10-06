@@ -3,6 +3,7 @@ package com.pixel.building;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.pixel.world.World;
 
 public class Building {
 
@@ -22,7 +23,7 @@ public class Building {
 		this.height = info.get(id).height;
 		this.door = info.get(id).door;
 		this.floorID = info.get(id).floorID;
-		this.door.box = new Rectangle(x + this.door.x, y + this.door.y, this.door.width, this.door.height);
+		this.door.box = new Rectangle((this.door.x / World.tileConstant) + x, (this.door.y / World.tileConstant) + y, (float)this.door.width / World.tileConstant, ((float)this.door.height / World.tileConstant));
 
 	}
 	
@@ -39,7 +40,7 @@ public class Building {
 	
 	static {
 		
-		info.add(new BuildingInfo(0, 4, 3).setDoor(new BuildingDoor(45F, 70F, 40, 50, 0)).setTexture("resources/pieces/buildings/cabin_1.png"));
+		info.add(new BuildingInfo(0, 4, 3).setDoor(new BuildingDoor(46F, 88F, 32, 56, 0)).setTexture("resources/pieces/buildings/cabin_1.png"));
 	
 	}
 	

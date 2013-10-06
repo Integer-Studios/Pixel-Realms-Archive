@@ -14,10 +14,8 @@ import com.pixel.communication.packet.PacketUpdateTile;
 import com.pixel.communication.packet.PacketUpdateWorld;
 import com.pixel.effects.Particle;
 import com.pixel.entity.Entity;
-import com.pixel.entity.EntityAnimal;
 import com.pixel.entity.EntityOnlinePlayer;
 import com.pixel.entity.EntityPlayer;
-import com.pixel.entity.ai.Herd;
 import com.pixel.frame.PanelWorld;
 import com.pixel.gui.GUILoadingScreen;
 import com.pixel.piece.Piece;
@@ -35,7 +33,7 @@ public class World {
 	public static ConcurrentHashMap<Integer, PieceBuilding> buildings = new ConcurrentHashMap<Integer,PieceBuilding>();
 	public static Piece[] pieces;
 	public static ConcurrentHashMap<Integer, Entity> entities = new ConcurrentHashMap<Integer,Entity>();
-	public static ConcurrentHashMap<Integer, Herd> herds = new ConcurrentHashMap<Integer,Herd>();
+//	public static ConcurrentHashMap<Integer, Herd> herds = new ConcurrentHashMap<Integer,Herd>();
 
 	public static boolean loaded, loadingScreenDone;
 	public int worldSaveCount = 0;
@@ -68,7 +66,7 @@ public class World {
 		CommunicationClient.addPacket(new PacketLogin(PlayerManager.currentPlayer, PlayerManager.session));
 
 		pieces = new Piece[c * c];
-		herds.clear();
+//		herds.clear();
 		tiles.clear();
 		entities.clear();
 		
@@ -202,12 +200,6 @@ public class World {
 		
 		entityArray.addAll(entities.values());
 
-		for (Herd herd : herds.values()) {
-			
-			entityArray.addAll(herd.entities.values());
-			
-		}
-		
 		entityArray.addAll(PlayerManager.players.values());
 
 		Object[] tileArray = (Object[]) tiles.values().toArray();
@@ -295,16 +287,6 @@ public class World {
 
 		}
 		
-		for (Herd herd : herds.values()) {
-			
-			for (EntityAnimal entity : herd.entities.values()) {
-				
-				entity.tick(this);
-				
-			}
-			
-		}
-
 		for (int x = 0; x < entities.size(); x ++) {
 
 			((Entity) entities.values().toArray()[x]).tick(this);
@@ -417,7 +399,6 @@ public class World {
 		
 		entities = new ConcurrentHashMap<Integer,Entity>();;
 		tiles = new ConcurrentHashMap<Integer,Tile>();
-		herds = new ConcurrentHashMap<Integer,Herd>();
 		pieces = new Piece[c * c];
 		
 	}

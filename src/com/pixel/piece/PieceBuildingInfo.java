@@ -8,6 +8,7 @@ import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.packet.PacketLoadInterior;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.start.TextureLoader;
+import com.pixel.util.CollisionBox;
 import com.pixel.world.World;
 
 public class PieceBuildingInfo extends PieceInfo {
@@ -33,7 +34,7 @@ public class PieceBuildingInfo extends PieceInfo {
 	
 	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
 
-		if (player.collisionBox.overlaps(building.door.box)) {
+		if (CollisionBox.testBoxAgainstEntity(w.player, building.door.box, w, true) && !player.inside) {
 			
 			CommunicationClient.addPacket(new PacketLoadInterior(((PieceBuilding) p).worldID));
 			
@@ -45,7 +46,7 @@ public class PieceBuildingInfo extends PieceInfo {
 
 		if (image != null) {
 			image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY, World.tileConstant * building.width, World.tileConstant * building.height);
-			image.draw(p.posX*World.tileConstant+World.globalOffsetX + building.door.x, p.posY*World.tileConstant+World.globalOffsetY + building.door.y, building.door.width, building.door.height);
+//			image.draw(building.door.box.getX()*World.tileConstant+World.globalOffsetX ,  building.door.box.getY()*World.tileConstant+World.globalOffsetY, building.door.width, building.door.height);
 
 		} else {
 			if (texture != null && texture.length() > 0) {

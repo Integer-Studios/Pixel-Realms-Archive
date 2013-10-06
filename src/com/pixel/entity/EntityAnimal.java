@@ -4,8 +4,6 @@ import com.pixel.world.World;
 
 public class EntityAnimal extends EntityAlive {
 
-	public int herdID = -1;
-	
 	public EntityAnimationController controller;
 	
 	public EntityAnimal(float width, float height) {
@@ -22,10 +20,7 @@ public class EntityAnimal extends EntityAlive {
 	public void kill(World w, Entity damageSource) {
 		health = 0;
 		
-		if (herdID == -1)
-			World.entities.remove(this.serverID);
-		else
-			World.herds.get(herdID).entities.remove(this.serverID);
+		World.entities.remove(this.serverID);
 
 	}
 	

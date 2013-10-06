@@ -140,8 +140,12 @@ public class MouseClickListener {
 		posY = newY;		
 	}
 
-	public static void mouseWheelMoved(int arg0) {
+	public static void mouseWheelMoved(int delta) {
 		// TODO Auto-generated method stub
+
+		int page = Math.round(delta / 60);
+		System.out.println(page);
+		
 		
 	}
 
