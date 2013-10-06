@@ -3,10 +3,10 @@ package com.pixel.entity;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+import com.pixel.body.RelativeBody;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
 import com.pixel.communication.packet.PacketDamagePlayer;
-import com.pixel.player.RelativeBody;
 import com.pixel.world.World;
 
 public class EntityOnlinePlayer extends EntityHuman {

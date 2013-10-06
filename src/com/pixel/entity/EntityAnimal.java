@@ -1,10 +1,13 @@
 package com.pixel.entity;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+
 import com.pixel.world.World;
 
 public class EntityAnimal extends EntityAlive {
 
-	public EntityAnimationController controller;
+	public AnimationControllerEntity controller;
 	
 	public EntityAnimal(float width, float height) {
 		super(width, height);
@@ -22,6 +25,11 @@ public class EntityAnimal extends EntityAlive {
 		
 		World.entities.remove(this.serverID);
 
+	}
+	
+	public void render(GameContainer c, Graphics g, World w) {
+		super.render(c, g, w);
+		controller.render(c, g, w);
 	}
 	
 	public void tick(World w) {

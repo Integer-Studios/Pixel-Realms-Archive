@@ -2,10 +2,10 @@ package com.pixel.entity;
 
 import javax.sound.sampled.Clip;
 
+import com.pixel.body.RelativeBody;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
 import com.pixel.piece.Piece;
-import com.pixel.player.RelativeBody;
 
 public class EntityHuman extends EntityAlive {
 

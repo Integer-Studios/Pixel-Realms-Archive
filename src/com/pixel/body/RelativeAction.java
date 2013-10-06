@@ -1,4 +1,4 @@
-package com.pixel.player;
+package com.pixel.body;
 
 
 import com.pixel.animation.RelativePositionAnimation;

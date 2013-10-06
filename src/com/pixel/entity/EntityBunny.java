@@ -2,9 +2,6 @@ package com.pixel.entity;
 
 import javax.sound.sampled.Clip;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-
 
 import com.pixel.animation.AnimationEntity;
 import com.pixel.communication.CommunicationClient;
@@ -19,8 +16,17 @@ public class EntityBunny extends EntityAnimal {
 	public EntityBunny() {
 		super(.7F, .2F);
 		this.id = 1;
-		controller = new EntityAnimationController(this, new AnimationEntity("resources" + PixelRealms.t.separator + "entities" + PixelRealms.t.separator + "bunny" + PixelRealms.t.separator + "", this, World.tileConstant, World.tileConstant, 5, 3, 4));
+		controller = new AnimationControllerEntity(this, new AnimationEntity("resources" + PixelRealms.t.separator + "entities" + PixelRealms.t.separator + "bunny" + PixelRealms.t.separator + "", this, World.tileConstant, World.tileConstant, 5, 3, 4));
 		this.setMaxHealth(3.0F);
+		this.setBodyPiece(15);
+	}
+	
+	public EntityBunny(float x, float y) {
+		super(x, y, .7F, .2F);
+		this.id = 1;
+		controller = new AnimationControllerEntity(this, new AnimationEntity("resources" + PixelRealms.t.separator + "entities" + PixelRealms.t.separator + "bunny" + PixelRealms.t.separator + "", this, World.tileConstant, World.tileConstant, 5, 3, 4));
+		this.setMaxHealth(3.0F);
+		this.setBodyPiece(15);
 	}
 	
 	public void damage(World w, float damage, Entity damageSource) {
@@ -32,13 +38,6 @@ public class EntityBunny extends EntityAnimal {
 		hurt.setFramePosition(0);
 		hurt.start();
 		
-	}
-	
-	public EntityBunny(float x, float y) {
-		super(x, y, .7F, .2F);
-		this.id = 1;
-		controller = new EntityAnimationController(this, new AnimationEntity("resources" + PixelRealms.t.separator + "entities" + PixelRealms.t.separator + "bunny" + PixelRealms.t.separator + "", this, World.tileConstant, World.tileConstant, 5, 3, 4));
-		this.setMaxHealth(3.0F);
 	}
 	
 	public void kill(World w, Entity damageSource) {
@@ -53,11 +52,6 @@ public class EntityBunny extends EntityAnimal {
 //			CollisionBox.testEntities(WorldChunkManager.entitiesLoopArray.get(WorldChunkManager.entitiesLoopArray.keySet().toArray()[x]), this, w);
 //		}
 		super.tick(w);
-	}
-	
-	public void render(GameContainer c, Graphics g, World w) {
-		super.render(c, g, w);
-		controller.render(c, g, w);
 	}
 	
 }

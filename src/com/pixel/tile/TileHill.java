@@ -49,7 +49,6 @@ public class TileHill extends TileInfo {
 			};
 						
 			loaded = true;
-			t.metadata = 0;
 		}
 
 		boolean l=false,r=false,d=false,u=false;
@@ -78,56 +77,140 @@ public class TileHill extends TileInfo {
 		if (l) {
 			if (r) {
 				if (d) {
-					if (u) {
-						image = images[17];//unknown
-					} else {
-						image = images[17];//unknown
+					if (u) {//lrdu
+						image = images[t.metadata];//unknown
+					} else {//lrd
+						if (dO == 1 || dO == 2) {
+							if (lO == 5 || lO == 11 || lO == 2 || rO == 2 || rO == 12 || rO == 6) {
+								image = images[2];//top
+								t.metadata = 2;
+							} else {
+								image = images[1];//bottom wall
+								t.metadata = 1;
+							}
+						} else {
+							image = images[t.metadata];//unknown
+						}
 					}
-				} else if (u) {
-					image = images[17];//unknown
-				} else {
+				} else if (u) {//lru
+					if (uO == 1 || uO == 2 || uO == 0) {
+						if (lO == 5 || lO == 11 || lO == 2 || rO == 2 || rO == 12 || rO == 6) {
+							image = images[2];//top
+							t.metadata = 2;
+						} else {
+							image = images[1];//bottom wall
+							t.metadata = 1;
+						}
+					} else {
+						image = images[t.metadata];//unknown
+					}
+				} else {//lr
 					//check for cliff
 					//check direction facing
-					image = images[1];//bottom wall
+					if (lO == 5 || lO == 11 || lO == 2 || rO == 2 || rO == 12 || rO == 6) {
+						image = images[2];//top
+						t.metadata = 2;
+					} else {
+						image = images[1];//bottom wall
+						t.metadata = 1;
+					}
 				}
 			} else if (d) {
-				if (u) {
-					image = images[17];//unknown
-				} else {
-					image = images[6];//top right corner
+				if (u) {//ldu
+					image = images[t.metadata];//unknown
+				} else {//ld
+					if (dO == 1) {
+						if (lO == 5 || lO == 11 || lO == 2) {
+							image = images[2];//top wall
+							t.metadata = 2;
+						} else {
+							image = images[10];//right ending
+							t.metadata = 10;
+						}
+					} else {
+						image = images[6];//top right corner
+						t.metadata = 6;
+					}
 				}
-			} else if (u) {
+			} else if (u) {//lu
 				image = images[8];//bottom right corner
-			} else {
+				t.metadata = 8;
+			} else {//l
 				//check direction facing
-				image = images[10];//right ending
+				if (lO == 5 || lO == 11 || lO == 2) {
+					image = images[2];//top wall
+					t.metadata = 2;
+				} else {
+					image = images[10];//right ending
+					t.metadata = 10;
+				}
 			}
 		} else if (r) {
 			if (d) {
-				if (u) {
-					image = images[17];//unknown
-				} else {
-					image = images[5];//top left corner
+				if (u) {//rdu
+					image = images[t.metadata];//unknown
+				} else {//rd
+					if (dO == 1) {
+						if (rO == 2 || rO == 6 || rO == 12) {
+							image = images[2];//top
+							t.metadata = 2;
+						} else {
+							image = images[9];//left ending
+							t.metadata = 9;
+						}
+					} else {
+						image = images[5];//top left corner
+						t.metadata = 5;
+					}
 				}
-			} else if (u) {
+			} else if (u) {//ru
 				image = images[7];//bottom left corner
-			} else {
+				t.metadata = 7;
+			} else {//r
 				//check direction facing
-				image = images[9];//left ending
+				if (rO == 2 || rO == 6 || rO == 12) {
+					image = images[2];//top
+					t.metadata = 2;
+				} else {
+					image = images[9];//left ending
+					t.metadata = 9;
+				}
 			}
 		} else if (d) {
-			if (u) {
+			if (u) {//du
 				//check direction facing
-				image = images[3];//left wall
-			} else {
+				if (dO == 8 || dO == 10 || dO == 4 || dO == 12 || uO == 14 || uO == 6 || uO == 4 || uO == 2) {
+					image = images[4];//right wall
+					t.metadata = 4;
+				} else {
+					image = images[3];//left wall
+					t.metadata = 3;
+				}
+			} else {//d
 				//check direction facing
-				image = images[11];//top ending
+				if (dO == 1 || dO == 2) {
+					image = images[0];//hill
+					t.metadata = 0;
+				} else if (dO == 8 || dO == 10 || dO == 4 || dO == 12) {
+					image = images[12];//top right ending
+					t.metadata = 12;
+				} else {
+					image = images[11];//top left ending
+					t.metadata = 11;
+				}
 			}
-		} else if (u) {
+		} else if (u) {//u
 			//check direction facing
-			image = images[13];//bottom ending
-		} else {
+			if (uO == 6 || uO == 4 || uO == 14) {
+				image = images[14];//bottom right ending
+				t.metadata = 14;
+			} else {
+				image = images[13];//bottom left ending
+				t.metadata = 13;
+			}
+		} else {//none
 			image = images[0];
+			t.metadata = 0;
 		}
 		
 		Tile.info[t.background].render(c, g, w, t);
