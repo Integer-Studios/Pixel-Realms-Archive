@@ -21,6 +21,7 @@ public class PacketMovePlayer extends Packet {
 	public PacketMovePlayer(boolean n, boolean w, boolean e, boolean s) {
 		
 		this.id = 16;
+		this.userID = PlayerManager.currentUserID;
 		this.n = n;
 		this.w = w;
 		this.e = e;
