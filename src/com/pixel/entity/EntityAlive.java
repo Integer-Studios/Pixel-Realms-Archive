@@ -6,7 +6,9 @@ public class EntityAlive extends Entity {
 	
 	public float health, satisfaction;
 	public int bodyID = -1;
-
+	public boolean n, w, e, s;
+	public int speed;
+	
 	public EntityAlive(float width, float height) {
 		super(width, height);
 	}
@@ -79,6 +81,24 @@ public class EntityAlive extends Entity {
 			
 			w.setPiece(newX, newY, bodyID);
 			
+		}
+		
+	}
+	
+	public void tick(World world) {
+		super.tick(world);
+		
+		if (n) {
+			this.posY -= speed;
+		} 
+		if (w) {
+			this.posX -= speed;
+		}
+		if (e) {
+			this.posX += speed;
+		} 
+		if (s) {
+			this.posY += speed;
 		}
 		
 	}

@@ -9,8 +9,6 @@ import com.pixel.body.RelativeActionPunching;
 import com.pixel.body.RelativeBody;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.GetBunnies;
-import com.pixel.communication.PlayerManager;
-import com.pixel.communication.packet.PacketUpdatePlayer;
 import com.pixel.communication.packet.PacketUpdateWorld;
 import com.pixel.gui.GUIHotbar;
 import com.pixel.gui.PlayerInterfaceManager;
@@ -109,8 +107,6 @@ public class EntityPlayer extends EntityHuman {
 		testEntityCollisions(w);
 
 		body.tick(w);
-		
-		CommunicationClient.addPacket(new PacketUpdatePlayer(PlayerManager.currentPlayer, this.getX(), this.getY(), health, satisfaction, energy, this.selectedItem));
 		
 		prevPosX = posX;
 		prevPosY = posY;
