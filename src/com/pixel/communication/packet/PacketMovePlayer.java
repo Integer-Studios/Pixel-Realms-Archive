@@ -12,7 +12,7 @@ public class PacketMovePlayer extends Packet {
 	EntityAlive entity;
 	int userID;
 	boolean n, w, e, s;
-	int speed;
+	float speed;
 	
 	public PacketMovePlayer() {
 		this.id = 16;
@@ -47,17 +47,18 @@ public class PacketMovePlayer extends Packet {
 		w = input.readBoolean();
 		e = input.readBoolean();
 		s = input.readBoolean();
-		speed = input.readInt();
+		speed = input.readFloat();
 		
 		if (PlayerManager.currentUserID != userID) {
 			
 			if (PlayerManager.players.containsKey(userID)) {
-				
-				PlayerManager.players.get(userID).n = n;
-				PlayerManager.players.get(userID).w = w;
-				PlayerManager.players.get(userID).e = e;
-				PlayerManager.players.get(userID).s = s;
-				PlayerManager.players.get(userID).speed = speed;
+				System.out.println("RECEIVED MOVEMENT " + n + " " + w + " " + e + " " + s);
+
+//				PlayerManager.players.get(userID).n = n;
+//				PlayerManager.players.get(userID).w = w;
+//				PlayerManager.players.get(userID).e = e;
+//				PlayerManager.players.get(userID).s = s;
+//				PlayerManager.players.get(userID).speed = speed;
 
 
 			}

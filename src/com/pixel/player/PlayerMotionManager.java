@@ -4,7 +4,6 @@ import org.lwjgl.opengl.Display;
 
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
-import com.pixel.communication.packet.PacketMovePlayer;
 import com.pixel.communication.packet.PacketUpdatePlayer;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.input.KeyboardListener;
@@ -12,8 +11,6 @@ import com.pixel.start.PixelRealms;
 import com.pixel.world.World;
 
 public class PlayerMotionManager {
-	
-	static boolean n, w, e, s, prevN, prevW, prevE, prevS;
 	
 	public PlayerMotionManager() {
 		
@@ -36,32 +33,24 @@ public class PlayerMotionManager {
 		} 
 		
 		if (KeyboardListener.keyBindings.get("Left").pressed) {
-			w = true;
 			player.setX(player.getX() - tempSpeed);
 			clearTarget();
-		} else
-			w = false;
+		} 
 			
 		if (KeyboardListener.keyBindings.get("Right").pressed) {
-			e = true;
 			player.setX(player.getX() + tempSpeed);
 			clearTarget();
-		} else 
-			e = false;
+		}  
 		
 		if (KeyboardListener.keyBindings.get("Up").pressed) {
-			n = true;
 			player.setY(player.getY() - tempSpeed);
 			clearTarget();
-		} else
-			n = false;
+		}
 			
 		if (KeyboardListener.keyBindings.get("Down").pressed) {
-			s = true;
 			player.setY(player.getY() + tempSpeed);
 			clearTarget();
-		} else
-			s = false;
+		}
 		
 		if (hasTarget) {
 			
@@ -82,38 +71,16 @@ public class PlayerMotionManager {
 			if (player.getX() <= 0 || player.getX() >= Math.sqrt(PixelRealms.world.interiorWorld.c) || player.getY() <= 0 || player.getY() >= Math.sqrt(PixelRealms.world.interiorWorld.c)) {
 				
 				PixelRealms.world.leaveInterior();
-				
+
 			}
-			
+
 		}
-			
-		if (hasChangedMovement()) {
-			CommunicationClient.addPacket(new PacketMovePlayer(n, w, e, s));
-			CommunicationClient.addPacket(new PacketUpdatePlayer(PlayerManager.currentPlayer, player.getX(), player.getY(), player.health, player.satisfaction, player.energy, player.selectedItem));
-		
-		}
-		
+
+		CommunicationClient.addPacket(new PacketUpdatePlayer(PlayerManager.currentPlayer, player.getX(), player.getY(), player.health, player.satisfaction, player.energy, player.selectedItem));
+
 		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.getX() * World.tileConstant);
 		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.getY() * World.tileConstant);
 
-	}
-	
-	private static boolean hasChangedMovement() {
-		
-		if (n != prevN || w != prevW || e != prevE || s != prevS) {
-			
-			prevN = n;
-			prevW = w; 
-			prevE = e; 
-			prevS = s;
-			return true;
-			
-		} else {
-
-			return false;
-			
-		}
-		
 	}
 
 	private static void movePlayerXAtSpeed(EntityPlayer player, float speed) {
