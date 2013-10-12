@@ -12,7 +12,7 @@ public class PacketMovePlayer extends Packet {
 
 	EntityAlive entity;
 	int userID;
-	float changeX, changeY, posX, posY;
+	float velocityX, velocityY, posX, posY;
 	
 	public PacketMovePlayer() {
 		this.id = 16;
@@ -22,8 +22,8 @@ public class PacketMovePlayer extends Packet {
 		
 		this.id = 16;
 		this.userID = PlayerManager.currentUserID;
-		this.changeX = changeX;
-		this.changeY = changeY;
+		this.velocityX = changeX;
+		this.velocityY = changeY;
 		this.posX = posX; 
 		this.posY = posY;
 		
@@ -32,8 +32,8 @@ public class PacketMovePlayer extends Packet {
 	public void writeData(DataOutputStream output) throws IOException {
 
 		output.writeInt(userID);
-		output.writeFloat(changeX);
-		output.writeFloat(changeY);
+		output.writeFloat(velocityX);
+		output.writeFloat(velocityY);
 		output.writeFloat(posX);
 		output.writeFloat(posY);
 		
@@ -42,8 +42,8 @@ public class PacketMovePlayer extends Packet {
 	public void readData(DataInputStream input) throws IOException {
 	
 		userID = input.readInt();
-		changeX = input.readFloat();
-		changeY = input.readFloat();
+		velocityX = input.readFloat();
+		velocityY = input.readFloat();
 		posX = input.readFloat();
 		posY = input.readFloat();
 		if (!World.loaded)
@@ -53,7 +53,7 @@ public class PacketMovePlayer extends Packet {
 			if (PlayerManager.players.containsKey(userID)) {
 				System.out.println("RECEIVED MOVEMENT ");
 				System.out.println(posX + " " + posY + " " + PlayerManager.players.get(userID).getX() + " " + PlayerManager.players.get(userID).getY());
-				PlayerManager.players.get(userID).accelerate(changeX, changeY); 
+				PlayerManager.players.get(userID).setVelocity(velocityX, velocityY); 
 				
 			}
 			
