@@ -83,19 +83,29 @@ public class PlayerMotionManager {
 		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.getY() * World.tileConstant);
 
 	}
-static int a = 0;	
+	
+	public static int teleportCount = 0;
+	
 	public static void checkMovement(EntityPlayer player) {
 		changeX = player.getX() - player.getPreviousX();
 		changeY = player.getY() - player.getPreviousY();
 		
-		if ((changeX != prevChangeX || changeY != prevChangeY) && a > 1) {
+		if ((changeX != prevChangeX || changeY != prevChangeY) && !player.teleported) {
 			System.out.print("acceleration x:" + (changeX-prevChangeX + " "));
 			System.out.println("acceleration y:" + (changeY-prevChangeY));
 			CommunicationClient.addPacket(new PacketMovePlayer(changeX-prevChangeX, changeY-prevChangeY, player.getX(), player.getY()));
 
+		} else if (player.teleported && teleportCount == 1) {
+			
+			player.teleported = false;
+			teleportCount = 0;
+			
+		} else if (player.teleported) {
+			
+			teleportCount ++;
+			
 		}
-		a ++;
-
+		
 		prevChangeX = changeX;
 		prevChangeY = changeY;
 		

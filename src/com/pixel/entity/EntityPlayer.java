@@ -35,6 +35,7 @@ public class EntityPlayer extends EntityHuman {
 	public int previousMinY;
 	public int loadedX, loadedY;
 	public int bunnies;
+	public boolean teleported;
 	public PlayerInterfaceManager interfaceManager;
 	public PlayerInventory inventory;
 	public boolean updated = true;
