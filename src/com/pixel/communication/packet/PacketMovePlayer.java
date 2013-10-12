@@ -37,10 +37,6 @@ public class PacketMovePlayer extends Packet {
 		output.writeFloat(posX);
 		output.writeFloat(posY);
 		
-		if (velocityX == 0 && velocityY == 0) {
-			System.out.println("sent");
-		}
-		
 	}
 
 	public void readData(DataInputStream input) throws IOException {
@@ -55,12 +51,8 @@ public class PacketMovePlayer extends Packet {
 		if (PlayerManager.currentUserID != userID) {
 			
 			if (PlayerManager.players.containsKey(userID)) {
-				System.out.println("RECEIVED MOVEMENT ");
-				System.out.println(posX + " " + posY + " " + PlayerManager.players.get(userID).getX() + " " + PlayerManager.players.get(userID).getY());
-				PlayerManager.players.get(userID).setVelocity(velocityX, velocityY); 
 				
-				if (velocityX == 0 && velocityY == 0) 
-					System.out.println("B");
+				PlayerManager.players.get(userID).setVelocity(velocityX, velocityY); 
 				
 //				PlayerManager.players.get(userID).setPosition(posX, posY);
 				
