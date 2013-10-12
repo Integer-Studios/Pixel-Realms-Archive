@@ -93,7 +93,7 @@ public class PlayerMotionManager {
 		if ((changeX != prevChangeX || changeY != prevChangeY) && !player.teleported) {
 			System.out.print("acceleration x:" + (changeX-prevChangeX + " "));
 			System.out.println("acceleration y:" + (changeY-prevChangeY));
-			CommunicationClient.addPacket(new PacketMovePlayer(changeX-prevChangeX, changeY-prevChangeY, player.getX(), player.getY()));
+			CommunicationClient.addPacket(new PacketMovePlayer(changeX, changeY, player.getX(), player.getY()));
 
 		} else if (player.teleported && teleportCount == 1) {
 			
