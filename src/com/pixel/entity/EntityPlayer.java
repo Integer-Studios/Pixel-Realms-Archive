@@ -19,7 +19,6 @@ import com.pixel.item.ItemFood;
 import com.pixel.item.ItemStack;
 import com.pixel.piece.PieceInfo;
 import com.pixel.player.PlayerInventory;
-import com.pixel.player.PlayerMotionManager;
 import com.pixel.start.PixelRealms;
 import com.pixel.util.CollisionBox;
 import com.pixel.world.World;
@@ -56,7 +55,9 @@ public class EntityPlayer extends EntityHuman {
 	}
 	
 	public void tick(World w) {
-				
+		
+		
+		
 //		w.setTile(Math.round(posX), Math.round(posY), 6);
 		if (World.loaded) {
 			
@@ -287,10 +288,6 @@ public class EntityPlayer extends EntityHuman {
 		bunnies ++;
 		interfaceManager.bunnyCounter.addBunny();
 		
-	}
-	
-	public void onCollidedWithPiece(World w, int x, int y) {
-		PlayerMotionManager.clearTarget();
 	}
 
 }

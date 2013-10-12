@@ -12,6 +12,7 @@ import com.pixel.entity.Entity;
 import com.pixel.input.MouseClickListener;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
+import com.pixel.player.PlayerMotionManager;
 import com.pixel.sound.Sound;
 import com.pixel.tile.Material;
 import com.pixel.util.CollisionBox;
@@ -66,7 +67,7 @@ public class Piece {
 					info[id].setPlayerInInteractionZone(true);
 				} else {
 					info[id].onPlayerCollided(w, this, w.player);
-					w.player.onCollidedWithPiece(w, posX, posY);
+					PlayerMotionManager.onCollidedWithPiece(w, posX, posY);
 				}
 				playerInCollidedPosition= true;
 				flag = true;
