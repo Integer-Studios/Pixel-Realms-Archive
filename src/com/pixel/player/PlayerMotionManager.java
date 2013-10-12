@@ -88,7 +88,7 @@ public class PlayerMotionManager {
 		changeX = player.getX() - player.getPreviousX();
 		changeY = player.getY() - player.getPreviousY();
 		
-		if (changeX != prevChangeX || changeY != prevChangeY) {
+		if (changeX != prevChangeX || changeY != prevChangeY && prevChangeX < 1) {
 			System.out.print("acceleration x:" + (changeX-prevChangeX + " "));
 			System.out.println("acceleration y:" + (changeY-prevChangeY));
 			CommunicationClient.addPacket(new PacketMovePlayer(changeX-prevChangeX, changeY-prevChangeY, player.getX(), player.getY()));

@@ -34,7 +34,7 @@ public class EntityOnlinePlayer extends EntityHuman {
 		
 		posX += velocityX;
 		posY += velocityY;
-				
+
 		if (body != null) {
 			body.tick(w);
 		}
