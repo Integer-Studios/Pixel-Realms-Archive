@@ -63,7 +63,6 @@ public class PacketUpdateWorld extends Packet {
 
 			if (input.readBoolean()) {
 				worldID = input.readInt();
-				System.out.println(worldID);
 				buildingID = input.readInt();
 				new PieceBuilding(worldID, posX, posY, buildingID, damage, metadata);
 				

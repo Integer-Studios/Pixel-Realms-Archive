@@ -11,6 +11,7 @@ import com.pixel.communication.ChatMessage;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
 import com.pixel.communication.packet.PacketChat;
+import com.pixel.start.PixelRealms;
 
 public class GUIChat extends GUIComponentSet {
 	
@@ -83,6 +84,13 @@ public class GUIChat extends GUIComponentSet {
 			
 			String message = box.getText();
 			box.setText("");
+			
+			if (message.equals("/l")) {
+				
+				PixelRealms.world.leaveInterior();
+				return;
+				
+			}
 			
 			if (!message.startsWith("/"))
 				addMessage(new ChatMessage(PlayerManager.currentPlayer, message, defaultColor, PlayerManager.currentUserID));

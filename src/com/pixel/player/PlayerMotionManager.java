@@ -69,11 +69,11 @@ public class PlayerMotionManager {
 		
 		if (player.inside && PixelRealms.world.interior) {
 			
-			if (player.getX() <= 0 || player.getX() >= Math.sqrt(PixelRealms.world.interiorWorld.c) || player.getY() <= 0 || player.getY() >= Math.sqrt(PixelRealms.world.interiorWorld.c)) {
+//			if (player.getX() <= 0 || player.getX() >= Math.sqrt(PixelRealms.world.interiorWorld.c) || player.getY() <= 0 || player.getY() >= Math.sqrt(PixelRealms.world.interiorWorld.c)) {
 				
-				PixelRealms.world.leaveInterior();
+//				PixelRealms.world.leaveInterior();
 
-			}
+//			}
 
 		}
 		

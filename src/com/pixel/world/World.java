@@ -160,7 +160,11 @@ public class World {
 		oldY = player.getY();
 		float center = (float) Math.sqrt(w.c) / 2;
 		
+		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.getX() * World.tileConstant);
+		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.getY() * World.tileConstant);
+		player.teleported = true;
 		player.setPosition(center, center);
+		System.out.println(player.getX() + " " + player.getY() + " " + w.c + " " + tiles.size());
 		
 	}
 	
@@ -175,8 +179,6 @@ public class World {
 		player.inside = false;
 		interiorWorld = null;
 		System.out.println("ASD");
-		
-		player.setPosition(oldX, oldY);
 		
 		CommunicationClient.addPacket(new PacketUpdateWorld());
 		
@@ -207,34 +209,34 @@ public class World {
 		if (tileArray.length > 0) {
 			//REDUCABLE LOOP
 			for (int x = 0; x < tileArray.length; x++) {
-				if (((Tile) tileArray[x]).posX > getMinXToPaint() && ((Tile) tileArray[x]).posX < getMaxXToPaint() && ((Tile) tileArray[x]).posY > getMinYToPaint() && ((Tile) tileArray[x]).posY < getMaxYToPaint()) {
+				if ((((Tile) tileArray[x]).posX > getMinXToPaint() && ((Tile) tileArray[x]).posX < getMaxXToPaint() && ((Tile) tileArray[x]).posY > getMinYToPaint() && ((Tile) tileArray[x]).posY < getMaxYToPaint())) {
 					((Tile) tileArray[x]).render(c, g, this);
 				}
 			}
 			player.painted = false;
 			for (int x = 0; x < pieces.length; x++) {
-				if (pieces[x] != null) {
-					if (pieces[x].posX > getMinXToPaint() && (pieces[x]).posX < getMaxXToPaint() && ((Piece) pieces[x]).posY > getMinYToPaint() && ((Piece) pieces[x]).posY < getMaxYToPaint()) {
+					if (pieces[x] != null) {
+						if (pieces[x].posX > getMinXToPaint() && (pieces[x]).posX < getMaxXToPaint() && ((Piece) pieces[x]).posY > getMinYToPaint() && ((Piece) pieces[x]).posY < getMaxYToPaint()) {
 
-						for (int y = 0; y < entityArray.size(); y ++) {
+							for (int y = 0; y < entityArray.size(); y ++) {
 
-							Entity entity = entityArray.get(y);
-							if (((Piece) pieces[x]).posY + pieceLayerOffset > entity.getY() && !paintedEntities.contains(entity)) {
+								Entity entity = entityArray.get(y);
+								if (((Piece) pieces[x]).posY + pieceLayerOffset > entity.getY() && !paintedEntities.contains(entity)) {
 
-								entity.render(c, g, this);
-								paintedEntities.add(entity);
+									entity.render(c, g, this);
+									paintedEntities.add(entity);
+
+								}
 
 							}
 
+							if (((Piece) pieces[x]).posY + pieceLayerOffset > player.getY() && !player.painted) {
+								player.render(c, g, this);
+								player.painted = true;
+							}
+							((Piece) pieces[x]).render(c, g, this);
 						}
-
-						if (((Piece) pieces[x]).posY + pieceLayerOffset > player.getY() && !player.painted) {
-							player.render(c, g, this);
-							player.painted = true;
-						}
-						((Piece) pieces[x]).render(c, g, this);
 					}
-				}
 			}
 
 
@@ -274,16 +276,18 @@ public class World {
 			
 		}
 
-			
+
 		for (int x = 0; x < pieces.length; x ++) {
+			if (pieces.length > x) {
+				if (pieces[x] != null) {
+					if ((pieces[x]).posX > getMinXToPaint() && (pieces[x]).posX < getMaxXToPaint() && (pieces[x]).posY > getMinYToPaint() && (pieces[x]).posY < getMaxYToPaint()) {
 
-			if (pieces[x] != null) {
-				if ((pieces[x]).posX > getMinXToPaint() && (pieces[x]).posX < getMaxXToPaint() && (pieces[x]).posY > getMinYToPaint() && (pieces[x]).posY < getMaxYToPaint()) {
+						(pieces[x]).tick(this);
 
-					(pieces[x]).tick(this);
-
+					}
 				}
-			}
+			} else 
+				break;
 
 		}
 		
