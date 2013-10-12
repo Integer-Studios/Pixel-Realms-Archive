@@ -54,7 +54,7 @@ public class PacketMovePlayer extends Packet {
 				System.out.println("RECEIVED MOVEMENT ");
 
 				PlayerManager.players.get(userID).accelerate(changeX, changeY); 
-				PlayerManager.players.get(userID).setPosition(posX, posY);
+//				PlayerManager.players.get(userID).setPosition(posX, posY);
 				
 			}
 			
