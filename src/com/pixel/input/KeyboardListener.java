@@ -143,7 +143,11 @@ public class KeyboardListener {
 			case KeyCode.KEY_0:
 				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(9, 0);
 				break;
-
+				
+				//TEMP
+			case KeyCode.KEY_O:
+				PixelRealms.world.setTile((int)PixelRealms.world.player.getX()+1, (int)PixelRealms.world.player.getY()+1, 8);
+				break;
 			}
 
 		}

@@ -88,7 +88,7 @@ public class PacketUpdatePlayer extends Packet {
 			PixelRealms.world.player.setHealth(health);
 			PixelRealms.world.player.setSatisfaction(satisfaction);
 			PixelRealms.world.player.setEnergy(energy);
-			
+
 		}
 		
 		loaded = true;

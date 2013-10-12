@@ -83,6 +83,10 @@ public class World {
 		this.player = player;
 		
 	}
+	
+	public void setTile(int x, int y, int id) {
+		setTile( x,  y,  id, 0);
+	}
 
 	public void setTile(int x, int y, int id, int metadata) {
 		tiles.put((y * c) + x, new Tile(x, y, id, metadata, true));
@@ -422,5 +426,6 @@ public class World {
 		entities.put(entity.serverID, entity);
 		
 	}
+
 
 }

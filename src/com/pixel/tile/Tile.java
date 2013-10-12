@@ -45,6 +45,8 @@ public class Tile {
 				new TileInfo(path+"resources" + PixelRealms.t.separator + "tiles" + PixelRealms.t.separator + "cobble" + PixelRealms.t.separator + "cobble.png"), //cobble flat 5
 				new TileRounded(path+"resources" + PixelRealms.t.separator + "tiles" + PixelRealms.t.separator + "cobble" + PixelRealms.t.separator + "cobble"),//cobble rounded 6
 				new TileHill(path+"resources" + PixelRealms.t.separator + "tiles" + PixelRealms.t.separator + "hill" + PixelRealms.t.separator + "hill"),//hill front 7
+				new TileInfo(path+"resources" + PixelRealms.t.separator + "tiles" + PixelRealms.t.separator + "black.png"), //black bg 8
+				new TileInfo(path+"resources" + PixelRealms.t.separator + "tiles" + PixelRealms.t.separator + "floor.png"), //building floor 9
 
 		};
 		
