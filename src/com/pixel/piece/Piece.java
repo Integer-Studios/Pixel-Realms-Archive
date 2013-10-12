@@ -155,9 +155,9 @@ public class Piece {
 				new PieceMultiItem(path+"resources/pieces/bodies/dead_bunny.png", new ItemStack[] {new ItemStack(Item.bunnyFoot, 1), new ItemStack(Item.bunnyLeg, 1), new ItemStack(Item.bunnyFur, 1)}),//15
 				new PieceTripleHeight(path+"resources/pieces/trees/abyssal-fur.png").setShouldCollide(true).setMaxDamage(-1).setIsCollectable(false), //16
 				new PieceBuildingInfo(0).setShouldCollide(true),//17
-				new PieceInfo(path+"resources/pieces/walls/top.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0F, 1F, 1F),//18
-				new PieceInfo(path+"resources/pieces/walls/left.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0F, 1F, 1F),//19
-				new PieceInfo(path+"resources/pieces/walls/right.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0F, 1F, 1F),//20
+				new PieceInfo(path+"resources/pieces/walls/top.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0.1F, 1F, 1F),//18
+				new PieceInfo(path+"resources/pieces/walls/left.png").setIsCollectable(false).setShouldCollide(true).setSize(-0.2F, 0F, 1.4F, 1F),//19
+				new PieceInfo(path+"resources/pieces/walls/right.png").setIsCollectable(false).setShouldCollide(true).setSize(-0.2F, 0F, 1.4F, 1F),//20
 				new PieceInfo(path+"resources/pieces/walls/top_left.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0F, 1F, 1F),//21
 				new PieceInfo(path+"resources/pieces/walls/top_right.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0F, 1F, 1F),//22
 				new PieceInfo(path+"resources/pieces/walls/bottom_left.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0F, 1F, 1F),//23
