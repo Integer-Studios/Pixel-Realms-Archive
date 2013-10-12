@@ -19,8 +19,6 @@ public class PlayerMotionManager {
 	public static float targetPosX, targetPosY;
 	public static boolean hasTarget = false;
 	public static float changeX, changeY, prevChangeX, prevChangeY;
-	public static boolean collided;
-	public static int collisionWait = 0;
 	
 	public static void setTargetPosition(float x, float y) {
 		targetPosX = x;
@@ -80,18 +78,16 @@ public class PlayerMotionManager {
 
 		}
 		
-		if (collided == true && collisionWait == 1) {
-			collided = false;
-			collisionWait = 0;
-		} else if (collided)
-		{
-			collisionWait = 1;
-		}
-		
+		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.getX() * World.tileConstant);
+		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.getY() * World.tileConstant);
+
+	}
+	
+	public static void checkMovement(EntityPlayer player) {
 		changeX = player.getX() - player.getPreviousX();
 		changeY = player.getY() - player.getPreviousY();
 		
-		if (changeX != prevChangeX || changeY != prevChangeY || collided) {
+		if (changeX != prevChangeX || changeY != prevChangeY) {
 			System.out.print("acceleration x:" + (changeX-prevChangeX + " "));
 			System.out.println("acceleration y:" + (changeY-prevChangeY));
 		}
@@ -100,9 +96,6 @@ public class PlayerMotionManager {
 		prevChangeY = changeY;
 		
 		CommunicationClient.addPacket(new PacketUpdatePlayer(PlayerManager.currentPlayer, player.getX(), player.getY(), player.health, player.satisfaction, player.energy, player.selectedItem));
-
-		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.getX() * World.tileConstant);
-		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.getY() * World.tileConstant);
 
 	}
 
@@ -159,6 +152,5 @@ public class PlayerMotionManager {
 	}
 	
 	public static void onCollidedWithPiece(World w, int x, int y) {
-		collided = true;
 	}
 }
