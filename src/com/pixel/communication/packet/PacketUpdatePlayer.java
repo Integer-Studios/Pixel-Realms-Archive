@@ -84,6 +84,7 @@ public class PacketUpdatePlayer extends Packet {
 
 		} else {
 			
+			System.out.println("A");
 			PixelRealms.world.player.teleported = true;
 			PixelRealms.world.player.setPosition(posX,  posY);
 			PixelRealms.world.player.setHealth(health);
