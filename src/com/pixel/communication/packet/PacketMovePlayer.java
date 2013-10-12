@@ -43,7 +43,9 @@ public class PacketMovePlayer extends Packet {
 		userID = input.readInt();
 		changeX = input.readFloat();
 		changeY = input.readFloat();
-
+		posX = input.readFloat();
+		posY = input.readFloat();
+		
 		if (PlayerManager.currentUserID != userID) {
 			
 			if (PlayerManager.players.containsKey(userID)) {
