@@ -3,9 +3,7 @@ package com.pixel.player;
 import org.lwjgl.opengl.Display;
 
 import com.pixel.communication.CommunicationClient;
-import com.pixel.communication.PlayerManager;
 import com.pixel.communication.packet.PacketMovePlayer;
-import com.pixel.communication.packet.PacketUpdatePlayer;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.input.KeyboardListener;
 import com.pixel.start.PixelRealms;

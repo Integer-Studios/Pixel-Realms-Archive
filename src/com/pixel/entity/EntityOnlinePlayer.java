@@ -25,9 +25,9 @@ public class EntityOnlinePlayer extends EntityHuman {
 
 	}
 	
-	public void accelerate(float x, float y) {
-		velocityX += x;
-		velocityY += y;
+	public void setVelocity(float x, float y) {
+		velocityX = x;
+		velocityY = y;
 	}
 	
 	public void tick(World w) {
