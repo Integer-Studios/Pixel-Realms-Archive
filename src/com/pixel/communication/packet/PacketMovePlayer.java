@@ -11,56 +11,47 @@ public class PacketMovePlayer extends Packet {
 
 	EntityAlive entity;
 	int userID;
-	boolean n, w, e, s;
-	float speed;
+	float changeX, changeY, posX, posY;
 	
 	public PacketMovePlayer() {
 		this.id = 16;
 	}
 	
-	public PacketMovePlayer(boolean n, boolean w, boolean e, boolean s) {
+	public PacketMovePlayer(float changeX, float changeY, float posX, float posY) {
 		
 		this.id = 16;
 		this.userID = PlayerManager.currentUserID;
-		this.n = n;
-		this.w = w;
-		this.e = e;
-		this.s = s;
+		this.changeX = changeX;
+		this.changeY = changeY;
+		this.posX = posX; 
+		this.posY = posY;
 		
 	}
 	
 	public void writeData(DataOutputStream output) throws IOException {
 
 		output.writeInt(userID);
-		output.writeBoolean(n);
-		output.writeBoolean(w);
-		output.writeBoolean(e);
-		output.writeBoolean(s);
-
+		output.writeFloat(changeX);
+		output.writeFloat(changeY);
+		output.writeFloat(posX);
+		output.writeFloat(posY);
 		
 	}
 
 	public void readData(DataInputStream input) throws IOException {
 
 		userID = input.readInt();
-		n = input.readBoolean();
-		w = input.readBoolean();
-		e = input.readBoolean();
-		s = input.readBoolean();
-		speed = input.readFloat();
-		
+		changeX = input.readFloat();
+		changeY = input.readFloat();
+
 		if (PlayerManager.currentUserID != userID) {
 			
 			if (PlayerManager.players.containsKey(userID)) {
-				System.out.println("RECEIVED MOVEMENT " + n + " " + w + " " + e + " " + s);
+				System.out.println("RECEIVED MOVEMENT ");
 
-//				PlayerManager.players.get(userID).n = n;
-//				PlayerManager.players.get(userID).w = w;
-//				PlayerManager.players.get(userID).e = e;
-//				PlayerManager.players.get(userID).s = s;
-//				PlayerManager.players.get(userID).speed = speed;
-
-
+				PlayerManager.players.get(userID).accelerate(changeX, changeY); 
+				PlayerManager.players.get(userID).setPosition(posX, posY);
+				
 			}
 			
 		}

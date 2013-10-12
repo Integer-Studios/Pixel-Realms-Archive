@@ -4,6 +4,7 @@ import org.lwjgl.opengl.Display;
 
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
+import com.pixel.communication.packet.PacketMovePlayer;
 import com.pixel.communication.packet.PacketUpdatePlayer;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.input.KeyboardListener;
@@ -90,12 +91,13 @@ public class PlayerMotionManager {
 		if (changeX != prevChangeX || changeY != prevChangeY) {
 			System.out.print("acceleration x:" + (changeX-prevChangeX + " "));
 			System.out.println("acceleration y:" + (changeY-prevChangeY));
+			CommunicationClient.addPacket(new PacketMovePlayer(changeX-prevChangeX, changeY-prevChangeY, player.getX(), player.getY()));
+
 		}
 
 		prevChangeX = changeX;
 		prevChangeY = changeY;
 		
-		CommunicationClient.addPacket(new PacketUpdatePlayer(PlayerManager.currentPlayer, player.getX(), player.getY(), player.health, player.satisfaction, player.energy, player.selectedItem));
 
 	}
 
