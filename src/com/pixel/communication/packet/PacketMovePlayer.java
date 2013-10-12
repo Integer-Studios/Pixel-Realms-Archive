@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import com.pixel.communication.PlayerManager;
 import com.pixel.entity.EntityAlive;
+import com.pixel.world.World;
 
 public class PacketMovePlayer extends Packet {
 
@@ -39,13 +40,14 @@ public class PacketMovePlayer extends Packet {
 	}
 
 	public void readData(DataInputStream input) throws IOException {
-
+	
 		userID = input.readInt();
 		changeX = input.readFloat();
 		changeY = input.readFloat();
 		posX = input.readFloat();
 		posY = input.readFloat();
-		
+		if (!World.loaded)
+			return;
 		if (PlayerManager.currentUserID != userID) {
 			
 			if (PlayerManager.players.containsKey(userID)) {
