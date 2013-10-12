@@ -73,7 +73,6 @@ public class PacketUpdatePlayer extends Packet {
 				PlayerManager.players.get(userID).setSelectedItem(new ItemStack(Item.getItemForId(itemID), itemAmount));
 				
 			} else {
-				
 				PlayerManager.spawnPlayer(username, userID, posX, posY);
 				PlayerManager.players.get(userID).setSatisfaction(satisfaction);
 				PlayerManager.players.get(userID).setHealth(health);
