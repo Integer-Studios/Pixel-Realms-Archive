@@ -37,6 +37,10 @@ public class PacketMovePlayer extends Packet {
 		output.writeFloat(posX);
 		output.writeFloat(posY);
 		
+		if (velocityX == 0 && velocityY == 0) {
+			System.out.println("sent");
+		}
+		
 	}
 
 	public void readData(DataInputStream input) throws IOException {
