@@ -13,6 +13,7 @@ public class EntityOnlinePlayer extends EntityHuman {
 
 	public String username;
 	public int userID;
+	public static float velocityX, velocityY;
 	
 	public EntityOnlinePlayer(int userID, String username, float x, float y) {
 		super(x, y, .2F, .2F);
@@ -24,8 +25,16 @@ public class EntityOnlinePlayer extends EntityHuman {
 
 	}
 	
+	public void accelerate(float x, float y) {
+		velocityX += x;
+		velocityY += y;
+	}
+	
 	public void tick(World w) {
 		
+		posX += velocityX;
+		posY += velocityY;
+				
 		if (body != null) {
 			body.tick(w);
 		}
