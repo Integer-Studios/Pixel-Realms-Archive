@@ -42,7 +42,7 @@ public class PieceBuilding extends Piece {
 	
 	public void init() {
 		
-		collisionBox = new Rectangle(posX + info[id].xOffset, posY + info[id].yOffset, building.width, building.height);
+		collisionBox = new Rectangle(posX + info[id].xOffset, posY + info[id].yOffset, info[id].width, info[id].height);
 		
 	}
 

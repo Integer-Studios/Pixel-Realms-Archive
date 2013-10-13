@@ -5,11 +5,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.pixel.piece.Piece;
-import com.pixel.piece.PieceBuilding;
 
 public class PacketUpdatePiece extends Packet {
 
-	public int pieceID, posX, posY, damage, metadata, buildingID, worldID;
+	public int pieceID, posX, posY, damage, metadata;
+	public int buildingID = -1;
+	public int worldID;
 	public Piece piece;
 	
 	public PacketUpdatePiece() {}
@@ -25,6 +26,16 @@ public class PacketUpdatePiece extends Packet {
 		this.piece = piece;
 		
 	}
+	
+	public PacketUpdatePiece(int buildingID, int x, int y) {
+		
+		this.id = 5;
+		this.posX = x;
+		this.posY = y;
+		this.buildingID = buildingID;
+		
+	}
+
 
 	@Override
 	public void writeData(DataOutputStream output) throws IOException {
@@ -35,11 +46,10 @@ public class PacketUpdatePiece extends Packet {
 		output.writeInt(damage);
 		output.writeInt(metadata);
 		
-		if (piece instanceof PieceBuilding) {
+		if (buildingID != -1) {
 			
 			output.writeBoolean(true);
-			output.writeInt(((PieceBuilding) piece).building.worldID);
-			output.writeInt(((PieceBuilding) piece).building.id);
+			output.writeInt(buildingID);
 			
 		} else {
 			

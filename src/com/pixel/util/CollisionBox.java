@@ -1,7 +1,6 @@
 package com.pixel.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.pixel.communication.PlayerManager;
@@ -88,20 +87,18 @@ public class CollisionBox {
 	public static int testPiecesAgainstCollisionBox(Rectangle r, World w) {
 		
 		ArrayList<Piece> pieces = new ArrayList<Piece>();
-		pieces.addAll(Arrays.asList(World.pieces));
+		pieces.addAll(World.pieces.values());
 		pieces.addAll(World.buildings.values());
 		
-		for (int b = 0; b < pieces.size(); b ++) {
+		for (Piece p : pieces) {
 
-			Piece p = pieces.get(b);
-			
 			if (p != null) {
 				if (r.overlaps(p.getCollisionBox()) && Piece.info[p.id].isCollectable) {
 					
 					if (p instanceof PieceBuilding)
 						return -1;
 					else
-						return b;
+						return (p.posY * World.c) + p.posX;
 				}
 			}
 

@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import com.pixel.entity.Entity;
 import com.pixel.entity.EntityAlive;
 import com.pixel.piece.Piece;
@@ -28,7 +29,6 @@ public class PacketLoadInterior extends Packet {
 	@Override
 	public void writeData(DataOutputStream output) throws IOException {
 		
-		System.out.println(worldID);
 		output.writeInt(worldID);
 		
 	}
@@ -40,7 +40,7 @@ public class PacketLoadInterior extends Packet {
 		int c = input.readInt();
 		
 		ConcurrentHashMap<Integer, Tile> tiles = new ConcurrentHashMap<Integer, Tile>();
-		Piece[] pieces;
+		ConcurrentLinkedHashMap<Integer, Piece> pieces = new ConcurrentLinkedHashMap.Builder<Integer, Piece>().maximumWeightedCapacity(10000000).build();
 		ConcurrentHashMap<Integer, Entity> entities = new ConcurrentHashMap<Integer, Entity>();
 		
 		int tileAmount = input.readInt();
@@ -56,7 +56,6 @@ public class PacketLoadInterior extends Packet {
 		}
 		
 		int pieceAmount = input.readInt();
-		pieces = new Piece[c * c];
 		for (int x = 0; x < pieceAmount; x ++) {
 			
 			int pieceID = input.readInt();
@@ -64,7 +63,7 @@ public class PacketLoadInterior extends Packet {
 			int posY = input.readInt();
 			int metadata = input.readInt();
 			int damage = input.readInt();
-			pieces[(posY * c) + posX] = new Piece(posX, posY, pieceID, damage, metadata, false);
+			pieces.put((posY * c) + posX, new Piece(posX, posY, pieceID, damage, metadata, false));
 
 		}
 		

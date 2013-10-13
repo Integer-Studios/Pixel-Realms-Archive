@@ -72,7 +72,8 @@ public class Item {
 	public static Item baneOfEmera = new Item(20, "baneOfEmera.png").setDamage(50);
 	public static Item sharpenedRock = new Item(21, "sharpenedRock.png").setSpecialty(Material.WOOD, 1).setDamage(4);
 	public static Item stick = new Item(22, "stick.png");
-
+	public static Item cabinCornerstone = new Item(23, "cornerstone.png");
+	
 	public Image image;
 	public int id;
 	public String texture;

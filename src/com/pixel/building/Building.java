@@ -43,9 +43,39 @@ public class Building {
 
 	}
 	
+	public static boolean canBuildingFit(int buildingID, int x, int y) {
+		
+		int width = info.get(buildingID).width;
+		int height = info.get(buildingID).height;
+		
+		for (int b = x; b < (x + width); b ++) {
+			
+			for (int i = (y - height); i < y; i ++) {
+
+				if (World.pieces.get((i * World.c) + b) != null) {
+					
+					int tempID = World.pieces.get((i * World.c) + b).id;
+					
+					if (tempID != 0 && tempID != 1 && tempID != 2 && tempID != 3) {
+						
+						//Obstruction
+						System.out.println("Obstruction");
+						return false;
+						
+					}
+					
+				}
+
+			}
+
+		}
+		
+		return true;
+	}
+	
 	static {
 		
-		info.add(new BuildingInfo(0, 4, 3).setDoor(new BuildingDoor(46F, 88F, 32, 56, 0)).setTexture("resources/pieces/buildings/cabin_1.png"));
+		info.add(new BuildingInfo(0, 4, 3).setDoor(new BuildingDoor(46F, -10F, 32, 56, 0)).setTexture("resources/pieces/buildings/cabin_1.png"));
 	
 	}
 	
