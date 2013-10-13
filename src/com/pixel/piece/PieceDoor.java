@@ -1,7 +1,6 @@
 package com.pixel.piece;
 
 import com.pixel.entity.EntityPlayer;
-import com.pixel.start.PixelRealms;
 import com.pixel.world.World;
 
 public class PieceDoor extends PieceInfo {
@@ -15,7 +14,9 @@ public class PieceDoor extends PieceInfo {
 
 		if (player.inside) {
 			
-			PixelRealms.world.leaveInterior();
+			player.doorX = player.getX();
+			player.doorY = player.getY();
+			player.door = true;
 			
 		}
 		

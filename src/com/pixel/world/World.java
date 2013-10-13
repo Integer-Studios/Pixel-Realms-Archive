@@ -115,11 +115,11 @@ public class World {
 
 	public void setPiece(int x, int y, int id, int damage, int metadata, int buildingID, int worldID) {
 		
-		if (buildingID == -1)
+		if (buildingID == -1){
 			pieces[((y * c) + x)] = new Piece(x, y, id, true);
-		else 
-			pieces[((y * c) + x)] = new PieceBuilding(worldID, x, y, buildingID);
-		
+		} else  {
+			pieces[((y * c) + x)] = new PieceBuilding(worldID, x, y, buildingID, damage, metadata);
+		}
 		pieces[((y * c) + x)].damage = damage;
 		pieces[((y * c) + x)].metadata = metadata;
 
@@ -162,13 +162,12 @@ public class World {
 		
 		oldX = player.getX();
 		oldY = player.getY();
-		float center = (float) Math.sqrt(w.c) / 2;
 		
 		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.getX() * World.tileConstant);
 		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.getY() * World.tileConstant);
 		player.teleported = true;
-		player.setPosition(center, center);
-		System.out.println(player.getX() + " " + player.getY() + " " + w.c + " " + tiles.size());
+		player.worldID = worldID;
+		player.setPosition(1.5F, 4F);
 		
 	}
 	
@@ -182,7 +181,7 @@ public class World {
 		interior = false;
 		player.inside = false;
 		interiorWorld = null;
-		System.out.println("ASD");
+		player.worldID = -1;
 		
 		CommunicationClient.addPacket(new PacketUpdateWorld());
 		
@@ -414,7 +413,7 @@ public class World {
 	}
 	
 	public static void propagatePiece(Piece piece) {
-		
+
 		pieces[(piece.posY * c) + piece.posX] = piece;
 		
 	}

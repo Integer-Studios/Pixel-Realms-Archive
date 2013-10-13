@@ -28,6 +28,7 @@ public class PacketLoadInterior extends Packet {
 	@Override
 	public void writeData(DataOutputStream output) throws IOException {
 		
+		System.out.println(worldID);
 		output.writeInt(worldID);
 		
 	}
@@ -50,7 +51,6 @@ public class PacketLoadInterior extends Packet {
 			int posX = input.readInt();
 			int posY = input.readInt();
 			int metadata = input.readInt();
-			System.out.println(tileID);
 			tiles.put((posY * c) + posX, new Tile(posX, posY, tileID, metadata, false));
 
 		}
@@ -88,7 +88,6 @@ public class PacketLoadInterior extends Packet {
 			entities.put(serverID, entity);
 
 		}
-		System.out.println(((Tile)tiles.values().toArray()[0]).id);
 		
 		new InteriorWorld(worldID, c, tiles, pieces, entities);
 		

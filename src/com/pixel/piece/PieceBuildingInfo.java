@@ -4,11 +4,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import com.pixel.building.Building;
-import com.pixel.communication.CommunicationClient;
-import com.pixel.communication.packet.PacketLoadInterior;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.start.TextureLoader;
 import com.pixel.util.CollisionBox;
+import com.pixel.world.InteriorWorldManager;
 import com.pixel.world.World;
 
 public class PieceBuildingInfo extends PieceInfo {
@@ -33,10 +32,13 @@ public class PieceBuildingInfo extends PieceInfo {
 	}
 	
 	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
-
-		if (CollisionBox.testBoxAgainstEntity(w.player, building.door.box, w, true) && !player.inside) {
-			
-			CommunicationClient.addPacket(new PacketLoadInterior(((PieceBuilding) p).worldID));
+		Building b = ((PieceBuilding) p).building;
+		
+		if (CollisionBox.testBoxAgainstEntity(w.player, InteriorWorldManager.doors.get(b.worldID).box, w, true) && !player.inside) {
+			player.door = true;
+			player.currentlySelectedInterior = ((PieceBuilding) p).building.worldID;
+			player.doorX = player.getX();
+			player.doorY = player.getY();
 			
 		}
 		

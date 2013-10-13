@@ -44,7 +44,10 @@ public class EntityPlayer extends EntityHuman {
 	public int punchingIndex;
 	public boolean interfaceInitialized;
 	public boolean inside;
-
+	public boolean door;
+	public int currentlySelectedInterior;
+	public float doorX, doorY;
+	
 	public EntityPlayer(int x, int y) {
 		super(x, y, .2F, .2F);
 		body = new RelativeBody(this);
@@ -56,8 +59,6 @@ public class EntityPlayer extends EntityHuman {
 	}
 	
 	public void tick(World w) {
-		
-		
 		
 //		w.setTile(Math.round(posX), Math.round(posY), 6);
 		if (World.loaded) {

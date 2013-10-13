@@ -67,6 +67,11 @@ public class PlayerMotionManager {
 			}
 		}
 		
+		if (Math.abs(player.getX() - player.doorX) >= .9 || Math.abs(player.getY() - player.doorY) >= .9) {
+			player.door = false;
+		
+		}
+		
 		if (player.inside && PixelRealms.world.interior) {
 			
 //			if (player.getX() <= 0 || player.getX() >= Math.sqrt(PixelRealms.world.interiorWorld.c) || player.getY() <= 0 || player.getY() >= Math.sqrt(PixelRealms.world.interiorWorld.c)) {
@@ -87,6 +92,9 @@ public class PlayerMotionManager {
 	public static void checkMovement(EntityPlayer player) {
 		changeX = player.getX() - player.getPreviousX();
 		changeY = player.getY() - player.getPreviousY();
+		
+		if (changeX >= .8 && changeY >= .8)
+			player.door = false;
 		
 		if ((changeX != prevChangeX || changeY != prevChangeY) && !player.teleported) {
 			CommunicationClient.addPacket(new PacketMovePlayer(changeX, changeY, player.getX(), player.getY()));

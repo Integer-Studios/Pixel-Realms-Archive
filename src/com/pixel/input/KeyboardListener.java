@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
 
+import com.pixel.communication.CommunicationClient;
+import com.pixel.communication.packet.PacketLoadInterior;
 import com.pixel.gui.GUIBox;
 import com.pixel.gui.GUIKeyBindingButton;
 import com.pixel.start.PixelRealms;
@@ -65,8 +67,19 @@ public class KeyboardListener {
 
 		if (World.loaded) {
 
-			if (code == KeyCode.KEY_N) {
-				PixelRealms.world.setTile((int)PixelRealms.world.player.getX(), (int)PixelRealms.world.player.getY(), 7, 0);
+//			if (code == KeyCode.KEY_N) {
+//				PixelRealms.world.setTile((int)PixelRealms.world.player.getX(), (int)PixelRealms.world.player.getY(), 7, 0);
+//			}
+			
+			if (code == KeyCode.KEY_E) {
+				if (PixelRealms.world.player.door) {
+				
+					if (PixelRealms.world.player.inside)
+						PixelRealms.world.leaveInterior();
+					else
+						CommunicationClient.addPacket(new PacketLoadInterior(PixelRealms.world.player.currentlySelectedInterior));
+					
+				}
 			}
 
 			if (code == KeyCode.KEY_ENTER) {

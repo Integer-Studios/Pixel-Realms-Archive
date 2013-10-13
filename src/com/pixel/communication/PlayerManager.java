@@ -26,4 +26,10 @@ public class PlayerManager {
 		
 	}
 	
+	public static void despawnPlayerEntity(int userID) {
+		
+		players.remove(userID);
+		
+	}
+	
 }

@@ -13,6 +13,7 @@ public class PacketMovePlayer extends Packet {
 	EntityAlive entity;
 	int userID;
 	float velocityX, velocityY, posX, posY;
+	int worldID;
 	
 	public PacketMovePlayer() {
 		this.id = 16;
@@ -46,6 +47,7 @@ public class PacketMovePlayer extends Packet {
 		velocityY = input.readFloat();
 		posX = input.readFloat();
 		posY = input.readFloat();
+		worldID = input.readInt();
 		if (!World.loaded)
 			return;
 		if (PlayerManager.currentUserID != userID) {
@@ -53,10 +55,9 @@ public class PacketMovePlayer extends Packet {
 			if (PlayerManager.players.containsKey(userID)) {
 				
 				PlayerManager.players.get(userID).setVelocity(velocityX, velocityY); 
-				
-//				PlayerManager.players.get(userID).setPosition(posX, posY);
-				
-			}
+				PlayerManager.players.get(userID).worldID = worldID;
+
+			} 
 			
 		}
 

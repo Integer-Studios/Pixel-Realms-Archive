@@ -62,9 +62,8 @@ public class PacketUpdatePiece extends Packet {
 			
 			worldID = input.readInt();
 			buildingID = input.readInt();
-			
+
 		} else {
-			
 			buildingID = -1;
 			
 		}

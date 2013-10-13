@@ -162,7 +162,7 @@ public class Piece {
 				new PieceInfo(path+"resources/pieces/walls/top_right.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0F, 1F, 1F),//22
 				new PieceInfo(path+"resources/pieces/walls/bottom_left.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0F, 1F, 1F),//23
 				new PieceInfo(path+"resources/pieces/walls/bottom_right.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0F, 1F, 1F),//24
-				new PieceDoor(path+"resources/pieces/walls/door.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0F, 1F, 1F),//25
+				new PieceDoor(path+"resources/pieces/walls/door.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0.1F, 1F, 1F),//25
 		};
 		
 	}
