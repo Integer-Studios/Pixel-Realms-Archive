@@ -3,7 +3,7 @@ package com.pixel.entity;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import com.pixel.body.RelativeBody;
+import com.pixel.body.BodyBiped;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
 import com.pixel.communication.packet.PacketDamagePlayer;
@@ -19,7 +19,7 @@ public class EntityOnlinePlayer extends EntityHuman {
 		super(x, y, .2F, .2F);
 		
 		this.username = username;
-		body = new RelativeBody(this);
+		body = new BodyBiped(this, "rob");
 		PlayerManager.players.put(userID, this);
 		this.userID = userID;
 

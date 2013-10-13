@@ -5,8 +5,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.pixel.body.RelativeActionPunching;
-import com.pixel.body.RelativeBody;
+import com.pixel.body.BodyBiped;
+import com.pixel.body.BipedActionPunching;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.GetBunnies;
 import com.pixel.communication.packet.PacketUpdateWorld;
@@ -50,7 +50,7 @@ public class EntityPlayer extends EntityHuman {
 	
 	public EntityPlayer(int x, int y) {
 		super(x, y, .2F, .2F);
-		body = new RelativeBody(this);
+		body = new BodyBiped(this, "rob");
 		inventory = new PlayerInventory(this);
 		loadedX = x;
 		loadedY = y;
@@ -85,7 +85,7 @@ public class EntityPlayer extends EntityHuman {
 		}
 		
 		if (MouseClickListener.isPressed() && !MouseClickListener.rightClick && punchingIndex == 0 && !punching && !punchEnacted && !interfaceManager.getIntercept()) {
-			punchingIndex = body.addAction(new RelativeActionPunching(body));
+			punchingIndex = body.addAction(new BipedActionPunching(body));
 			punching = true;
 			
 		} else if (!MouseClickListener.isPressed() && !MouseClickListener.rightClick && punchingIndex != 0 && punchEnacted) {

@@ -6,104 +6,30 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import com.pixel.animation.RelativePositionAnimation;
-import com.pixel.animation.RelativePositionEquip;
-import com.pixel.animation.RelativePositionImage;
-import com.pixel.entity.EntityHuman;
+import com.pixel.entity.EntityAlive;
 import com.pixel.world.World;
 
 public class RelativeBody {
 	
-	public RelativeBody(EntityHuman human) {
-		this.human = human;
-		this.front = new RelativePositionAnimation(human, new RelativePositionImage[]{
-				new RelativePositionImage("resources/entities/rob/front/shadow.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/front/leftFoot.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, -2, -3, -2, 0, 2, 3, 2}), 
-				new RelativePositionImage("resources/entities/rob/front/rightFoot.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 2, 3, 2, 0, -2, -3, -2}), 
-				new RelativePositionImage("resources/entities/rob/front/body.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/front/leftHand.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 2, 3, 2, 0, -2, -3, -2}), 
-				new RelativePositionImage("resources/entities/rob/front/rightHand.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, -2, -3, -2, 0, 2, 3, 2}),
-				new RelativePositionImage("resources/entities/rob/front/head.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-				new RelativePositionEquip(human, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new float[]{0.0F, 0.02F, 0.04F, 0.06F, 0.08F, 0.1F, 0.12F, 0.14F})
-				}, 3, 0);
-		this.back = new RelativePositionAnimation(human, new RelativePositionImage[]{
-				new RelativePositionImage("resources/entities/rob/back/shadow.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionEquip(human, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new float[]{0.0F, 0.02F, 0.04F, 0.06F, 0.08F, 0.1F, 0.12F, 0.14F}),
-				new RelativePositionImage("resources/entities/rob/back/leftFoot.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, -2, -3, -2, 0, 2, 3, 2}), 
-				new RelativePositionImage("resources/entities/rob/back/rightFoot.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 2, 3, 2, 0, -2, -3, -2}), 
-				new RelativePositionImage("resources/entities/rob/back/body.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/back/leftHand.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 2, 3, 2, 0, -2, -3, -2}), 
-				new RelativePositionImage("resources/entities/rob/back/rightHand.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, -2, -3, -2, 0, 2, 3, 2}),
-				new RelativePositionImage("resources/entities/rob/back/head.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-				}, 3, 0);
-		this.left = new RelativePositionAnimation(human, new RelativePositionImage[]{
-				new RelativePositionImage("resources/entities/rob/side/shadow.png", 24, 42, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/side/rightFoot.png", 24, 42, new int[]{0, 1, 2, 1, 0, -1, -2, -1}, new int[]{0, 0, 0, 0, -1, -2, -1, 0}),
-				new RelativePositionImage("resources/entities/rob/side/rightHand.png", 24, 42, new int[]{0, -1, -2, -1, 0, 1, 2, 1}, new int[]{0, 0, -1, 0, 0, 0, -1, 0}),
-				new RelativePositionImage("resources/entities/rob/side/body.png", 24, 42, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/side/leftFoot.png", 24, 42, new int[]{0, -1, -2, -1, 0, 1, 2, 1}, new int[]{-1, -2, -1, 0, 0, 0, 0, 0}), 
-				new RelativePositionEquip(human, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new float[]{0.0F, 0.02F, 0.04F, 0.06F, 0.08F, 0.1F, 0.12F, 0.14F}),
-				new RelativePositionImage("resources/entities/rob/side/leftHand.png", 24, 42, new int[]{0, 1, 2, 1, 0, -1, -2, -1}, new int[]{0, 0, -1, 0, 0, 0, -1, 0}), 
-				new RelativePositionImage("resources/entities/rob/side/head.png", 24, 42, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-				}, 3, 0);
-		this.right = new RelativePositionAnimation(human, new RelativePositionImage[]{
-				new RelativePositionImage("resources/entities/rob/side/shadow.png", 24, 42, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/side/rightFoot.png", 24, 42, new int[]{0, -1, -2, -1, 0, 1, 2, 1}, new int[]{0, 0, 0, 0, -1, -2, -1, 0}),
-				new RelativePositionImage("resources/entities/rob/side/rightHand.png", 24, 42, new int[]{0, 1, 2, 1, 0, -1, -2, -1}, new int[]{0, 0, -1, 0, 0, 0, -1, 0}),
-				new RelativePositionImage("resources/entities/rob/side/body.png", 24, 42, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/side/leftFoot.png", 24, 42, new int[]{0, 1, 2, 1, 0, -1, -2, -1}, new int[]{-1, -2, -1, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/side/leftHand.png", 24, 42, new int[]{0, -1, -2, -1, 0, 1, 2, 1}, new int[]{0, 0, -1, 0, 0, 0, -1, 0}), 
-				new RelativePositionImage("resources/entities/rob/side/head.png", 24, 42, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-				new RelativePositionEquip(human, new int[]{0, -1, -2, -1, 0, 1, 2, 1}, new int[]{-11, -11, -12, -11, -11, -11, -12, -11}, new float[]{0.44F, 0.43F, 0.44F, 0.45F, 0.48F, 0.51F, 0.48F, 0.45F}),
-				}, 3, 0).setFlip(true);
-		this.frontLeft = new RelativePositionAnimation(human, new RelativePositionImage[]{
-				new RelativePositionImage("resources/entities/rob/frontSide/shadow.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/frontSide/leftFoot.png", 28, 44, new int[]{0, -1, -2, -1, 0, 1, 2, 1}, new int[]{0, -1, -2, -1, 0, 1, 2, 1}), 
-				new RelativePositionImage("resources/entities/rob/frontSide/rightFoot.png", 28, 44, new int[]{0, 1, 2, 1, 0, -1, -2, -1}, new int[]{0, 1, 2, 1, 0, -1, -2,-10}), 
-				new RelativePositionImage("resources/entities/rob/frontSide/body.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/frontSide/leftHand.png", 28, 44, new int[]{0, 1, 2, 1, 0, -1, -2, -1}, new int[]{0, 1, 2, 1, 0, -1, -2, -1}), 
-				new RelativePositionImage("resources/entities/rob/frontSide/rightHand.png", 28, 44, new int[]{0, -1, -2, -1, 0, 1, 2, 1}, new int[]{0, -1, -2, -1, 0, 1, 2, 1}),
-				new RelativePositionEquip(human, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new float[]{0.0F, 0.02F, 0.04F, 0.06F, 0.08F, 0.1F, 0.12F, 0.14F}),
-				new RelativePositionImage("resources/entities/rob/frontSide/head.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-				}, 3, 0).setFlip(true);
-		this.frontRight = new RelativePositionAnimation(human, new RelativePositionImage[]{
-				new RelativePositionImage("resources/entities/rob/frontSide/shadow.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/frontSide/leftFoot.png", 28, 44, new int[]{0, -1, -2, -1, 0, 1, 2, 1}, new int[]{0, 1, 2, 1, 0, -1, -2, -1}), 
-				new RelativePositionImage("resources/entities/rob/frontSide/rightFoot.png", 28, 44, new int[]{0, 1, 2, 1, 0, -1, -2, -1}, new int[]{0, -1, -2, -1, 0, 1, 2, 1}), 
-				new RelativePositionImage("resources/entities/rob/frontSide/body.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/frontSide/leftHand.png", 28, 44, new int[]{0, 1, 2, 1, 0, -1, -2, -1}, new int[]{0, -1, -2, -1, 0, 1, 2, 1}), 
-				new RelativePositionImage("resources/entities/rob/frontSide/rightHand.png", 28, 44, new int[]{0, -1, -2, -1, 0, 1, 2, 1}, new int[]{0, 1, 2, 1, 0, -1, -2, -1}),
-				new RelativePositionImage("resources/entities/rob/frontSide/head.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-				new RelativePositionEquip(human, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new float[]{0.0F, 0.02F, 0.04F, 0.06F, 0.08F, 0.1F, 0.12F, 0.14F}),
-				}, 3, 0);
-		this.backLeft = new RelativePositionAnimation(human, new RelativePositionImage[]{
-				new RelativePositionImage("resources/entities/rob/backSide/shadow.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/backSide/leftFoot.png", 28, 44, new int[]{0, -1, -2, -1, 0, 1, 2, 1}, new int[]{0, -1, -2, -1, 0, 1, 2, 1}), 
-				new RelativePositionImage("resources/entities/rob/backSide/rightFoot.png", 28, 44, new int[]{0, 1, 2, 1, 0, -1, -2, -1}, new int[]{0, 1, 2, 1, 0, -1, -2, -1}), 
-				new RelativePositionEquip(human, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new float[]{0.0F, 0.02F, 0.04F, 0.06F, 0.08F, 0.1F, 0.12F, 0.14F}),
-				new RelativePositionImage("resources/entities/rob/backSide/rightHand.png", 28, 44, new int[]{0, -1, -2, -1, 0, 1, 2, 1}, new int[]{0, -1, -2, -1, 0, 1, 2, 1}),
-				new RelativePositionImage("resources/entities/rob/backSide/body.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/backSide/leftHand.png", 28, 44, new int[]{0, 1, 2, 1, 0, -1, -2, -1}, new int[]{0, 1, 2, 1, 0, -1, -2, -1}), 
-				new RelativePositionImage("resources/entities/rob/backSide/head.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-				}, 3, 0);
-		this.backRight = new RelativePositionAnimation(human, new RelativePositionImage[]{
-				new RelativePositionImage("resources/entities/rob/backSide/shadow.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionImage("resources/entities/rob/backSide/leftFoot.png", 28, 44, new int[]{0, -1, -2, -1, 0, 1, 2, 1}, new int[]{0, -1, -2, -1, 0, 1, 2, 1}), 
-				new RelativePositionImage("resources/entities/rob/backSide/rightFoot.png", 28, 44, new int[]{0, 1, 2, 1, 0, -1, -2, -1}, new int[]{0, 1, 2, 1, 0, -1, -2, -1}), 
-				new RelativePositionImage("resources/entities/rob/backSide/head.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}),
-				new RelativePositionImage("resources/entities/rob/backSide/rightHand.png", 28, 44, new int[]{0, -1, -2, -1, 0, 1, 2, 1}, new int[]{0, -1, -2, -1, 0, 1, 2, 1}),
-				new RelativePositionImage("resources/entities/rob/backSide/body.png", 28, 44, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}), 
-				new RelativePositionEquip(human, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new int[]{0, 0, 0, 0, 0, 0, 0, 0}, new float[]{0.0F, 0.02F, 0.04F, 0.06F, 0.08F, 0.1F, 0.12F, 0.14F}),
-				new RelativePositionImage("resources/entities/rob/backSide/leftHand.png", 28, 44, new int[]{0, 3, 4, 2, 1, 0}, new int[]{0, -1, -3, -1, 0, 0}), 
-
-		}, 3, 0).setFlip(true);
-		addAction(new RelativeActionWalking(this));
+	public RelativeBody(EntityAlive human, String name, RelativePositionAnimation f, RelativePositionAnimation b, RelativePositionAnimation l, RelativePositionAnimation r, RelativePositionAnimation fl, RelativePositionAnimation fr, RelativePositionAnimation bl, RelativePositionAnimation br) {
+		this.entity = human;
+		this.front = f;
+		this.back = b;
+		this.left = l;
+		this.right = r;
+		this.frontLeft = fl;
+		this.frontRight = fr;
+		this.backLeft = bl;
+		this.backRight = br;
+		this.name = name;
 		this.animation = this.front;
 	}
 	
-	public EntityHuman human;
+	public EntityAlive entity;
 	public RelativePositionAnimation animation, front, back, left, right, frontLeft, frontRight, backLeft, backRight;
 	public int orientation = 0;
 	public ArrayList<RelativeAction> actions = new ArrayList<RelativeAction>();
+	public String name;
 	
 	public int addAction(RelativeAction a) {
 		actions.add(a);
@@ -140,40 +66,32 @@ public class RelativeBody {
 	}
 
 	public void tick(World w) {
-		if (human.getX() - human.getPreviousX() < 0) {
-			if (human.getY() - human.getPreviousY() < 0) {
+		if (entity.getX() - entity.getPreviousX() < 0) {
+			if (entity.getY() - entity.getPreviousY() < 0) {
 				setToBackLeftAnimation();
-			} else if (human.getPreviousY() - human.getY() < 0) {
+			} else if (entity.getPreviousY() - entity.getY() < 0) {
 				setToFrontLeftAnimation();
 			} else {
 				setToLeftAnimation();
 			}
-		} else if (human.getPreviousX() - human.getX() < 0) {
-			if (human.getY() - human.getPreviousY() < 0) {
+		} else if (entity.getPreviousX() - entity.getX() < 0) {
+			if (entity.getY() - entity.getPreviousY() < 0) {
 				setToBackRightAnimation();
-			} else if (human.getPreviousY() - human.getY() < 0) {
+			} else if (entity.getPreviousY() - entity.getY() < 0) {
 				setToFrontRightAnimation();
 			} else {
 				setToRightAnimation();
 			}
-		} else if (human.getY() - human.getPreviousY() < 0) {
+		} else if (entity.getY() - entity.getPreviousY() < 0) {
 			setToBackAnimation();
-		} else if (human.getPreviousY() - human.getY() < 0) {
+		} else if (entity.getPreviousY() - entity.getY() < 0) {
 			setToFrontAnimation();
 		}
 		for (int i = 0; i < actions.size(); i++) {
 			actions.get(i).tick(w);
 		}
-		if (human.isPunching()) {
-			lookToMouse();
-		}
 	}
-	
-	public void selectItem(int itemID) {
-		
-		
-		
-	}
+
 	
 	public void lookToMouse() {
 //		int x = Math.round(MouseClickListener.getXWorldMousePosition());
