@@ -39,7 +39,7 @@ public class EntityHuman extends EntityAlive {
 	public void setSelectedItem(ItemStack itemStack) {
 
 		this.selectedItem = itemStack;
-
+		
 	}
 	
 	public ItemStack getSelectedItem() {

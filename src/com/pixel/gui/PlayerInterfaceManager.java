@@ -21,6 +21,7 @@ public class PlayerInterfaceManager {
 	public GUIFoldLeft foldLeft;
 	public GUIPauseMenu pauseMenu;
 	public GUIOptionsMenu optionsMenu;
+	public GUIStructureOnMouse structureOnMouse;
 	
 	public boolean inputIntercepted;
 	public boolean centerSliding, isCenterOpen;

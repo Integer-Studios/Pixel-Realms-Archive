@@ -2,11 +2,13 @@ package com.pixel.world;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
 import com.pixel.communication.packet.PacketInfoRequest;
@@ -32,7 +34,7 @@ public class World {
 
 	public static ConcurrentHashMap<Integer, Tile> tiles = new ConcurrentHashMap<Integer,Tile>();
 	public static ConcurrentHashMap<Integer, PieceBuilding> buildings = new ConcurrentHashMap<Integer,PieceBuilding>();
-	public static Piece[] pieces;
+	public static ConcurrentMap<Integer, Piece> pieces;
 	public static ConcurrentHashMap<Integer, Entity> entities = new ConcurrentHashMap<Integer,Entity>();
 //	public static ConcurrentHashMap<Integer, Herd> herds = new ConcurrentHashMap<Integer,Herd>();
 
@@ -53,26 +55,36 @@ public class World {
 	public LightingManager lightingManager;
 	public long time = 12000;
 	public long dayLength = 24000;
-	public boolean interior;
+	public static boolean interior;
 	public InteriorWorld interiorWorld;
 	
 	public World(PanelWorld p) {
 		PixelRealms.world = this;
 
 		panelWorld = p;
-		
+		pieces = new ConcurrentLinkedHashMap.Builder<Integer, Piece>().maximumWeightedCapacity(10000000).build();
 		loaded = false;
 		player = new EntityPlayer(152, 152);
 		
 		CommunicationClient.addPacket(new PacketLogin(PlayerManager.currentPlayer, PlayerManager.session));
 
-		pieces = new Piece[c * c];
+		pieces.clear();
 //		herds.clear();
 		tiles.clear();
 		entities.clear();
-		
+
+//		for (int y = 0; y < World.c; y++) {
+//
+//			for (int x = 0; x < World.c; x ++) {
+//
+//				pieces.put((y * c) + x, new Piece(x, y, 0, false));
+//
+//			}
+//
+//		}
+
 		lightingManager = new LightingManager();
-		
+
 		globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.getX() * World.tileConstant);
 		globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.getY() * World.tileConstant);
 
@@ -106,35 +118,47 @@ public class World {
 	}
 	
 	public void setPieceObject(int x, int y, Piece p) {
-		pieces[((y * c) + x)] = p;
+		if (pieces.containsKey(hash(p)))
+			pieces.replace(hash(p), p);
+		else
+			pieces.put(hash(p), p);
 	}
 
 	public void setPiece(int x, int y, int id) {
-		pieces[((y * c) + x)] = new Piece(x, y, id, true);
+		if (pieces.containsKey(hash(x, y)))
+			pieces.replace(hash(x, y), new Piece(x, y, id, true));
+		else
+			pieces.put(hash(x, y), new Piece(x, y, id, true));
 
 	}
 
 	public void setPiece(int x, int y, int id, int damage, int metadata, int buildingID, int worldID) {
 		
 		if (buildingID == -1){
-			pieces[((y * c) + x)] = new Piece(x, y, id, true);
+			if (pieces.containsKey(hash(x, y)))
+				pieces.replace(hash(x, y), new Piece(x, y, id, true));
+			else
+				pieces.put(hash(x, y), new Piece(x, y, id, true));
 		} else  {
-			pieces[((y * c) + x)] = new PieceBuilding(worldID, x, y, buildingID, damage, metadata);
+			if (pieces.containsKey(hash(x, y)))
+				pieces.replace(hash(x, y), new PieceBuilding(worldID, x, y, buildingID, damage, metadata));
+			else
+				pieces.put(hash(x, y), new PieceBuilding(worldID, x, y, buildingID, damage, metadata));
 		}
-		pieces[((y * c) + x)].damage = damage;
-		pieces[((y * c) + x)].metadata = metadata;
+		pieces.get((y * c) + x).damage = damage;
+		pieces.get((y * c) + x).metadata = metadata;
 
 	}
 	
 	public int getPiece(int x, int y) {
-		if (pieces[(y * c) + x] != null)
-			return pieces[(y * c) + x].id;
+		if (pieces.containsKey((y * c) + x))
+			return pieces.get((y * c) + x).id;
 		else
 			return 0;
 	}
 
 	public Piece getPieceObject(int x, int y) {
-		return pieces[(y * c) + x];
+		return pieces.get((y * c) + x);
 	}
 
 	public void spawnParticle(Particle p) {
@@ -146,7 +170,6 @@ public class World {
 	}
 	
 	public void loadInterior(int worldID) {
-		
 		InteriorWorld w = InteriorWorldManager.interiors.get(worldID);
 		
 		interior = true;
@@ -154,7 +177,7 @@ public class World {
 		interiorWorld = w;
 		
 		tiles.clear();
-		pieces = new Piece[w.pieces.length];
+		pieces.clear();
 		entities.clear();
 		
 		tiles = w.tiles;
@@ -164,7 +187,6 @@ public class World {
 		oldX = player.getX();
 		oldY = player.getY();
 		
-		
 		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.getX() * World.tileConstant);
 		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.getY() * World.tileConstant);
 		player.teleported = true;
@@ -172,7 +194,6 @@ public class World {
 		player.setPosition(1.5F, 4F);
 		CommunicationClient.addPacket(new PacketInfoRequest("players"));
 		PlayerManager.updateVisible();
-
 	}
 	
 	float oldX, oldY;
@@ -180,7 +201,7 @@ public class World {
 	public void leaveInterior() {
 		
 		tiles.clear();
-		pieces = new Piece[c * c];
+		pieces.clear();
 		entities.clear();
 		interior = false;
 		player.inside = false;
@@ -221,29 +242,29 @@ public class World {
 				}
 			}
 			player.painted = false;
-			for (int x = 0; x < pieces.length; x++) {
-					if (pieces[x] != null) {
-						if (pieces[x].posX > getMinXToPaint() && (pieces[x]).posX < getMaxXToPaint() && ((Piece) pieces[x]).posY > getMinYToPaint() && ((Piece) pieces[x]).posY < getMaxYToPaint()) {
+			for (Piece p : pieces.values()) {
+				if (p != null) {
+					if (p.posX > getMinXToPaint() && p.posX < getMaxXToPaint() && p.posY > getMinYToPaint() && p.posY < getMaxYToPaint()) {
 
-							for (int y = 0; y < entityArray.size(); y ++) {
+						for (int i = 0; i < entityArray.size(); i ++) {
 
-								Entity entity = entityArray.get(y);
-								if (((Piece) pieces[x]).posY + pieceLayerOffset > entity.getY() && !paintedEntities.contains(entity)) {
+							Entity entity = entityArray.get(i);
+							if (p.posY + pieceLayerOffset > entity.getY() && !paintedEntities.contains(entity)) {
 
-									entity.render(c, g, this);
-									paintedEntities.add(entity);
-
-								}
+								entity.render(c, g, this);
+								paintedEntities.add(entity);
 
 							}
 
-							if (((Piece) pieces[x]).posY + pieceLayerOffset > player.getY() && !player.painted) {
-								player.render(c, g, this);
-								player.painted = true;
-							}
-							((Piece) pieces[x]).render(c, g, this);
 						}
+
+						if (p.posY + pieceLayerOffset > player.getY() && !player.painted) {
+							player.render(c, g, this);
+							player.painted = true;
+						}
+						p.render(c, g, this);
 					}
+				}
 			}
 
 
@@ -284,15 +305,13 @@ public class World {
 		}
 
 
-		for (int x = 0; x < pieces.length; x ++) {
-			if (pieces.length > x) {
-				if (pieces[x] != null) {
-					if ((pieces[x]).posX > getMinXToPaint() && (pieces[x]).posX < getMaxXToPaint() && (pieces[x]).posY > getMinYToPaint() && (pieces[x]).posY < getMaxYToPaint()) {
+		for (Piece p : pieces.values()) {
+				if (p != null) {
+					if (p.posX > getMinXToPaint() && p.posX < getMaxXToPaint() && p.posY > getMinYToPaint() && p.posY < getMaxYToPaint()) {
 
-						(pieces[x]).tick(this);
+						p.tick(this);
 
 					}
-				}
 			} else 
 				break;
 
@@ -412,14 +431,17 @@ public class World {
 		
 		entities = new ConcurrentHashMap<Integer,Entity>();;
 		tiles = new ConcurrentHashMap<Integer,Tile>();
-		pieces = new Piece[c * c];
+		pieces = new ConcurrentLinkedHashMap.Builder<Integer, Piece>().maximumWeightedCapacity(10000000).build();
 		
 	}
 	
 	public static void propagatePiece(Piece piece) {
 
-		pieces[(piece.posY * c) + piece.posX] = piece;
-		
+		if (!interior)
+			if (pieces.containsKey(hash(piece)))
+				pieces.replace(hash(piece), piece);
+			else
+				pieces.put(hash(piece), piece);
 	}
 	
 	public static void propagateTile(Tile tile) {
@@ -434,5 +456,16 @@ public class World {
 		
 	}
 
+	public static int hash(Piece p) {
+
+		return (p.posY * c) + p.posX;
+
+	}
+
+	public static int hash(int x, int y) {
+
+		return (y * c) + x;
+
+	}
 
 }

@@ -47,7 +47,7 @@ public class PacketWorldData extends Packet {
 		
 
 		int pieceAmount = input.readInt();
-		World.pieces = new Piece[World.c * World.c];
+		World.pieces.clear();
 		
 		for (int x = 0; x < pieceAmount; x ++) {
 

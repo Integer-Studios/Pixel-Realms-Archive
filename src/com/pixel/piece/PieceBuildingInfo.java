@@ -18,10 +18,7 @@ public class PieceBuildingInfo extends PieceInfo {
 		
 		super("");
 		building = new Building(buildingID);
-		this.width = building.width;
-		this.height = building.height;
 		this.texture = Building.info.get(buildingID).texture;
-		setSize(0F, 0F, 4F, 2.2F);
 		maxDamage = 1000;
 		
 	}
@@ -33,6 +30,7 @@ public class PieceBuildingInfo extends PieceInfo {
 	
 	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
 		Building b = ((PieceBuilding) p).building;
+		
 		
 		if (CollisionBox.testBoxAgainstEntity(w.player, InteriorWorldManager.doors.get(b.worldID).box, w, true) && !player.inside) {
 			player.door = true;
@@ -47,16 +45,23 @@ public class PieceBuildingInfo extends PieceInfo {
 	public void render(GameContainer c, Graphics g, World w, Piece p) {
 
 		if (image != null) {
-			image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY, World.tileConstant * building.width, World.tileConstant * building.height);
+			image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY - ((building.height - 1) * World.tileConstant), World.tileConstant * building.width, World.tileConstant * building.height);
 //			image.draw(building.door.box.getX()*World.tileConstant+World.globalOffsetX ,  building.door.box.getY()*World.tileConstant+World.globalOffsetY, building.door.width, building.door.height);
 
 		} else {
 			if (texture != null && texture.length() > 0) {
 				image = TextureLoader.load(texture);
-				image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY, World.tileConstant * building.width, World.tileConstant * building.height);
+				image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY - ((building.height - 1) * World.tileConstant), World.tileConstant * building.width, World.tileConstant * building.height);
 			}
 		}
 
+	}
+	
+	public void setCollision() {
+		
+		if (building.id == 0) 
+			setSize(0F, 0.0F, 1F, 1.0F);
+		
 	}
 	
 }

@@ -7,10 +7,14 @@ import org.newdawn.slick.Graphics;
 import com.badlogic.gdx.math.Rectangle;
 import com.pixel.body.BodyBiped;
 import com.pixel.body.BipedActionPunching;
+import com.pixel.building.Building;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.GetBunnies;
+import com.pixel.communication.packet.PacketUpdatePiece;
 import com.pixel.communication.packet.PacketUpdateWorld;
+import com.pixel.gui.GUI;
 import com.pixel.gui.GUIHotbar;
+import com.pixel.gui.GUIStructureOnMouse;
 import com.pixel.gui.PlayerInterfaceManager;
 import com.pixel.input.KeyboardListener;
 import com.pixel.input.MouseClickListener;
@@ -173,6 +177,15 @@ public class EntityPlayer extends EntityHuman {
 		float x = MouseClickListener.getXWorldMousePosition();
 		float y = MouseClickListener.getYWorldMousePosition();
 		
+		if (selectedItem.item.id == 23) {
+			
+			if (Building.canBuildingFit(0, (int)x, (int)y)) {
+				CommunicationClient.addPacket(new PacketUpdatePiece(0, (int)x, (int)y));
+				
+			}
+			return;
+		}
+		
 		float x1,x2,y1,y2;
 		if (x - hitRadius < posX - reachRadius) {
 			x1 = posX - reachRadius;
@@ -214,8 +227,8 @@ public class EntityPlayer extends EntityHuman {
 		} else {
 			int i = CollisionBox.testPiecesAgainstCollisionBox(clickScope, w);
 			if (i != -1) {
-				if (World.pieces[i].canBeDamaged(selectedItem.item))
-					World.pieces[i].damageWithItem(tempDamage, w, selectedItem.item);
+				if (World.pieces.get(i).canBeDamaged(selectedItem.item))
+					World.pieces.get(i).damageWithItem(tempDamage, w, selectedItem.item);
 			}
 		}
 	}
@@ -269,6 +282,27 @@ public class EntityPlayer extends EntityHuman {
 	
 	public Inventory getHotbar() {
 		return inventory.hotbar;
+	}
+
+	public void setSelectedItem(ItemStack itemStack) {
+		super.setSelectedItem(itemStack);
+
+		if (this.selectedItem.item.id == 23) {
+			
+			interfaceManager.structureOnMouse = new GUIStructureOnMouse((int)MouseClickListener.posX, (int)MouseClickListener.posY, 0);
+			GUI.addGUIComponent(interfaceManager.structureOnMouse);
+			
+		} else {
+
+			if (interfaceManager.structureOnMouse != null) {
+			
+				GUI.removeGUIComponent(interfaceManager.structureOnMouse);
+				interfaceManager.structureOnMouse = null;
+
+			}
+			
+		}
+
 	}
 	
 	public boolean giveItem(ItemStack is) {

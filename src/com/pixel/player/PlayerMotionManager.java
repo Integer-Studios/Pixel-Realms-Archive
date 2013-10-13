@@ -6,7 +6,6 @@ import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.packet.PacketMovePlayer;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.input.KeyboardListener;
-import com.pixel.start.PixelRealms;
 import com.pixel.world.World;
 
 public class PlayerMotionManager {
@@ -70,16 +69,6 @@ public class PlayerMotionManager {
 		if (Math.abs(player.getX() - player.doorX) >= .9 || Math.abs(player.getY() - player.doorY) >= .9) {
 			player.door = false;
 		
-		}
-		
-		if (player.inside && PixelRealms.world.interior) {
-			
-//			if (player.getX() <= 0 || player.getX() >= Math.sqrt(PixelRealms.world.interiorWorld.c) || player.getY() <= 0 || player.getY() >= Math.sqrt(PixelRealms.world.interiorWorld.c)) {
-				
-//				PixelRealms.world.leaveInterior();
-
-//			}
-
 		}
 		
 		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.getX() * World.tileConstant);
