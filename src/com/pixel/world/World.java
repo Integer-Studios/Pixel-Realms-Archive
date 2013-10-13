@@ -9,6 +9,7 @@ import org.newdawn.slick.Graphics;
 
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
+import com.pixel.communication.packet.PacketInfoRequest;
 import com.pixel.communication.packet.PacketLogin;
 import com.pixel.communication.packet.PacketUpdateTile;
 import com.pixel.communication.packet.PacketUpdateWorld;
@@ -169,6 +170,7 @@ public class World {
 		player.teleported = true;
 		player.worldID = worldID;
 		player.setPosition(1.5F, 4F);
+		CommunicationClient.addPacket(new PacketInfoRequest("players"));
 		PlayerManager.updateVisible();
 
 	}

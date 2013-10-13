@@ -40,7 +40,7 @@ public class PacketLogin extends Packet {
 
 		this.health = input.readFloat();
 		this.energy = input.readFloat();
-		this.satisfaction = input.readInt();
+		this.satisfaction = input.readFloat();
 		this.session = input.readInt();
 		this.worldID = input.readInt();
 		
@@ -49,6 +49,7 @@ public class PacketLogin extends Packet {
 		if (PlayerManager.currentUserID != this.userID) {
 
 			PlayerManager.spawnPlayer(username, userID, posX, posY);
+			System.out.println(username + " " + worldID);
 			PlayerManager.players.get(userID).worldID = worldID;
 			PlayerManager.players.get(userID).health = health;
 			PlayerManager.players.get(userID).satisfaction = satisfaction;

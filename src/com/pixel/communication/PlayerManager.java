@@ -3,6 +3,7 @@ package com.pixel.communication;
 import java.util.HashMap;
 
 import com.pixel.entity.*;
+import com.pixel.start.PixelRealms;
 import com.pixel.world.World;
 
 public class PlayerManager {
@@ -35,9 +36,11 @@ public class PlayerManager {
 	public static void updateVisible() {
 
 		for (EntityOnlinePlayer p : players.values()) {
-			
-			if (p.worldID != world.player.worldID)
-				players.remove(p);
+			 
+			if (p.worldID != PixelRealms.world.player.worldID) {
+				System.out.println(p.username + " adsad " + p.worldID + " " + PixelRealms.world.player.worldID);
+				players.remove(p.userID);
+			}
 			
 		}
 		

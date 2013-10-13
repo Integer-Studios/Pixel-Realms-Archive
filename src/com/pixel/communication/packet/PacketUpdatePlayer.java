@@ -61,7 +61,8 @@ public class PacketUpdatePlayer extends Packet {
 		this.itemID = input.readInt();
 		this.itemAmount = input.readInt();
 		this.worldID = input.readInt();
-		
+		System.out.println(username + " A " + worldID);
+
 		if (PlayerManager.currentUserID != this.userID) {
 
 			if (PlayerManager.players.containsKey(this.userID)) {
