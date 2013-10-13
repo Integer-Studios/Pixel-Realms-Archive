@@ -41,7 +41,7 @@ public class World {
 	public static boolean loaded, loadingScreenDone;
 	public int worldSaveCount = 0;
 	public ArrayList<Particle> particles = new ArrayList<Particle>();
-	public static int c = 384;
+	public static int c = 400;
 	public int viewDistance = 32;
 	public static int tileConstant = 48;
 	public static Toolkit t = new Toolkit();
@@ -64,7 +64,7 @@ public class World {
 		panelWorld = p;
 		pieces = new ConcurrentLinkedHashMap.Builder<Integer, Piece>().maximumWeightedCapacity(10000000).build();
 		loaded = false;
-		player = new EntityPlayer(152, 152);
+		player = new EntityPlayer(200, 200);
 		
 		CommunicationClient.addPacket(new PacketLogin(PlayerManager.currentPlayer, PlayerManager.session));
 
