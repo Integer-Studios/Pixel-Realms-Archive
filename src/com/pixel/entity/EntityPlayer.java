@@ -114,9 +114,6 @@ public class EntityPlayer extends EntityHuman {
 		testEntityCollisions(w);
 
 		body.tick(w);
-		
-		prevPosX = posX;
-		prevPosY = posY;
 
 		super.tick(w);
 	}

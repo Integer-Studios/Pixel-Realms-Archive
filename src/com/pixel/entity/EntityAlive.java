@@ -7,6 +7,8 @@ public class EntityAlive extends Entity {
 	public float satisfaction;
 	public int bodyID = -1;
 	public float speed;
+	public float velocityX, velocityY;
+
 	
 	public EntityAlive(float width, float height) {
 		super(width, height);
@@ -49,6 +51,11 @@ public class EntityAlive extends Entity {
 		
 	}
 	
+	public void setVelocity(float x, float y) {
+		velocityX = x;
+		velocityY = y;
+	}
+	
 	
 	public void damage(World w, float damage, Entity damageSource) {
 		this.health -= damage;
@@ -85,6 +92,8 @@ public class EntityAlive extends Entity {
 	}
 	
 	public void tick(World world) {
+		posX += velocityX;
+		posY += velocityY;
 		super.tick(world);
 
 	}

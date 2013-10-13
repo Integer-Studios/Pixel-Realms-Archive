@@ -96,7 +96,8 @@ public class Entity {
 	
 	public void tick(World w) {
 		collisionBox = new Rectangle(posX - (width/2), posY - (height/2), width, height);
-		
+		prevPosX = posX;
+		prevPosY = posY;
 	}
 	
 	public void render(GameContainer c, Graphics g, World w) {

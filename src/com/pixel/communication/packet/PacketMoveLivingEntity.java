@@ -5,49 +5,42 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.pixel.entity.EntityAlive;
+import com.pixel.world.World;
 
 public class PacketMoveLivingEntity extends Packet {
 
 	EntityAlive entity;
 	int serverID;
-	boolean n, w, e, s;
-	int speed;
+	public float velocityX, velocityY;
 	
 	public PacketMoveLivingEntity() {
 		this.id = 15;
 	}
 	
-	public PacketMoveLivingEntity(EntityAlive entity, boolean n, boolean w, boolean e, boolean s) {
+	public PacketMoveLivingEntity(EntityAlive entity) {
 		
-		this.id = 15;
 		this.entity = entity;
-		this.n = n;
-		this.w = w;
-		this.e = e;
-		this.s = s;
+		this.serverID = entity.serverID;
+		this.velocityX = entity.velocityX;
+		this.velocityY = entity.velocityY;
 		
 	}
 	
 	public void writeData(DataOutputStream output) throws IOException {
 
-		output.writeInt(entity.serverID);
-		output.writeBoolean(n);
-		output.writeBoolean(w);
-		output.writeBoolean(e);
-		output.writeBoolean(s);
-
+		output.writeInt(serverID);
+		output.writeFloat(velocityX);
+		output.writeFloat(velocityY);
 		
 	}
 
 	public void readData(DataInputStream input) throws IOException {
 
 		serverID = input.readInt();
-		n = input.readBoolean();
-		w = input.readBoolean();
-		e = input.readBoolean();
-		s = input.readBoolean();
-		speed = input.readInt();
-
+		velocityX = input.readFloat();
+		velocityY = input.readFloat();
+		
+		((EntityAlive)World.entities.get(serverID)).setVelocity(velocityX, velocityY);
 	}
 
 }
