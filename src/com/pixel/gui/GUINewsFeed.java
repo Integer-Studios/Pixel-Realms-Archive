@@ -13,6 +13,7 @@ public class GUINewsFeed extends GUIComponentSet {
 
 	public static Color newsColor = Color.black;
 	public static int newsSize = 25;
+	public static boolean reloaded = false;
 	
 	public GUINewsFeed() {
 		super(0, 600 - 30, 900, 30, new GUIComponent[]{
@@ -23,22 +24,7 @@ public class GUINewsFeed extends GUIComponentSet {
 				new GUIComponentText("", 1100, 600 - 32, newsSize, newsColor),
 		});		// TODO Auto-generated constructor stub
 		
-		try {
-			URL url = new URL("http://www.pixel-realms.com/news/feed.txt");
-			Scanner s = new Scanner(url.openStream());
-			
-			((GUIComponentText)components[1]).text = "-- " + s.nextLine() + " --";
-			((GUIComponentText)components[2]).text = "-- " + s.nextLine() + " --";
-			((GUIComponentText)components[3]).text = "-- " + s.nextLine() + " --";
-			((GUIComponentText)components[4]).text = "-- " + s.nextLine() + " --";
-
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		loadFeed();
 		
 	}
 	
@@ -50,6 +36,13 @@ public class GUINewsFeed extends GUIComponentSet {
 		int twoLength = (((GUIComponentText)this.components[2]).text.length() * 10);
 		int threeLength = (((GUIComponentText)this.components[3]).text.length() * 10);
 		int fourLength = (((GUIComponentText)this.components[4]).text.length() * 10);
+		
+		if (twoLength == 0)
+			twoLength = 140;
+		if (threeLength == 0)
+			threeLength = 140;
+		if (fourLength == 0)
+			fourLength = 140;
 		
 		int space = 70;
 		
@@ -95,6 +88,56 @@ public class GUINewsFeed extends GUIComponentSet {
 
 			}
 
+		}
+		
+		loadFeed();
+		
+	}
+	
+	public void loadFeed() {
+		
+		new FeedLoader(this).start();
+		
+	}
+
+}
+
+class FeedLoader extends Thread {
+	
+	GUINewsFeed news;
+	
+	public FeedLoader(GUINewsFeed news) {
+
+		this.news = news;
+
+	}
+
+	public void run() {
+
+		try {
+			URL url = new URL("http://www.pixel-realms.com/news/feed.txt");
+			Scanner s = new Scanner(url.openStream());
+
+			if (s.hasNextLine())
+				((GUIComponentText)news.components[1]).text = "-- " + s.nextLine() + " --";
+			else {
+				((GUIComponentText)news.components[1]).text = "-- No News --";
+				
+			}
+
+			if (s.hasNextLine())
+				((GUIComponentText)news.components[2]).text = "-- " + s.nextLine() + " --";
+			if (s.hasNextLine())
+				((GUIComponentText)news.components[3]).text = "-- " + s.nextLine() + " --";
+			if (s.hasNextLine())
+				((GUIComponentText)news.components[4]).text = "-- " + s.nextLine() + " --";
+
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
