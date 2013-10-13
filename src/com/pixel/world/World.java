@@ -163,12 +163,14 @@ public class World {
 		oldX = player.getX();
 		oldY = player.getY();
 		
+		
 		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.getX() * World.tileConstant);
 		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.getY() * World.tileConstant);
 		player.teleported = true;
 		player.worldID = worldID;
 		player.setPosition(1.5F, 4F);
-		
+		PlayerManager.updateVisible();
+
 	}
 	
 	float oldX, oldY;

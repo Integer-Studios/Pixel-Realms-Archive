@@ -31,5 +31,16 @@ public class PlayerManager {
 		players.remove(userID);
 		
 	}
+
+	public static void updateVisible() {
+
+		for (EntityOnlinePlayer p : players.values()) {
+			
+			if (p.worldID != world.player.worldID)
+				players.remove(p);
+			
+		}
+		
+	}
 	
 }

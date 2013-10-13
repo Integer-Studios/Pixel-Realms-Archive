@@ -10,8 +10,8 @@ import com.pixel.communication.PlayerManager;
 public class PacketLogin extends Packet {
 
 	public String username;
-	public float posX, posY, health, direction;
-	public int action, session;
+	public float posX, posY, health, satisfaction, energy;
+	public int itemID, itemAmount, worldID, session;
 	
 	public PacketLogin(){}
 	
@@ -39,15 +39,21 @@ public class PacketLogin extends Packet {
 		this.posY = input.readFloat();
 
 		this.health = input.readFloat();
-		this.direction = input.readFloat();
-		this.action = input.readInt();
+		this.energy = input.readFloat();
+		this.satisfaction = input.readInt();
 		this.session = input.readInt();
+		this.worldID = input.readInt();
 		
 		System.out.println("[Pixel Realms] User: " + username + " has logged in with id: " + userID);
 		
 		if (PlayerManager.currentUserID != this.userID) {
 
 			PlayerManager.spawnPlayer(username, userID, posX, posY);
+			PlayerManager.players.get(userID).worldID = worldID;
+			PlayerManager.players.get(userID).health = health;
+			PlayerManager.players.get(userID).satisfaction = satisfaction;
+			PlayerManager.players.get(userID).energy = energy;
+
 
 		} else {
 			
