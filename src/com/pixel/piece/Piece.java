@@ -42,8 +42,9 @@ public class Piece {
 		this.damage = damage;
 		this.metadata = metadata;
 		info[id].onCreated(this);
+		System.out.println(info[id].yOffset);
 		collisionBox = new Rectangle(posX + info[id].xOffset, posY + info[id].yOffset, info[id].width, info[id].height);
-	
+
 		if (propagate)
 			World.propagatePiece(this);
 		
