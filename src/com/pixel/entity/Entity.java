@@ -7,8 +7,6 @@ import org.newdawn.slick.Graphics;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.pixel.animation.Animation;
-import com.pixel.piece.Piece;
-import com.pixel.util.CollisionBox;
 import com.pixel.world.World;
 
 public class Entity {

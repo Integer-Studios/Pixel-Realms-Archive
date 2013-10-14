@@ -39,7 +39,7 @@ public class PieceConstructionSiteInfo extends PieceInfo {
 			
 		}
 
-		image = stages[p.metadata + 1];
+		image = stages[p.metadata];
 		
 		
 		if (image != null && compareImageToStage(p)) {
