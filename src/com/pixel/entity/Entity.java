@@ -7,6 +7,8 @@ import org.newdawn.slick.Graphics;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.pixel.animation.Animation;
+import com.pixel.piece.Piece;
+import com.pixel.util.CollisionBox;
 import com.pixel.world.World;
 
 public class Entity {
@@ -96,9 +98,28 @@ public class Entity {
 	
 	public void tick(World w) {
 		collisionBox = new Rectangle(posX - (width/2), posY - (height/2), width, height);
+//		checkPieceCollision(w, 10);
 		prevPosX = posX;
 		prevPosY = posY;
 	}
+	
+//	public boolean checkPieceCollision(World w, int r) {
+//		int id;
+//		Piece piece;
+//		for (int x = (int)posX-r; x <= (int)posX+r; x++) {
+//			for (int y = (int)posY-r; y <= (int)posY+r; y++) {
+//				id = w.getPiece(x, y);
+//				if (id != 0 && Piece.info[id].shouldCollide) {
+//					piece = w.getPieceObject(x, y);
+//					if (CollisionBox.testPieceAgainstEntity(piece, this, w, true)) {
+//						Piece.info[id].onEntityCollided(w, piece, this);
+//						return true;
+//					}
+//				}
+//			}
+//		}
+//		return false;
+//	}
 	
 	public void render(GameContainer c, Graphics g, World w) {
 		if (animation != null) {
