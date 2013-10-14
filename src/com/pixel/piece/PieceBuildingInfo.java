@@ -30,29 +30,36 @@ public class PieceBuildingInfo extends PieceInfo {
 	
 	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
 		Building b = ((PieceBuilding) p).building;
-		
-		
-		if (CollisionBox.testBoxAgainstEntity(w.player, InteriorWorldManager.doors.get(b.worldID).box, w, true) && !player.inside) {
-			player.door = true;
-			player.currentlySelectedInterior = ((PieceBuilding) p).building.worldID;
-			player.doorX = player.getX();
-			player.doorY = player.getY();
-			
+
+		if (p.metadata == 0) {
+
+			if (CollisionBox.testBoxAgainstEntity(w.player, InteriorWorldManager.doors.get(b.worldID).box, w, true) && !player.inside) {
+				player.door = true;
+				player.currentlySelectedInterior = ((PieceBuilding) p).building.worldID;
+				player.doorX = player.getX();
+				player.doorY = player.getY();
+
+			}
+
 		}
-		
 	}
 	
-	public void render(GameContainer c, Graphics g, World w, Piece p) {
+	public void render(GameContainer c, Graphics g, World w, Piece piece) {
 
+		PieceBuilding p = (PieceBuilding) piece;
+		
 		if (image != null) {
 			image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY - ((building.height - 1) * World.tileConstant), World.tileConstant * building.width, World.tileConstant * building.height);
 //			image.draw(building.door.box.getX()*World.tileConstant+World.globalOffsetX ,  building.door.box.getY()*World.tileConstant+World.globalOffsetY, building.door.width, building.door.height);
 
 		} else {
+			
 			if (texture != null && texture.length() > 0) {
-				image = TextureLoader.load(texture);
+				image = TextureLoader.load(texture + "0.png");
 				image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY - ((building.height - 1) * World.tileConstant), World.tileConstant * building.width, World.tileConstant * building.height);
+				
 			}
+
 		}
 
 	}

@@ -19,7 +19,6 @@ import com.pixel.gui.GUI;
 import com.pixel.gui.GUIButton;
 import com.pixel.gui.GUIComponent;
 import com.pixel.gui.GUIComponentText;
-import com.pixel.gui.GUINewsFeed;
 import com.pixel.gui.GUITextBox;
 import com.pixel.gui.GUITextBoxPassword;
 import com.pixel.start.MainLoop;
@@ -75,6 +74,12 @@ public class PanelLogin extends Panel {
 		updateRenderSize();
 		super.render(c, g);
 
+//		if (KeyboardListener.keyBindings.get("HideMenu").onKeyUp) {
+			
+			//slide away login
+			
+//		}
+		
 		if (loginBtn.getOnMouseUp()) {
 			try {
 				tryLogin(username.getText(), password.getText());
@@ -101,7 +106,8 @@ public class PanelLogin extends Panel {
 			username = (GUITextBox) GUI.addGUIComponent(username);
 			password = (GUITextBoxPassword) GUI.addGUIComponent(password);
 			errorField = (GUIComponentText) GUI.addGUIComponent(errorField);
-			GUI.addGUIComponent(new GUINewsFeed());
+			if (!GUI.components.contains(MainLoop.newsFeed))
+			GUI.addGUIComponent(MainLoop.newsFeed);
 			
 			width = Display.getWidth();
 			height = Display.getHeight();

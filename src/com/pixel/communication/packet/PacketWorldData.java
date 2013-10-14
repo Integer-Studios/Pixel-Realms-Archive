@@ -95,8 +95,9 @@ public class PacketWorldData extends Packet {
 			
 		}
 		
-		PixelRealms.loggedIn = true;
 		World.loaded = true;
+		World.removeLoadingScreen = true;
+		PixelRealms.loggedIn = true;
 		PixelRealms.world.player.updated = true;
 
 	}

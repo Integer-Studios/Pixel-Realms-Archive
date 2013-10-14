@@ -21,14 +21,25 @@ public class GUILoadingScreen extends GUIComponentSet {
 
 	public void tick () {
 
-		if (World.loaded) {
-
-			World.loadingScreenDone = true;
-			GUI.removeGUIComponent(this);
+		if (World.removeLoadingScreen) {
+			
+			timer ++;
 
 		} 
+		
+		if (timer == 100) {
+			
+			World.loadingScreenDone = true;
+			GUI.removeGUIComponent(this);
+			timer = 0;
+			
+		}
 
 
+	}
+	
+	public void onAddedToGUI() {
+		super.onAddedToGUI();
 	}
 
 }

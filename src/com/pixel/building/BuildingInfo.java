@@ -7,13 +7,15 @@ public class BuildingInfo {
 	public int floorID;
 	public String texture;
 	public BuildingDoor door;
+	public int maxDamage;
 	
-	public BuildingInfo(int id, int width, int height) {
+	public BuildingInfo(int id, int width, int height, int maxDamage) {
 		
 		this.id = id;
 		this.floorID = 3;
 		this.width = width;
 		this.height = height;
+		this.maxDamage = maxDamage;
 		
 	}
 	

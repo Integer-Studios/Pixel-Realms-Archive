@@ -25,6 +25,8 @@ public class PieceBuilding extends Piece {
 		this.building = new Building(worldID, i, x, y);
 		this.damage = damage;
 		this.metadata = metadata;
+		
+		
 		World.propagatePiece(this);
 		init();
 		

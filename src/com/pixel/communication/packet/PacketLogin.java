@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
 
 public class PacketLogin extends Packet {
@@ -56,11 +55,7 @@ public class PacketLogin extends Packet {
 			PlayerManager.players.get(userID).energy = energy;
 
 
-		} else {
-			
-			CommunicationClient.addPacket(new PacketWorldData());
-			
-		}
+		} 
 		
 	}
 

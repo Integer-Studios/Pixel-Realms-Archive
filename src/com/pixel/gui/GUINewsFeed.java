@@ -13,16 +13,26 @@ public class GUINewsFeed extends GUIComponentSet {
 
 	public static Color newsColor = Color.black;
 	public static int newsSize = 25;
-	public static boolean reloaded = false;
+	public boolean reloaded = false;
+	public String feedURL;
+	public String defaultMessage;
+	public int lineCount;
 	
-	public GUINewsFeed() {
+	public GUINewsFeed(String feed, String defaultMessage) {
 		super(0, 600 - 30, 900, 30, new GUIComponent[]{
 				new GUIComponent(0, 600 - 30, 900, 30, "resources/gui/login/rolling-gray.png"),
 				new GUIComponentText("", 1000, 600 - 32, newsSize, newsColor),
 				new GUIComponentText("", 1100, 600 - 32, newsSize, newsColor),
 				new GUIComponentText("", 1100, 600 - 32, newsSize, newsColor),			
 				new GUIComponentText("", 1100, 600 - 32, newsSize, newsColor),
+				new GUIComponentText("", 1100, 600 - 32, newsSize, newsColor),
+				new GUIComponentText("", 1100, 600 - 32, newsSize, newsColor),
+				new GUIComponentText("", 1100, 600 - 32, newsSize, newsColor),			
+				new GUIComponentText("", 1100, 600 - 32, newsSize, newsColor),
 		});		// TODO Auto-generated constructor stub
+		
+		this.feedURL = feed;
+		this.defaultMessage = defaultMessage;
 		
 		loadFeed();
 		
@@ -32,65 +42,50 @@ public class GUINewsFeed extends GUIComponentSet {
 		
 		super.render(c, g);
 		
-		int oneLength = (((GUIComponentText)this.components[1]).text.length() * 10);
-		int twoLength = (((GUIComponentText)this.components[2]).text.length() * 10);
-		int threeLength = (((GUIComponentText)this.components[3]).text.length() * 10);
-		int fourLength = (((GUIComponentText)this.components[4]).text.length() * 10);
+		int[] lengths = new int[8];
 		
-		if (twoLength == 0)
-			twoLength = 140;
-		if (threeLength == 0)
-			threeLength = 140;
-		if (fourLength == 0)
-			fourLength = 140;
+		for (int a = 1; a <= 8; a ++) {
+			
+			lengths[a - 1] = (((GUIComponentText)this.components[a]).text.length() * 10);
+			
+		}
 		
 		int space = 70;
 		
-		if ((components[4].x < (900 - (fourLength + space))) || (components[4].x == 1100 && components[1].x < 1100) || components[1].x == 1000) {
+		for (int a = 1; a <= lineCount; a ++) {
 
-			this.components[1].x --;
-			if (components[1].x <= -1 * oneLength) {
+			if (a == 1) {
+				int tempLineCount = lineCount;
+				if (lineCount == 1) 
+					tempLineCount = 2;
+				if ((components[tempLineCount].x < (900 - (lengths[tempLineCount - 1] + space))) || (components[tempLineCount].x == 1100 && components[a].x < 1100) || components[a].x == 1000) {
+					this.components[a].x --;
+					if (components[a].x <= -1 * lengths[a - 1]) {
 
-				components[1].x = 1100;
+						if (lineCount == 1)
+							components[a].x = 1000;
+						else
+							components[a].x = 1100;
 
-			}
+					}
+				}
+			} else {
+				
+				if ((components[a - 1].x < (900 - (lengths[a - 2] + space))) || (components[a - 1].x == 1100 && components[a].x < 1100) || components[a].x == 1000) {
 
-		}
+					this.components[a].x --;
+					if (components[a].x <= -1 * lengths[a - 1]) {
 
-		if ((components[1].x < (900 - (oneLength + space)) || (components[1].x == 1100 && components[2].x < 1100))) {
+						components[a].x = 1100;
 
-			this.components[2].x --;
-			if (components[2].x <= -1 * twoLength) {
-
-				components[2].x = 1100;
-
-			}
-
-		}
-
-		if ((components[2].x < (900 - (twoLength + space)) || (components[2].x == 1100 && components[3].x < 1100))) {
-
-			this.components[3].x --;
-			if (components[3].x <= -1 * threeLength) {
-
-				components[3].x = 1100;
-
-			}
-
-		}
-
-		if ((components[3].x < (900 - (threeLength + space)) || (components[3].x == 1100 && components[4].x < 1100))) {
-
-			this.components[4].x --;
-			if (components[4].x <= -1 * fourLength) {
-
-				components[4].x = 1100;
-
+					}
+				}
+				
 			}
 
 		}
 		
-		loadFeed();
+//		loadFeed();
 		
 	}
 	
@@ -115,22 +110,26 @@ class FeedLoader extends Thread {
 	public void run() {
 
 		try {
-			URL url = new URL("http://www.pixel-realms.com/news/feed.txt");
+			URL url = new URL(news.feedURL);
 			Scanner s = new Scanner(url.openStream());
 
-			if (s.hasNextLine())
-				((GUIComponentText)news.components[1]).text = "-- " + s.nextLine() + " --";
-			else {
-				((GUIComponentText)news.components[1]).text = "-- No News --";
+			int lineCount = 1;
+
+			while (s.hasNextLine() && lineCount <= 8) {
+
+				((GUIComponentText)news.components[lineCount]).text = "-- " + s.nextLine() + " --";
+				if (s.hasNextLine())
+				lineCount ++;
+
+			}
+			
+			for (int x = lineCount + 1; x <= 8; x ++) {
+				
+				((GUIComponentText)news.components[x]).text = "";
 				
 			}
-
-			if (s.hasNextLine())
-				((GUIComponentText)news.components[2]).text = "-- " + s.nextLine() + " --";
-			if (s.hasNextLine())
-				((GUIComponentText)news.components[3]).text = "-- " + s.nextLine() + " --";
-			if (s.hasNextLine())
-				((GUIComponentText)news.components[4]).text = "-- " + s.nextLine() + " --";
+			
+			news.lineCount = lineCount;
 
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block

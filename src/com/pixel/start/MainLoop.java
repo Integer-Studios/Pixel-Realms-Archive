@@ -17,6 +17,7 @@ import com.pixel.frame.PanelMainMenu;
 import com.pixel.frame.PanelWorld;
 import com.pixel.gui.GUI;
 import com.pixel.gui.GUIAlert;
+import com.pixel.gui.GUINewsFeed;
 import com.pixel.input.KeyboardListener;
 import com.pixel.input.MouseClickListener;
 import com.pixel.world.World;
@@ -35,6 +36,7 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
     public boolean running = true;
     public boolean leftButton;
     public boolean rightButton;
+    public static GUINewsFeed newsFeed;
     public static Panel panel;
     
     public static int fps = 60;
@@ -65,6 +67,7 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
 	public void init(GameContainer c) throws SlickException {
 		// TODO Auto-generated method stub
 		GUI.init();
+		newsFeed = new GUINewsFeed("http://pixel-realms.com/news/feed.txt", "No News");
 		panel = new PanelLogin();
 
 	}

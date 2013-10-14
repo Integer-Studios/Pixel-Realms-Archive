@@ -38,7 +38,7 @@ public class World {
 	public static ConcurrentHashMap<Integer, Entity> entities = new ConcurrentHashMap<Integer,Entity>();
 //	public static ConcurrentHashMap<Integer, Herd> herds = new ConcurrentHashMap<Integer,Herd>();
 
-	public static boolean loaded, loadingScreenDone;
+	public static boolean loaded, loadingScreenDone, removeLoadingScreen;
 	public int worldSaveCount = 0;
 	public ArrayList<Particle> particles = new ArrayList<Particle>();
 	public static int c = 400;
@@ -140,10 +140,12 @@ public class World {
 			else
 				pieces.put(hash(x, y), new Piece(x, y, id, true));
 		} else  {
+
 			if (pieces.containsKey(hash(x, y)))
 				pieces.replace(hash(x, y), new PieceBuilding(worldID, x, y, buildingID, damage, metadata));
 			else
 				pieces.put(hash(x, y), new PieceBuilding(worldID, x, y, buildingID, damage, metadata));
+
 		}
 		pieces.get((y * c) + x).damage = damage;
 		pieces.get((y * c) + x).metadata = metadata;

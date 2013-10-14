@@ -73,7 +73,8 @@ public class KeyboardListener {
 			
 			if (code == KeyCode.KEY_E) {
 				if (PixelRealms.world.player.door) {
-				
+				PixelRealms.world.player.door = false;
+				System.out.println("SS");
 					if (PixelRealms.world.player.inside)
 						PixelRealms.world.leaveInterior();
 					else

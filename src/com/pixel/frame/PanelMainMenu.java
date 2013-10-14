@@ -63,6 +63,7 @@ public class PanelMainMenu extends Panel {
 			news = (GUIButton) GUI.addGUIComponent(news);
 			multiPlayer = (GUIButton) GUI.addGUIComponent(multiPlayer);
 			options = (GUIButton) GUI.addGUIComponent(options);
+			GUI.addGUIComponent(MainLoop.newsFeed);
 			width = Display.getWidth();
 			height = Display.getHeight();
 		}

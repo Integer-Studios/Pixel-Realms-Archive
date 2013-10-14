@@ -25,6 +25,7 @@ public class Piece {
 		id = i;
 		posX = x;
 		posY = y;
+		System.out.println(id + " " + posX);
 		damage = info[id].maxDamage;
 		info[id].onCreated(this);
 		collisionBox = new Rectangle(posX + info[id].xOffset, posY + info[id].yOffset, info[id].width, info[id].height);
@@ -163,8 +164,28 @@ public class Piece {
 				new PieceInfo(path+"resources/pieces/walls/bottom_left.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0F, 1F, 1F),//23
 				new PieceInfo(path+"resources/pieces/walls/bottom_right.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0F, 1F, 1F),//24
 				new PieceDoor(path+"resources/pieces/walls/door.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0.1F, 1F, 1F),//25
+				new PieceConstructionSiteInfo(0).setShouldCollide(true).setSize(0F, 0.4F, 4F, 0.8F),//26
 		};
 		
+	}
+	
+	public void redrawCollisionBox(boolean defaultBox) {
+		
+		if (defaultBox){
+			
+			collisionBox = new Rectangle(posX + info[id].xOffset, posY + info[id].yOffset, info[id].width, info[id].height);
+			xOffset = info[id].xOffset;
+			yOffset = info[id].yOffset;
+			width = info[id].width;
+			height = info[id].height;
+
+			
+		} else {
+			
+			collisionBox = new Rectangle(posX + xOffset, posY + yOffset, width, height);
+			
+		}
+		 
 	}
 	
 	public boolean canBeDamaged(Item item) {
@@ -179,6 +200,16 @@ public class Piece {
 		}
 	}
 	
+	public void setSize(float xOffset, float yOffset, float width, float height) {
+		
+		this.xOffset = xOffset;
+		this.yOffset = yOffset;
+		this.width = width;
+		this.height = height;
+		
+	}
+	
+	public float width = 0.8F, height = 0.15F, xOffset = 0.1F, yOffset = 0.85F;
 	public int id;
 	public int metadata;
 	public int posX;

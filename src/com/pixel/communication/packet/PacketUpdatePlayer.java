@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
@@ -97,10 +96,20 @@ public class PacketUpdatePlayer extends Packet {
 			PixelRealms.world.player.setHealth(health);
 			PixelRealms.world.player.setSatisfaction(satisfaction);
 			PixelRealms.world.player.setEnergy(energy);
-			if (worldID != PixelRealms.world.player.worldID) {
-				CommunicationClient.addPacket(new PacketLoadInterior(worldID));
-			} else 
-				PixelRealms.world.player.worldID = worldID;
+//
+//			if (worldID != PixelRealms.world.player.worldID) {
+//				
+//				if (worldID == -1) 
+//					PixelRealms.world.leaveInterior();
+//				else {
+//					
+//					CommunicationClient.addPacket(new PacketLoadInterior(worldID));
+//					
+//				}
+//				
+//			}
+			
+			PixelRealms.world.player.worldID = worldID;
 
 		}
 		

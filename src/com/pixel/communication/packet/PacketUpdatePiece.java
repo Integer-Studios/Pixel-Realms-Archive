@@ -27,12 +27,14 @@ public class PacketUpdatePiece extends Packet {
 		
 	}
 	
-	public PacketUpdatePiece(int buildingID, int x, int y) {
+	public PacketUpdatePiece(int id, int buildingID, int x, int y, int metadata) {
 		
 		this.id = 5;
+		this.pieceID = id;
 		this.posX = x;
 		this.posY = y;
 		this.buildingID = buildingID;
+		this.metadata = metadata;
 		
 	}
 

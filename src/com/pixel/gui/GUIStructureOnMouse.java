@@ -10,7 +10,7 @@ import com.pixel.world.World;
 public class GUIStructureOnMouse extends GUIComponent {
 
 	public GUIStructureOnMouse(int x, int y, int buildingID) {
-		super(x, y, Building.info.get(buildingID).width * World.tileConstant, Building.info.get(buildingID).height * World.tileConstant, Building.info.get(buildingID).texture);
+		super(x, y, Building.info.get(buildingID).width * World.tileConstant, Building.info.get(buildingID).height * World.tileConstant, Building.info.get(buildingID).texture + "0.png");
 
 	}
 	

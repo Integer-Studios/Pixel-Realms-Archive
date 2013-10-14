@@ -12,6 +12,7 @@ import com.pixel.piece.Piece;
 import com.pixel.start.PixelRealms;
 import com.pixel.tile.Tile;
 import com.pixel.world.InteriorWorld;
+import com.pixel.world.World;
 
 public class PacketLoadInterior extends Packet {
 
@@ -89,8 +90,13 @@ public class PacketLoadInterior extends Packet {
 		}
 		
 		new InteriorWorld(worldID, c, tiles, pieces, entities);
-		
+
+		World.loaded = true;
+		World.removeLoadingScreen = true;
+		PixelRealms.loggedIn = true;
+		PixelRealms.world.player.updated = true;
 		PixelRealms.world.loadInterior(worldID);
+
 		
 	}
 

@@ -75,7 +75,7 @@ public class Building {
 	
 	static {
 		
-		info.add(new BuildingInfo(0, 4, 3).setDoor(new BuildingDoor(46F, -10F, 32, 56, 0)).setTexture("resources/pieces/buildings/cabin_1.png"));
+		info.add(new BuildingInfo(0, 4, 3, 1000).setDoor(new BuildingDoor(46F, -10F, 32, 56, 0)).setTexture("resources/pieces/buildings/cabin/"));
 	
 	}
 	

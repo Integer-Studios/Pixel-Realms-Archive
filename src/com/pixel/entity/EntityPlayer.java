@@ -180,7 +180,7 @@ public class EntityPlayer extends EntityHuman {
 		if (selectedItem.item.id == 23) {
 			
 			if (Building.canBuildingFit(0, (int)x, (int)y)) {
-				CommunicationClient.addPacket(new PacketUpdatePiece(0, (int)x, (int)y));
+				CommunicationClient.addPacket(new PacketUpdatePiece(26, 0, (int)x, (int)y, 1));
 				
 			}
 			return;
