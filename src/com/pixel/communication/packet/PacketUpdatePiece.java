@@ -70,6 +70,7 @@ public class PacketUpdatePiece extends Packet {
 		damage = input.readInt();
 		metadata = input.readInt();
 		
+		
 		if (input.readBoolean()) {
 			
 			worldID = input.readInt();

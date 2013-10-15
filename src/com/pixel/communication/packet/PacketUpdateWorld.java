@@ -87,7 +87,8 @@ public class PacketUpdateWorld extends Packet {
 
 //		clear((int)player.getX(), (int)player.getY());
 		player.updated = true;
-
+		PixelRealms.world.playerReset = false;
+		
 	}
 
 	public void clear() {

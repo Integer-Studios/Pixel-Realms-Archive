@@ -166,7 +166,8 @@ public abstract class Packet {
 		packetMap.put(16, PacketMovePlayer.class);
 		packetMap.put(17, PacketInfoRequest.class);
 		packetMap.put(18, PacketLoadPlayer.class);
-		
+		packetMap.put(19, PacketUpdateInteriorPiece.class);
+
 	}
 	
 }

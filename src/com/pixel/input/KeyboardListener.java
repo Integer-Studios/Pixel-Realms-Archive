@@ -71,18 +71,6 @@ public class KeyboardListener {
 //				PixelRealms.world.setTile((int)PixelRealms.world.player.getX(), (int)PixelRealms.world.player.getY(), 7, 0);
 //			}
 			
-			if (code == KeyCode.KEY_E) {
-				if (PixelRealms.world.player.door) {
-				PixelRealms.world.player.door = false;
-				System.out.println("SS");
-					if (PixelRealms.world.player.inside)
-						PixelRealms.world.leaveInterior();
-					else
-						CommunicationClient.addPacket(new PacketLoadInterior(PixelRealms.world.player.currentlySelectedInterior));
-					
-				}
-			}
-
 			if (code == KeyCode.KEY_ENTER) {
 
 				if (!PixelRealms.world.player.interfaceManager.chat.box.getPressed()) {
@@ -196,6 +184,22 @@ public class KeyboardListener {
 			((KeyBinding) keyBindings.values().toArray()[i]).onReleased(code);
 		}
 
+		if (World.loaded) {
+			
+			if (code == KeyCode.KEY_E) {
+				if (PixelRealms.world.player.door) {
+				PixelRealms.world.player.door = false;
+					if (PixelRealms.world.player.inside)
+						PixelRealms.world.leaveInterior();
+					else
+						CommunicationClient.addPacket(new PacketLoadInterior(PixelRealms.world.player.currentlySelectedInterior));
+					
+				}
+			}
+			
+		}
+			
+		
 		if (code == KeyCode.KEY_BACK) {
 			
 			backSpace = false;

@@ -25,7 +25,6 @@ public class Piece {
 		id = i;
 		posX = x;
 		posY = y;
-		System.out.println(id + " " + posX);
 		damage = info[id].maxDamage;
 		info[id].onCreated(this);
 		collisionBox = new Rectangle(posX + info[id].xOffset, posY + info[id].yOffset, info[id].width, info[id].height);
@@ -42,7 +41,6 @@ public class Piece {
 		this.damage = damage;
 		this.metadata = metadata;
 		info[id].onCreated(this);
-		System.out.println(info[id].yOffset);
 		collisionBox = new Rectangle(posX + info[id].xOffset, posY + info[id].yOffset, info[id].width, info[id].height);
 
 		if (propagate)

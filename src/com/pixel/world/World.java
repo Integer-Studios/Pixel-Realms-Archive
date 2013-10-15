@@ -38,7 +38,10 @@ public class World {
 	public static ConcurrentHashMap<Integer, Entity> entities = new ConcurrentHashMap<Integer,Entity>();
 //	public static ConcurrentHashMap<Integer, Herd> herds = new ConcurrentHashMap<Integer,Herd>();
 
+	
 	public static boolean loaded, loadingScreenDone, removeLoadingScreen;
+	public float oldX, oldY;
+	public boolean playerReset;
 	public int worldSaveCount = 0;
 	public ArrayList<Particle> particles = new ArrayList<Particle>();
 	public static int c = 400;
@@ -173,18 +176,17 @@ public class World {
 	
 	public void loadInterior(int worldID) {
 		InteriorWorld w = InteriorWorldManager.interiors.get(worldID);
-		
 		interior = true;
 		player.inside = true;
 		interiorWorld = w;
 		
-		tiles.clear();
-		pieces.clear();
-		entities.clear();
-		
-		tiles = w.tiles;
-		pieces = w.pieces;
-		entities = w.entities;
+//		tiles.clear();
+//		pieces.clear();
+//		entities.clear();
+//		
+//		tiles = w.tiles;
+//		pieces = w.pieces;
+//		entities = w.entities;
 		
 		oldX = player.getX();
 		oldY = player.getY();
@@ -198,17 +200,13 @@ public class World {
 		PlayerManager.updateVisible();
 	}
 	
-	float oldX, oldY;
-	
 	public void leaveInterior() {
-		
-		tiles.clear();
-		pieces.clear();
-		entities.clear();
+
 		interior = false;
 		player.inside = false;
 		interiorWorld = null;
 		player.worldID = -1;
+		playerReset = true;
 		
 		CommunicationClient.addPacket(new PacketUpdateWorld());
 		
@@ -224,6 +222,12 @@ public class World {
 			return;
 			
 		}
+		
+		if (!interior && playerReset && (player.getX() != oldX || player.getY() != oldY)) {
+			
+			return;
+			
+		}
 
 		loaded = true;
 		
@@ -233,9 +237,25 @@ public class World {
 		entityArray.addAll(entities.values());
 
 		entityArray.addAll(PlayerManager.players.values());
-
-		Object[] tileArray = (Object[]) tiles.values().toArray();
+		Object[] tileArray;
+		ConcurrentMap<Integer, Piece> piecesArray;
 		
+		try {
+			if (!interior) {
+				piecesArray = pieces;
+				tileArray = (Object[]) tiles.values().toArray();
+			} else {
+				piecesArray = interiorWorld.pieces;
+				tileArray = interiorWorld.tiles.values().toArray();
+			}	
+		} catch (NullPointerException e) {
+
+			e.printStackTrace();
+			piecesArray = pieces;
+			tileArray = (Object[]) tiles.values().toArray();
+
+		}
+
 		if (tileArray.length > 0) {
 			//REDUCABLE LOOP
 			for (int x = 0; x < tileArray.length; x++) {
@@ -244,7 +264,7 @@ public class World {
 				}
 			}
 			player.painted = false;
-			for (Piece p : pieces.values()) {
+			for (Piece p : piecesArray.values()) {
 				if (p != null) {
 					if (p.posX > getMinXToPaint() && p.posX < getMaxXToPaint() && p.posY > getMinYToPaint() && p.posY < getMaxYToPaint()) {
 
@@ -268,7 +288,10 @@ public class World {
 					}
 				}
 			}
-
+			if (!player.painted) {
+				player.render(c, g, this);
+				player.painted = true;
+			}
 
 			for (int y = 0; y < particles.size(); y ++) {
 				particles.get(y).render(c, g, this);
@@ -290,7 +313,15 @@ public class World {
 
 		CommunicationClient.tick();
 		
-		Object[] tileArray = (Object[]) tiles.values().toArray();
+		Object[] tileArray;
+		ConcurrentMap<Integer, Piece> piecesArray;
+		if (!interior) {
+			 piecesArray = pieces;
+			 tileArray = (Object[]) tiles.values().toArray();
+		} else {
+			piecesArray = interiorWorld.pieces;
+			tileArray = (Object[]) interiorWorld.tiles.values().toArray();
+		}	
 		
 		PlayerMotionManager.updatePlayerMotion(player, this);
 		
@@ -307,7 +338,7 @@ public class World {
 		}
 
 
-		for (Piece p : pieces.values()) {
+		for (Piece p : piecesArray.values()) {
 				if (p != null) {
 					if (p.posX > getMinXToPaint() && p.posX < getMaxXToPaint() && p.posY > getMinYToPaint() && p.posY < getMaxYToPaint()) {
 
@@ -426,7 +457,8 @@ public class World {
 		
 		loaded = false;
 		loadingScreenDone = false;
-
+		interior = false;
+		
 //		player.walkingClip.close();
 		
 		PlayerManager.players.clear();

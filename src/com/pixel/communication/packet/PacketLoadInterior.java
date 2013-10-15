@@ -88,7 +88,7 @@ public class PacketLoadInterior extends Packet {
 			entities.put(serverID, entity);
 
 		}
-		
+
 		new InteriorWorld(worldID, c, tiles, pieces, entities);
 
 		World.loaded = true;

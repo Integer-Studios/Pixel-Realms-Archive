@@ -2,8 +2,11 @@ package com.pixel.communication.packet;
 
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
+import com.pixel.piece.Piece;
 import com.pixel.piece.PieceInfo;
 import com.pixel.start.PixelRealms;
+import com.pixel.world.InteriorWorld;
+import com.pixel.world.InteriorWorldManager;
 import com.pixel.world.World;
 
 public class PacketHandler {
@@ -44,6 +47,18 @@ public class PacketHandler {
 			PieceInfo.pickupSound.setFramePosition(0);
 			PieceInfo.pickupSound.start();
 		}
+	}
+	
+	public static void processUpdateInteriorPiece(PacketUpdateInteriorPiece packet) {
+		
+		if (PixelRealms.world.player.worldID == packet.worldID) {
+			
+			InteriorWorld w = InteriorWorldManager.interiors.get(packet.worldID);
+
+			w.pieces.replace((packet.y * w.c) + packet.x, new Piece(packet.x, packet.y, packet.pieceID, packet.damage, packet.metadata, false));
+			
+		}
+		
 	}
 	
 }

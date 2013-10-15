@@ -10,6 +10,7 @@ import com.pixel.body.BipedActionPunching;
 import com.pixel.building.Building;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.GetBunnies;
+import com.pixel.communication.packet.PacketUpdateInteriorPiece;
 import com.pixel.communication.packet.PacketUpdatePiece;
 import com.pixel.communication.packet.PacketUpdateWorld;
 import com.pixel.gui.GUI;
@@ -21,6 +22,7 @@ import com.pixel.input.MouseClickListener;
 import com.pixel.inventory.Inventory;
 import com.pixel.item.ItemFood;
 import com.pixel.item.ItemStack;
+import com.pixel.piece.Piece;
 import com.pixel.piece.PieceInfo;
 import com.pixel.player.PlayerInventory;
 import com.pixel.start.PixelRealms;
@@ -183,6 +185,15 @@ public class EntityPlayer extends EntityHuman {
 				CommunicationClient.addPacket(new PacketUpdatePiece(26, 0, (int)x, (int)y, 1));
 				
 			}
+			return;
+		}
+
+		if (selectedItem.item.id == 22) {
+			
+			if (worldID != -1) 
+				CommunicationClient.addPacket(new PacketUpdateInteriorPiece(worldID, new Piece((int)x, (int)y, 4, false)));
+			else
+				CommunicationClient.addPacket(new PacketUpdatePiece(new Piece((int)x, (int)y, 4, false)));
 			return;
 		}
 		
