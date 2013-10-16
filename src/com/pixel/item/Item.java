@@ -2,6 +2,7 @@ package com.pixel.item;
 
 import org.newdawn.slick.Image;
 
+import com.pixel.entity.EntityPlayer;
 import com.pixel.start.PixelRealms;
 import com.pixel.start.TextureLoader;
 import com.pixel.tile.Material;
@@ -43,22 +44,32 @@ public class Item {
 		return this;
 	}
 	
+	public Item setPieceID(int pieceID) {
+		this.pieceID = pieceID;
+		return this;
+	}
+	
 	public static Item getItemForId(int id) {
 		return items[id];
+	}
+	
+	public void onSwing(EntityPlayer entityPlayer) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public static Item[] items = new Item[420];
 
 	public static Item blank = new Item(0, "blank.png");
 	public static Item sac = new Item(1, "sac.png");
-	public static Item flowerPurple = new Item(2, "flower_purple.png");
+	public static Item flowerPurple = new Item(2, "flower_purple.png").setPieceID(3);
 	public static Item logPine = new Item(3, "log_pine.png");
 	public static Item logApple = new Item(4, "log_apple.png");
 	public static Item stumpPine = new Item(5, "stump_pine.png");
 	public static Item stumpApple = new Item(6, "stump_apple.png");
 	public static Item branchPine = new Item(7, "branch_pine.png");
 	public static Item branchApple = new Item(8, "branch_apple.png");
-	public static Item rock = new Item(9, "rock.png");
+	public static Item rock = new Item(9, "rock.png").setPieceID(4);
 	public static Item bunnyFoot = new Item(10, "rabbit_foot.png");
 	public static Item bunnyFur = new Item(11, "rabbit_fur.png");
 	public static Item bunnyLeg = new ItemFood(12, "rabbit_leg.png", 10);
@@ -81,4 +92,7 @@ public class Item {
 	public int specialtyDamage;
 	public int damage;
 	public Toolkit t = new Toolkit();
+	public int pieceID;
+
+
 }

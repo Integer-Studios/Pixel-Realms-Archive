@@ -31,6 +31,7 @@ public class PacketUpdatePiece extends Packet {
 		
 		this.id = 5;
 		this.pieceID = id;
+
 		this.posX = x;
 		this.posY = y;
 		this.buildingID = buildingID;
@@ -47,7 +48,7 @@ public class PacketUpdatePiece extends Packet {
 		output.writeInt(posY);
 		output.writeInt(damage);
 		output.writeInt(metadata);
-		
+
 		if (buildingID != -1) {
 			
 			output.writeBoolean(true);
@@ -69,7 +70,6 @@ public class PacketUpdatePiece extends Packet {
 		posY = input.readInt();
 		damage = input.readInt();
 		metadata = input.readInt();
-		
 		
 		if (input.readBoolean()) {
 			

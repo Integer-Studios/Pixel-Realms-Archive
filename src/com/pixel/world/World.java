@@ -142,6 +142,7 @@ public class World {
 				pieces.replace(hash(x, y), new Piece(x, y, id, true));
 			else
 				pieces.put(hash(x, y), new Piece(x, y, id, true));
+			
 		} else  {
 
 			if (pieces.containsKey(hash(x, y)))
@@ -195,7 +196,6 @@ public class World {
 		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.getY() * World.tileConstant);
 		player.teleported = true;
 		player.worldID = worldID;
-		player.setPosition(1.5F, 4F);
 		CommunicationClient.addPacket(new PacketInfoRequest("players"));
 		PlayerManager.updateVisible();
 	}

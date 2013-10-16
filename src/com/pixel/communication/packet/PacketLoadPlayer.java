@@ -45,6 +45,8 @@ public class PacketLoadPlayer extends Packet{
 
 		if (this.userID == PlayerManager.currentUserID) {
 			
+			PixelRealms.world.playerReset = false;
+			PixelRealms.world.player.teleported = true;
 			PixelRealms.world.player.setPosition(posX, posY);
 			PixelRealms.world.player.setHealth(health);
 			PixelRealms.world.player.setSatisfaction(satisfaction);

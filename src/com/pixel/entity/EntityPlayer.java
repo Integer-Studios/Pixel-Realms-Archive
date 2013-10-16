@@ -20,6 +20,7 @@ import com.pixel.gui.PlayerInterfaceManager;
 import com.pixel.input.KeyboardListener;
 import com.pixel.input.MouseClickListener;
 import com.pixel.inventory.Inventory;
+import com.pixel.item.Item;
 import com.pixel.item.ItemFood;
 import com.pixel.item.ItemStack;
 import com.pixel.piece.Piece;
@@ -187,16 +188,9 @@ public class EntityPlayer extends EntityHuman {
 			}
 			return;
 		}
-
-		if (selectedItem.item.id == 22) {
-			
-			if (worldID != -1) 
-				CommunicationClient.addPacket(new PacketUpdateInteriorPiece(worldID, new Piece((int)x, (int)y, 4, false)));
-			else
-				CommunicationClient.addPacket(new PacketUpdatePiece(new Piece((int)x, (int)y, 4, false)));
-			return;
-		}
 		
+		Item.items[selectedItem.item.id].onSwing(this);
+
 		float x1,x2,y1,y2;
 		if (x - hitRadius < posX - reachRadius) {
 			x1 = posX - reachRadius;
@@ -295,8 +289,8 @@ public class EntityPlayer extends EntityHuman {
 		return inventory.hotbar;
 	}
 
-	public void setSelectedItem(ItemStack itemStack) {
-		super.setSelectedItem(itemStack);
+	public void setSelectedItem(int x, int y, ItemStack itemStack) {
+		super.setSelectedItem(x, y, itemStack);
 
 		if (this.selectedItem.item.id == 23) {
 			
@@ -331,6 +325,27 @@ public class EntityPlayer extends EntityHuman {
 		
 		bunnies ++;
 		interfaceManager.bunnyCounter.addBunny();
+		
+	}
+
+	public void onMouseReleased(int x, int y, int button) {
+
+		int posX = (int)MouseClickListener.getXWorldMousePosition();
+		int posY = (int)MouseClickListener.getYWorldMousePosition();
+		if (button == 1) {
+			
+			if (PixelRealms.world.getPiece(posX, posY) == 0 && selectedItem.item.pieceID != 0) {
+				
+				if (worldID != -1) 
+					CommunicationClient.addPacket(new PacketUpdateInteriorPiece(worldID, new Piece(posX, posY, selectedItem.item.pieceID, false)));
+				else
+					CommunicationClient.addPacket(new PacketUpdatePiece(new Piece(posX, posY, selectedItem.item.pieceID, false)));
+		
+				inventory.hotbar.depleteContent(selectedX, selectedY, 1);
+
+			}
+			
+		}
 		
 	}
 

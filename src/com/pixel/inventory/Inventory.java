@@ -70,8 +70,11 @@ public class Inventory {
 	}
 
 	public void setContent(int x, int y, ItemStack itemstack) {
+		
 		content.put(new CoordinateKey(x, y), new InventoryContent(x, y, itemstack));
 		setGUIContent(x, y);
+		if (x == player.selectedX && y == player.selectedY && id == 0) 
+			player.interfaceManager.hotbarWindow.selectSlot(x, y);
 		CommunicationClient.addPacket(new PacketUpdateInventoryContent(x,y,itemstack.item.id, itemstack.size, id));
 	}
 
@@ -86,6 +89,8 @@ public class Inventory {
 	public void serverSetContent(int x, int y, ItemStack itemstack) {
 		content.put(new CoordinateKey(x, y), new InventoryContent(x, y, itemstack));
 		setGUIContent(x, y);
+		if (x == player.selectedX && y == player.selectedY && id == 0) 
+			player.interfaceManager.hotbarWindow.selectSlot(x, y);
 		return;
 	}
 

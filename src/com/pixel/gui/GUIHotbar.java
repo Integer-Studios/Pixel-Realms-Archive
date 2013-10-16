@@ -69,7 +69,7 @@ public class GUIHotbar {
 				Sound.stopSong();
 				
 			}
-			PixelRealms.world.player.setSelectedItem(((GUIItemStack) ((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[1]).itemstack);
+			PixelRealms.world.player.setSelectedItem(x, y, ((GUIItemStack) ((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[1]).itemstack);
 		}
 	}
 	

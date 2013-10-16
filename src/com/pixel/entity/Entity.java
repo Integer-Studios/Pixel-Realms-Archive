@@ -90,6 +90,7 @@ public class Entity {
 	}
 
 	public void setPosition(float x, float y) {
+			
 		posX = x;
 		posY = y;
 	}
