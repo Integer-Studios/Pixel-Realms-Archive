@@ -18,7 +18,6 @@ import com.pixel.gui.GUIHotbar;
 import com.pixel.gui.GUIPieceOnMouse;
 import com.pixel.gui.GUIStructureOnMouse;
 import com.pixel.gui.PlayerInterfaceManager;
-import com.pixel.input.KeyboardListener;
 import com.pixel.input.MouseClickListener;
 import com.pixel.inventory.Inventory;
 import com.pixel.item.Item;
@@ -120,6 +119,9 @@ public class EntityPlayer extends EntityHuman {
 		body.tick(w);
 
 		super.tick(w);
+		
+		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(posX * World.tileConstant);
+		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(posY * World.tileConstant);
 	}
 	
 	public boolean eatFood(ItemFood i) {
@@ -230,31 +232,6 @@ public class EntityPlayer extends EntityHuman {
 		}
 	}
 
-	public void updatePlayerPosition(World w) {
-		float tempSpeed = speed;
-		
-		if ((KeyboardListener.keyBindings.get("Left").pressed && KeyboardListener.keyBindings.get("Up").pressed) || (KeyboardListener.keyBindings.get("Right").pressed && KeyboardListener.keyBindings.get("Up").pressed) || (KeyboardListener.keyBindings.get("Left").pressed && KeyboardListener.keyBindings.get("Down").pressed) || (KeyboardListener.keyBindings.get("Right").pressed && KeyboardListener.keyBindings.get("Down").pressed)) {
-
-			tempSpeed = tempSpeed / (float)Math.sqrt(2D);
-
-		} 
-		if (KeyboardListener.keyBindings.get("Left").pressed) {
-			setX(posX - tempSpeed);
-		} 
-		if (KeyboardListener.keyBindings.get("Right").pressed) {
-			setX(posX + tempSpeed);
-		} 
-		if (KeyboardListener.keyBindings.get("Up").pressed) {
-			setY(posY - tempSpeed);
-		} 
-		if (KeyboardListener.keyBindings.get("Down").pressed) {
-			setY(posY + tempSpeed);
-		}
-		
-		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(posX * World.tileConstant);
-		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(posY * World.tileConstant);
-	
-	}
 
 	public void render(GameContainer c, Graphics g, World w) {
 		super.render(c, g, w);
@@ -385,5 +362,6 @@ public class EntityPlayer extends EntityHuman {
 		}
 		
 	}
+
 
 }

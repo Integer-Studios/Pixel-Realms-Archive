@@ -91,7 +91,7 @@ public class BipedActionWalking extends BipedAction {
 	}
 
 	public void tick(World w) {
-		if (body.entity.getX() == body.entity.getPreviousX() && body.entity.getY() == body.entity.getPreviousY()) {
+		if (!body.entity.isMoving()) {
 			body.animation.pause();
 			//			if (body.human instanceof EntityPlayer)
 			//				body.human.walkingClip.stop();
