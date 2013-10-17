@@ -28,6 +28,8 @@ public class PlayerInterfaceManager {
 	public boolean leftSliding, isLeftOpen;
 	public boolean rightSliding, isRightOpen;
 	public boolean menuSliding, isMenuOpen;
+
+	public GUIPieceOnMouse pieceOnMouse;
 	public static Image recipeSlot;
 
 	public static Image slotImage;

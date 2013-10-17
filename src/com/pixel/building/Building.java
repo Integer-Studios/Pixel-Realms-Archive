@@ -50,7 +50,7 @@ public class Building {
 		
 		for (int b = x; b < (x + width); b ++) {
 			
-			for (int i = (y - height); i < y; i ++) {
+			for (int i = y; i > (y - height); i --) {
 
 				if (World.pieces.get((i * World.c) + b) != null) {
 					

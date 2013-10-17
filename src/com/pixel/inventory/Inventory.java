@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.packet.PacketUpdateInventoryContent;
 import com.pixel.entity.EntityPlayer;
+import com.pixel.gui.GUIHotbar;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
 import com.pixel.util.CoordinateKey;
@@ -73,7 +74,7 @@ public class Inventory {
 		
 		content.put(new CoordinateKey(x, y), new InventoryContent(x, y, itemstack));
 		setGUIContent(x, y);
-		if (x == player.selectedX && y == player.selectedY && id == 0) 
+		if (x == GUIHotbar.selectedSlot.x && y == GUIHotbar.selectedSlot.y && id == 0) 
 			player.interfaceManager.hotbarWindow.selectSlot(x, y);
 		CommunicationClient.addPacket(new PacketUpdateInventoryContent(x,y,itemstack.item.id, itemstack.size, id));
 	}
@@ -89,7 +90,7 @@ public class Inventory {
 	public void serverSetContent(int x, int y, ItemStack itemstack) {
 		content.put(new CoordinateKey(x, y), new InventoryContent(x, y, itemstack));
 		setGUIContent(x, y);
-		if (x == player.selectedX && y == player.selectedY && id == 0) 
+		if (x == GUIHotbar.selectedSlot.x && y == GUIHotbar.selectedSlot.y && id == 0) 
 			player.interfaceManager.hotbarWindow.selectSlot(x, y);
 		return;
 	}

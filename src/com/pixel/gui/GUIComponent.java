@@ -24,7 +24,6 @@ public class GUIComponent {
 				this.image = TextureLoader.load(texture);
 				this.image.setFilter(Image.FILTER_NEAREST);
 			} catch (RuntimeException e) {
-
 				this.image = null;
 			}
 

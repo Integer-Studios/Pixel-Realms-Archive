@@ -15,7 +15,6 @@ public class EntityHuman extends EntityAlive {
 	public Clip walkingClip;
 	public Piece targetPiece;
 	public float energy = 100;
-	public int selectedX, selectedY;
 	public ItemStack selectedItem = new ItemStack(Item.blank, 0);
 
 	public EntityHuman(float x, float y, float width, float height) {
@@ -37,10 +36,8 @@ public class EntityHuman extends EntityAlive {
 		
 	}
 	
-	public void setSelectedItem(int x, int y, ItemStack itemStack) {
+	public void setSelectedItem(ItemStack itemStack) {
 
-		this.selectedX = x;
-		this.selectedY = y;
 		this.selectedItem = itemStack;
 		
 	}

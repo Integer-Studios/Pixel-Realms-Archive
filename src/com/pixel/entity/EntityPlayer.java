@@ -15,6 +15,7 @@ import com.pixel.communication.packet.PacketUpdatePiece;
 import com.pixel.communication.packet.PacketUpdateWorld;
 import com.pixel.gui.GUI;
 import com.pixel.gui.GUIHotbar;
+import com.pixel.gui.GUIPieceOnMouse;
 import com.pixel.gui.GUIStructureOnMouse;
 import com.pixel.gui.PlayerInterfaceManager;
 import com.pixel.input.KeyboardListener;
@@ -180,15 +181,6 @@ public class EntityPlayer extends EntityHuman {
 		float x = MouseClickListener.getXWorldMousePosition();
 		float y = MouseClickListener.getYWorldMousePosition();
 		
-		if (selectedItem.item.id == 23) {
-			
-			if (Building.canBuildingFit(0, (int)x, (int)y)) {
-				CommunicationClient.addPacket(new PacketUpdatePiece(26, 0, (int)x, (int)y, 1));
-				
-			}
-			return;
-		}
-		
 		Item.items[selectedItem.item.id].onSwing(this);
 
 		float x1,x2,y1,y2;
@@ -289,24 +281,53 @@ public class EntityPlayer extends EntityHuman {
 		return inventory.hotbar;
 	}
 
-	public void setSelectedItem(int x, int y, ItemStack itemStack) {
-		super.setSelectedItem(x, y, itemStack);
+	public void setSelectedItem(ItemStack itemStack) {
+		super.setSelectedItem(itemStack);
 
-		if (this.selectedItem.item.id == 23) {
-			
-			interfaceManager.structureOnMouse = new GUIStructureOnMouse((int)MouseClickListener.posX, (int)MouseClickListener.posY, 0);
-			GUI.addGUIComponent(interfaceManager.structureOnMouse);
+		if (itemStack != null) {
+
+			if (this.selectedItem.item.id == 23) {
+
+				interfaceManager.structureOnMouse = new GUIStructureOnMouse((int)MouseClickListener.posX, (int)MouseClickListener.posY, 0);
+				GUI.addGUIComponent(interfaceManager.structureOnMouse);
+
+			} else if (interfaceManager.structureOnMouse != null) {
+
+				GUI.removeGUIComponent(interfaceManager.structureOnMouse);
+				interfaceManager.structureOnMouse = null;
+
+			}
+
+			if (this.selectedItem.item.pieceID != 0) {
+
+				interfaceManager.pieceOnMouse = new GUIPieceOnMouse((int)MouseClickListener.posX, (int)MouseClickListener.posY, this.selectedItem.item.pieceID);
+				GUI.addGUIComponent(interfaceManager.pieceOnMouse);
+
+			} else if (interfaceManager.pieceOnMouse != null) {
+
+				GUI.removeGUIComponent(interfaceManager.pieceOnMouse);
+				interfaceManager.pieceOnMouse = null;
+
+			}
 			
 		} else {
-
-			if (interfaceManager.structureOnMouse != null) {
 			
+			if (interfaceManager.structureOnMouse != null) {
+
 				GUI.removeGUIComponent(interfaceManager.structureOnMouse);
 				interfaceManager.structureOnMouse = null;
 
 			}
 			
+			if (interfaceManager.pieceOnMouse != null) {
+
+				GUI.removeGUIComponent(interfaceManager.pieceOnMouse);
+				interfaceManager.pieceOnMouse = null;
+
+			}
+			
 		}
+
 
 	}
 	
@@ -341,8 +362,21 @@ public class EntityPlayer extends EntityHuman {
 				else
 					CommunicationClient.addPacket(new PacketUpdatePiece(new Piece(posX, posY, selectedItem.item.pieceID, false)));
 		
-				inventory.hotbar.depleteContent(selectedX, selectedY, 1);
+				inventory.hotbar.depleteContent(GUIHotbar.selectedSlot.x, GUIHotbar.selectedSlot.y, 1);
 
+			} else {
+				
+				if (selectedItem.item.id == 23) {
+					
+					posX = (int) ((MouseClickListener.posX - World.globalOffsetX) / World.tileConstant);
+					posY = (int) ((MouseClickListener.posY - World.globalOffsetY) / World.tileConstant) - 1;
+					
+					if (Building.canBuildingFit(0, (int)posX, (int)posY)) {
+						CommunicationClient.addPacket(new PacketUpdatePiece(26, 0, (int)posX, (int)posY, 1));
+						
+					}
+				}
+				
 			}
 			
 		}

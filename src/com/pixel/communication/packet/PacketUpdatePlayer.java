@@ -77,7 +77,7 @@ public class PacketUpdatePlayer extends Packet {
 				PlayerManager.players.get(userID).setHealth(health);
 				PlayerManager.players.get(userID).setSatisfaction(satisfaction);
 				PlayerManager.players.get(userID).setEnergy(energy);
-				PlayerManager.players.get(userID).setSelectedItem(0, 0, new ItemStack(Item.getItemForId(itemID), itemAmount));
+				PlayerManager.players.get(userID).setSelectedItem(new ItemStack(Item.getItemForId(itemID), itemAmount));
 				PlayerManager.players.get(userID).worldID = worldID;
 
 			} else if (worldID == PixelRealms.world.player.worldID) {
@@ -85,7 +85,7 @@ public class PacketUpdatePlayer extends Packet {
 					PlayerManager.players.get(userID).setSatisfaction(satisfaction);
 					PlayerManager.players.get(userID).setHealth(health);
 					PlayerManager.players.get(userID).setEnergy(energy);
-					PlayerManager.players.get(userID).setSelectedItem(0, 0, new ItemStack(Item.getItemForId(itemID), itemAmount));
+					PlayerManager.players.get(userID).setSelectedItem(new ItemStack(Item.getItemForId(itemID), itemAmount));
 					PlayerManager.players.get(userID).worldID = worldID;
 			}
 
