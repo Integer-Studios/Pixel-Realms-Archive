@@ -356,6 +356,7 @@ public class World {
 
 		}
 		
+		
 		for (int x = 0; x < PlayerManager.players.size(); x ++) {
 
 			((EntityOnlinePlayer)PlayerManager.players.values().toArray()[x]).tick(this);

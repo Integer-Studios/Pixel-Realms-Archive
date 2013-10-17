@@ -56,10 +56,10 @@ public class Piece {
 		info[id].tick(w, this);
 		if (info[id].shouldCollide) {
 			boolean flag = false;
-			if (playerInCollidedPosition && w.player.isInPreviousPosition()) {
+			if (playerInCollidedPosition && !w.player.isMoving()) {
 				info[id].setPlayerInInteractionZone(true);
 				flag = true;
-			} else if (playerInCollidedPosition && !w.player.isInPreviousPosition()) {
+			} else if (playerInCollidedPosition && w.player.isMoving()) {
 				flag = false;
 			}
 			if (CollisionBox.testPieceAgainstEntity(this, w.player, w, true)) {
@@ -67,7 +67,7 @@ public class Piece {
 					info[id].setPlayerInInteractionZone(true);
 				} else {
 					info[id].onPlayerCollided(w, this, w.player);
-					PlayerMotionManager.onCollidedWithPiece(w, posX, posY);
+					PlayerMotionManager.onCollidedWithPiece(w.player, posX, posY);
 				}
 				playerInCollidedPosition= true;
 				flag = true;
