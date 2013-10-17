@@ -349,9 +349,7 @@ public class World {
 				break;
 
 		}
-		
-		PlayerMotionManager.checkMovement(player);
-		
+				
 		for (int x = 0; x < entities.size(); x ++) {
 
 			((Entity) entities.values().toArray()[x]).tick(this);

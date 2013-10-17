@@ -1,6 +1,5 @@
 package com.pixel.player;
 
-import org.lwjgl.opengl.Display;
 
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.packet.PacketMovePlayer;
@@ -27,30 +26,48 @@ public class PlayerMotionManager {
 	public static void updatePlayerMotion(EntityPlayer player, World world) {
 		
 		float tempSpeed = player.speed;
-		
+				
 		if ((KeyboardListener.keyBindings.get("Left").pressed && KeyboardListener.keyBindings.get("Up").pressed) || (KeyboardListener.keyBindings.get("Right").pressed && KeyboardListener.keyBindings.get("Up").pressed) || (KeyboardListener.keyBindings.get("Left").pressed && KeyboardListener.keyBindings.get("Down").pressed) || (KeyboardListener.keyBindings.get("Right").pressed && KeyboardListener.keyBindings.get("Down").pressed)) {
 			tempSpeed = tempSpeed / (float)Math.sqrt(2D);
 		} 
 		
-		if (KeyboardListener.keyBindings.get("Left").pressed) {
-			player.setX(player.getX() - tempSpeed);
-			clearTarget();
-		} 
-			
-		if (KeyboardListener.keyBindings.get("Right").pressed) {
-			player.setX(player.getX() + tempSpeed);
-			clearTarget();
-		}  
+		if (KeyboardListener.keyBindings.get("Left").pressed && !KeyboardListener.keyBindings.get("Right").pressed) {
+			player.setVelocityX(-1*tempSpeed);
+		} else if (KeyboardListener.keyBindings.get("Right").pressed && !KeyboardListener.keyBindings.get("Left").pressed) {
+			player.setVelocityX(tempSpeed);
+		} else {
+			player.setVelocityX(0);
+		}
 		
-		if (KeyboardListener.keyBindings.get("Up").pressed) {
-			player.setY(player.getY() - tempSpeed);
-			clearTarget();
+		if (KeyboardListener.keyBindings.get("Down").pressed && !KeyboardListener.keyBindings.get("Up").pressed) {
+			player.setVelocityY(tempSpeed);
+		} else if (KeyboardListener.keyBindings.get("Up").pressed && !KeyboardListener.keyBindings.get("Down").pressed) {
+			player.setVelocityY(-1*tempSpeed);
+		} else {
+			player.setVelocityY(0);
 		}
-			
-		if (KeyboardListener.keyBindings.get("Down").pressed) {
-			player.setY(player.getY() + tempSpeed);
-			clearTarget();
-		}
+		
+		checkMovement(player);
+//		
+//		if (KeyboardListener.keyBindings.get("Left").pressed) {
+//			player.setX(player.getX() - tempSpeed);
+//			clearTarget();
+//		} 
+//			
+//		if (KeyboardListener.keyBindings.get("Right").pressed) {
+//			player.setX(player.getX() + tempSpeed);
+//			clearTarget();
+//		}  
+//		
+//		if (KeyboardListener.keyBindings.get("Up").pressed) {
+//			player.setY(player.getY() - tempSpeed);
+//			clearTarget();
+//		}
+//			
+//		if (KeyboardListener.keyBindings.get("Down").pressed) {
+//			player.setY(player.getY() + tempSpeed);
+//			clearTarget();
+//		}
 		
 		if (hasTarget) {
 			
@@ -70,23 +87,18 @@ public class PlayerMotionManager {
 			player.door = false;
 		
 		}
-		
-		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.getX() * World.tileConstant);
-		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.getY() * World.tileConstant);
 
 	}
 	
 	public static int teleportCount = 0;
 	
 	public static void checkMovement(EntityPlayer player) {
-		changeX = player.getX() - player.getPreviousX();
-		changeY = player.getY() - player.getPreviousY();
-		
-		if (changeX >= .8 && changeY >= .8)
+				
+		if (player.getVelocityX() >= .8 && player.getVelocityY() >= .8)
 			player.door = false;
 		
-		if ((changeX != prevChangeX || changeY != prevChangeY) && !player.teleported) {
-			CommunicationClient.addPacket(new PacketMovePlayer(changeX, changeY, player.getX(), player.getY()));
+		if ((player.getVelocityX() != player.getPreviousVelocityX() || player.getVelocityY() != player.getPreviousVelocityY()) && !player.teleported) {
+			CommunicationClient.addPacket(new PacketMovePlayer(player.getVelocityX(), player.getVelocityY(), player.getX(), player.getY()));
 
 		} else if (player.teleported && teleportCount == 1) {
 			
@@ -99,9 +111,9 @@ public class PlayerMotionManager {
 			
 		}
 		
-		prevChangeX = changeX;
-		prevChangeY = changeY;
-		
+//		prevChangeX = changeX;
+//		prevChangeY = changeY;
+//		
 
 	}
 

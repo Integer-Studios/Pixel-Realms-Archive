@@ -66,25 +66,25 @@ public class RelativeBody {
 	}
 
 	public void tick(World w) {
-		if (entity.getX() - entity.getPreviousX() < 0) {
-			if (entity.getY() - entity.getPreviousY() < 0) {
+		if (entity.getVelocityX() < 0) {
+			if (entity.getVelocityY() < 0) {
 				setToBackLeftAnimation();
-			} else if (entity.getPreviousY() - entity.getY() < 0) {
+			} else if (entity.getVelocityY() > 0) {
 				setToFrontLeftAnimation();
 			} else {
 				setToLeftAnimation();
 			}
-		} else if (entity.getPreviousX() - entity.getX() < 0) {
-			if (entity.getY() - entity.getPreviousY() < 0) {
+		} else if (entity.getVelocityX() > 0) {
+			if (entity.getVelocityY() < 0) {
 				setToBackRightAnimation();
-			} else if (entity.getPreviousY() - entity.getY() < 0) {
+			} else if (entity.getVelocityY() > 0) {
 				setToFrontRightAnimation();
 			} else {
 				setToRightAnimation();
 			}
-		} else if (entity.getY() - entity.getPreviousY() < 0) {
+		} else if (entity.getVelocityY() < 0) {
 			setToBackAnimation();
-		} else if (entity.getPreviousY() - entity.getY() < 0) {
+		} else if (entity.getVelocityY() > 0) {
 			setToFrontAnimation();
 		}
 		for (int i = 0; i < actions.size(); i++) {
