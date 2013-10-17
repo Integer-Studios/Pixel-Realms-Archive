@@ -52,6 +52,7 @@ public class EntityAlive extends Entity {
 	}
 	
 	public void setVelocity(float x, float y) {
+		System.out.println(x + " " + y);
 		velocityX = x;
 		velocityY = y;
 	}
