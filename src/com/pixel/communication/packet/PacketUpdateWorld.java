@@ -10,6 +10,7 @@ import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
 import com.pixel.start.PixelRealms;
 import com.pixel.tile.Tile;
+import com.pixel.world.World;
 
 public class PacketUpdateWorld extends Packet {
 
@@ -36,8 +37,14 @@ public class PacketUpdateWorld extends Packet {
 	@Override
 	public void readData(DataInputStream input) throws IOException {
 
+//		World.tiles.clear();
+//		World.pieces.clear();
+//		World.entities.clear();
+		
+		World.holdTillLoad();
+		
 		int tileAmount = input.readInt();
-
+		
 		for (int x = 0; x < tileAmount; x ++) {
 			
 			int id = input.readInt();
@@ -84,6 +91,8 @@ public class PacketUpdateWorld extends Packet {
 			e.setPosition(posX, posY);
 			
 		}
+		
+		World.release();
 
 //		clear((int)player.getX(), (int)player.getY());
 		player.updated = true;

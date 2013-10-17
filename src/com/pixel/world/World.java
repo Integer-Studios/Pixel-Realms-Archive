@@ -37,9 +37,13 @@ public class World {
 	public static ConcurrentMap<Integer, Piece> pieces;
 	public static ConcurrentHashMap<Integer, Entity> entities = new ConcurrentHashMap<Integer,Entity>();
 //	public static ConcurrentHashMap<Integer, Herd> herds = new ConcurrentHashMap<Integer,Herd>();
+	public static ConcurrentHashMap<Integer, Tile> tilesLocked = new ConcurrentHashMap<Integer,Tile>();
+	public static ConcurrentHashMap<Integer, PieceBuilding> buildingsLocked = new ConcurrentHashMap<Integer,PieceBuilding>();
+	public static ConcurrentMap<Integer, Piece> piecesLocked;
+	public static ConcurrentHashMap<Integer, Entity> entitiesLocked = new ConcurrentHashMap<Integer,Entity>();
 
 	
-	public static boolean loaded, loadingScreenDone, removeLoadingScreen;
+	public static boolean loaded, loadingScreenDone, removeLoadingScreen, locked;
 	public float oldX, oldY;
 	public boolean playerReset;
 	public int worldSaveCount = 0;
@@ -230,32 +234,62 @@ public class World {
 		}
 
 		loaded = true;
-		
 		ArrayList<Entity> entityArray = new ArrayList<Entity>();
 		ArrayList<Entity> paintedEntities = new ArrayList<Entity>();
-		
-		entityArray.addAll(entities.values());
-
-		entityArray.addAll(PlayerManager.players.values());
 		Object[] tileArray;
 		ConcurrentMap<Integer, Piece> piecesArray;
 		
-		try {
-			if (!interior) {
+		if (locked) {
+
+		
+
+			entityArray.addAll(entitiesLocked.values());
+
+			entityArray.addAll(PlayerManager.players.values());
+			
+
+			try {
+				if (!interior) {
+					piecesArray = piecesLocked;
+					tileArray = (Object[]) tilesLocked.values().toArray();
+				} else {
+					piecesArray = interiorWorld.pieces;
+					tileArray = interiorWorld.tiles.values().toArray();
+				}	
+			} catch (NullPointerException e) {
+
+				e.printStackTrace();
+				piecesArray = piecesLocked;
+				tileArray = (Object[]) tilesLocked.values().toArray();
+
+			}
+
+		} else {
+			
+			
+			entityArray.addAll(entities.values());
+
+			entityArray.addAll(PlayerManager.players.values());
+			
+			try {
+				if (!interior) {
+					piecesArray = pieces;
+					tileArray = (Object[]) tiles.values().toArray();
+				} else {
+					piecesArray = interiorWorld.pieces;
+					tileArray = interiorWorld.tiles.values().toArray();
+				}	
+			} catch (NullPointerException e) {
+
+				e.printStackTrace();
 				piecesArray = pieces;
 				tileArray = (Object[]) tiles.values().toArray();
-			} else {
-				piecesArray = interiorWorld.pieces;
-				tileArray = interiorWorld.tiles.values().toArray();
-			}	
-		} catch (NullPointerException e) {
 
-			e.printStackTrace();
-			piecesArray = pieces;
-			tileArray = (Object[]) tiles.values().toArray();
+			}
 
+			
 		}
-
+		
 		if (tileArray.length > 0) {
 			//REDUCABLE LOOP
 			for (int x = 0; x < tileArray.length; x++) {
@@ -498,6 +532,34 @@ public class World {
 
 		return (y * c) + x;
 
+	}
+	
+	public static void holdTillLoad() {
+
+		tiles.clear();
+		pieces.clear();
+		entities.clear();
+		buildings.clear();
+		
+//		tilesLocked = tiles;
+//		piecesLocked = pieces;
+//		entitiesLocked = entities;
+//		buildingsLocked = buildings;
+		
+//		locked = true;
+		
+		
+	}
+
+	public static void release() {
+
+//		tilesLocked.clear();
+//		piecesLocked.clear();
+//		entitiesLocked.clear();
+//		buildingsLocked.clear();
+		
+//		locked = false;
+		
 	}
 
 }
