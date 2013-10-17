@@ -15,6 +15,8 @@ public class Entity {
 	public float posY;
 	protected float prevPosX;
 	protected float prevPosY;
+	public float velocityX, velocityY;
+	public float prevVelocityX, prevVelocityY;
 	protected Animation animation;
 	public boolean painted;
 	public float width, height;
@@ -81,6 +83,40 @@ public class Entity {
 		
 	}
 	
+	public void setVelocity(float x, float y) {
+		System.out.println(x + " " + y);
+		velocityX = x;
+		velocityY = y;
+	}
+	
+	public float getVelocityY() {
+		return velocityY;
+	}
+	
+	public float getVelocityX() {
+		return velocityX;
+	}
+	
+	public float getPreviousVelocityY() {
+		return prevVelocityY;
+	}
+	
+	public float getPreviousVelocityX() {
+		return prevVelocityX;
+	}
+	
+	public void setVelocityX(float f) {
+		velocityX = f;
+	}
+	
+	public void setVelocityY(float f) {
+		velocityY = f;
+	}
+	
+	public boolean isMoving() {
+		return (velocityX != 0 || velocityY != 0);
+	}
+	
 	public Animation getAnimation() {
 		return this.animation;
 	}
@@ -98,6 +134,11 @@ public class Entity {
 	public void tick(World w) {
 		collisionBox = new Rectangle(posX - (width/2), posY - (height/2), width, height);
 //		checkPieceCollision(w, 10);
+		posX += velocityX;
+		posY += velocityY;
+		
+		prevVelocityX = velocityX;
+		prevVelocityY = velocityY;
 		prevPosX = posX;
 		prevPosY = posY;
 	}
