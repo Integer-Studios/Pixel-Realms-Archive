@@ -300,6 +300,9 @@ public class EntityPlayer extends EntityHuman {
 
 			if (this.selectedItem.item.pieceID != 0) {
 
+				if (interfaceManager.pieceOnMouse != null)
+					GUI.removeGUIComponent(interfaceManager.pieceOnMouse);
+
 				interfaceManager.pieceOnMouse = new GUIPieceOnMouse((int)MouseClickListener.posX, (int)MouseClickListener.posY, this.selectedItem.item.pieceID);
 				GUI.addGUIComponent(interfaceManager.pieceOnMouse);
 

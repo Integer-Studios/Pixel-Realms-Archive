@@ -51,6 +51,7 @@ public class GUIHotbar {
 	
 	public void selectSlot(int x, int y) {
 		
+		System.out.println("A");
 		((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[0].setImage(slotImage);
 		
 		selectedSlot = new CoordinateKey(x, y);
