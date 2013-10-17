@@ -26,6 +26,7 @@ import com.pixel.item.ItemStack;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceInfo;
 import com.pixel.player.PlayerInventory;
+import com.pixel.player.PlayerMotionManager;
 import com.pixel.start.PixelRealms;
 import com.pixel.util.CollisionBox;
 import com.pixel.world.World;
@@ -115,6 +116,8 @@ public class EntityPlayer extends EntityHuman {
 		}
 
 		testEntityCollisions(w);
+		
+		PlayerMotionManager.checkMovement(this);
 
 		body.tick(w);
 

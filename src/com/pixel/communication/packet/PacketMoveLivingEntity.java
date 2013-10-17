@@ -40,7 +40,6 @@ public class PacketMoveLivingEntity extends Packet {
 		velocityX = input.readFloat();
 		velocityY = input.readFloat();
 		
-		System.out.println("got movelivingentity packet");
 		
 		((EntityAlive)World.entities.get(serverID)).setVelocity(velocityX, velocityY);
 	}

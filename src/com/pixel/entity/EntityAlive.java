@@ -7,8 +7,6 @@ public class EntityAlive extends Entity {
 	public float satisfaction;
 	public int bodyID = -1;
 	public float speed;
-	public float velocityX, velocityY;
-	public float prevVelocityX, prevVelocityY;
 	
 	public EntityAlive(float width, float height) {
 		super(width, height);
@@ -51,39 +49,6 @@ public class EntityAlive extends Entity {
 		
 	}
 	
-	public void setVelocity(float x, float y) {
-		velocityX = x;
-		velocityY = y;
-	}
-	
-	public float getVelocityY() {
-		return velocityY;
-	}
-	
-	public float getVelocityX() {
-		return velocityX;
-	}
-	
-	public float getPreviousVelocityY() {
-		return prevVelocityY;
-	}
-	
-	public float getPreviousVelocityX() {
-		return prevVelocityX;
-	}
-	
-	public void setVelocityX(float f) {
-		velocityX = f;
-	}
-	
-	public void setVelocityY(float f) {
-		velocityY = f;
-	}
-	
-	public boolean isMoving() {
-		return (velocityX != 0 || velocityY != 0);
-	}
-	
 	public void damage(World w, float damage, Entity damageSource) {
 		this.health -= damage;
 		if (this.health <= 0.0F) {
@@ -116,16 +81,6 @@ public class EntityAlive extends Entity {
 			
 		}
 		
-	}
-	
-	public void tick(World world) {
-		posX += velocityX;
-		posY += velocityY;
-		
-		prevVelocityX = velocityX;
-		prevVelocityY = velocityY;
-		super.tick(world);
-
 	}
 	
 }

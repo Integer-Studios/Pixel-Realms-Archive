@@ -46,8 +46,6 @@ public class PlayerMotionManager {
 		} else {
 			player.setVelocityY(0);
 		}
-		
-		checkMovement(player);
 //		
 //		if (KeyboardListener.keyBindings.get("Left").pressed) {
 //			player.setX(player.getX() - tempSpeed);
@@ -169,6 +167,7 @@ public class PlayerMotionManager {
 		hasTarget = false;
 	}
 	
-	public static void onCollidedWithPiece(World w, int x, int y) {
+	public static void onCollidedWithPiece(EntityPlayer player, int x, int y) {
+		checkMovement(player);
 	}
 }
