@@ -25,7 +25,6 @@ public class Entity {
 	public int id;
 	public int serverID;
 	public int worldID = -1;
-	public float health = 10.0F;
 	public float floatingOffset = 0.0F;
 	@SuppressWarnings("rawtypes")
 	private static HashMap<Integer, Class> entityMap = new HashMap<Integer, Class>();
@@ -201,6 +200,7 @@ public class Entity {
 	static {
 		
 		entityMap.put(1, EntityBunny.class);
+		entityMap.put(2, EntityPog.class);
 		
 	}
 	

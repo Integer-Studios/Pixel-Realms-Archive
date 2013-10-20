@@ -119,8 +119,6 @@ public class EntityPlayer extends EntityHuman {
 		
 		PlayerMotionManager.checkMovement(this);
 
-		body.tick(w);
-
 		super.tick(w);
 		
 		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(posX * World.tileConstant);
@@ -237,7 +235,6 @@ public class EntityPlayer extends EntityHuman {
 
 
 	public void render(GameContainer c, Graphics g, World w) {
-		super.render(c, g, w);
 		if (World.loadingScreenDone && !interfaceInitialized) {
 			
 			interfaceInitialized = true;
@@ -246,7 +243,7 @@ public class EntityPlayer extends EntityHuman {
 			PieceInfo.pickupSound.start();
 			
 		}
-		body.render(c, g, w);
+		super.render(c, g, w);
 	}
 
 	public Inventory getLeftInventory() {
