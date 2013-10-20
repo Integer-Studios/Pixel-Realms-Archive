@@ -4,13 +4,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import com.pixel.entity.Entity;
 import com.pixel.entity.EntityAlive;
 import com.pixel.world.World;
 
 public class PacketMoveLivingEntity extends Packet {
 
 	EntityAlive entity;
-	int serverID;
+	int serverID, entityID;
 	public float velocityX, velocityY;
 	
 	public PacketMoveLivingEntity() {
@@ -35,11 +36,18 @@ public class PacketMoveLivingEntity extends Packet {
 	}
 
 	public void readData(DataInputStream input) throws IOException {
-
+		
+		entityID = input.readInt();
 		serverID = input.readInt();
 		velocityX = input.readFloat();
 		velocityY = input.readFloat();
 		
+		if (!World.entities.containsKey(serverID)) {
+			Entity entity = Entity.getEntity(entityID);
+			entity.serverID = serverID;
+			World.propagateEntity(entity);
+			
+		}
 		
 		((EntityAlive)World.entities.get(serverID)).setVelocity(velocityX, velocityY);
 	}
