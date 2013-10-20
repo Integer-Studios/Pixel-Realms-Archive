@@ -39,7 +39,7 @@ public class CommunicationClient implements Runnable {
 
 		try {
 			Packet.init();
-			socket = new Socket(host, 25566);
+			socket = new Socket(host, 25570);
 			socket.setTcpNoDelay(true);
 			output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream(), 5120));
 			input = new DataInputStream(socket.getInputStream());

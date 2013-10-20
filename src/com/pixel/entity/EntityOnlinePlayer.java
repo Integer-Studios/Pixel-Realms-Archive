@@ -1,8 +1,5 @@
 package com.pixel.entity;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-
 import com.pixel.body.BodyBiped;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
@@ -24,23 +21,9 @@ public class EntityOnlinePlayer extends EntityHuman {
 
 	}
 	
-	public void tick(World w) {
-		if (body != null) {
-			body.tick(w);
-		}
-		super.tick(w);
-		
-	}
-	
 	public void damage(World w, float damage, Entity damageSource) {
 		CommunicationClient.addPacket(new PacketDamagePlayer(this, damage));
 			
-	}
-	
-	public void render(GameContainer c, Graphics g, World w) {
-		super.render(c, g, w);
-		if (body != null)
-			body.render(c, g, w);
 	}
 	
 

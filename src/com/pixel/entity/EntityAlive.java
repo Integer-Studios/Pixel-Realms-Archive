@@ -1,5 +1,9 @@
 package com.pixel.entity;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+
+import com.pixel.body.RelativeBody;
 import com.pixel.world.World;
 
 public class EntityAlive extends Entity {
@@ -7,15 +11,32 @@ public class EntityAlive extends Entity {
 	public float satisfaction;
 	public int bodyID = -1;
 	public float speed;
+	public float health = 10.0F;
 	
+	public RelativeBody body;
+
 	public EntityAlive(float width, float height) {
 		super(width, height);
+		body = null;
 	}
 	
 	public EntityAlive(float x, float y, float width, float height) {
 		super(x, y, width, height);
 	}
 
+	public void tick(World w) {
+		if (body != null) {
+			body.tick(w);
+		}
+		super.tick(w);
+	}
+	
+	public void render(GameContainer c, Graphics g, World w) {
+		if (body != null)
+			body.render(c, g, w);
+		super.render(c, g, w);
+	}
+	
 	public void setMaxHealth(float health) {
 		
 		this.health = health;
@@ -67,7 +88,6 @@ public class EntityAlive extends Entity {
 	
 	public void kill(World w, Entity damageSource) {
 		health = 0;
-		World.entities.remove(this.serverID);
 	}
 	
 	public void spawnBody(World w) {
