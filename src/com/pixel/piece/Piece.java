@@ -85,18 +85,18 @@ public class Piece {
 				info[id].onPlayerCollided(w, this, w.player);
 				w.player.onOverPiece(w, posX, posY);
 			}
-			try {
-				for (int x = 0; x < World.entities.size(); x++) {
-					if (CollisionBox.testPieceAgainstEntity(this, (Entity) World.entities.values().toArray()[x], w, false)) {
-						info[id].onEntityCollided(w, this,(Entity) World.entities.values().toArray()[x]);
-					}
-
-				} 
-			} catch (NullPointerException e) {
-
-
-				
-			}
+//			try {
+//				for (int x = 0; x < World.entities.size(); x++) {
+//					if (CollisionBox.testPieceAgainstEntity(this, (Entity) World.entities.values().toArray()[x], w, false)) {
+//						info[id].onEntityCollided(w, this,(Entity) World.entities.values().toArray()[x]);
+//					}
+//
+//				} 
+//			} catch (NullPointerException e) {
+//
+//
+//				
+//			}
 		}
 		
 		if ((int)MouseClickListener.getXWorldMousePosition() == posX && (int)MouseClickListener.getYWorldMousePosition() == posY) {
