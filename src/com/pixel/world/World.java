@@ -42,6 +42,9 @@ public class World {
 	public static ConcurrentMap<Integer, Piece> piecesLocked;
 	public static ConcurrentHashMap<Integer, Entity> entitiesLocked = new ConcurrentHashMap<Integer,Entity>();
 
+	public static int derp = 0x01;
+	public static int derp1 = 0x02;
+
 	
 	public static boolean loaded, loadingScreenDone, removeLoadingScreen, locked;
 	public float oldX, oldY;
@@ -326,7 +329,7 @@ public class World {
 				player.render(c, g, this);
 				player.painted = true;
 			}
-
+			
 			for (int y = 0; y < particles.size(); y ++) {
 				particles.get(y).render(c, g, this);
 			}

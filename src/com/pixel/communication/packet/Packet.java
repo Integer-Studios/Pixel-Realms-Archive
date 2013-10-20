@@ -4,7 +4,10 @@ import org.newdawn.slick.Color;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
@@ -16,9 +19,13 @@ public abstract class Packet {
 	public int id;
 	public boolean loaded;
 	public int userID;
+	public ArrayList<Float> auxiliaryFloats;
+	public ArrayList<Integer> auxiliaryIntegers;
+	public ArrayList<String> auxiliaryStrings;
+	public ArrayList<Boolean> auxiliaryBooleans;
+	
 	@SuppressWarnings("rawtypes")
 	private static HashMap<Integer, Class> packetMap = new HashMap<Integer, Class>();
-	
 	
 	public static void writePacket(Packet packet, DataOutputStream output) {
 		if (((packet.id != 1 && packet.id != 3) && !PixelRealms.loggedIn) || (packet.id == 2 && !World.loaded)) {
@@ -31,6 +38,7 @@ public abstract class Packet {
 		try {
 			output.writeInt(packet.id);
 			output.writeInt(PlayerManager.currentUserID);
+			packet.writeAuxiliaryVariables(output);
 			packet.writeData(output);
 			output.flush();
 
@@ -60,6 +68,7 @@ public abstract class Packet {
 
 			packet.userID = userID;
 			packet.id = id;
+			packet.readAuxiliaryVariables(input);
 			packet.readData(input);
 			packet.loaded = true;
 
@@ -140,6 +149,139 @@ public abstract class Packet {
             return null;
         }
     }
+    
+    public void writeAuxiliaryVariables(DataOutputStream output) throws IOException {
+		
+		output.writeInt(auxiliaryFloats.size());
+		output.writeInt(auxiliaryIntegers.size());
+		output.writeInt(auxiliaryBooleans.size());
+		output.writeInt(auxiliaryStrings.size());
+
+		for (Float f : auxiliaryFloats) {
+
+			output.writeFloat(f);
+
+		}
+
+		for (Integer i : auxiliaryIntegers) {
+
+			output.writeInt(i);
+
+		}
+		
+		for (Boolean b : auxiliaryBooleans) {
+
+			output.writeBoolean(b);
+
+		}
+
+		for (String s : auxiliaryStrings) {
+
+			output.writeInt(s.length());
+			writeString(s, output);
+
+		}
+		
+	}
+	
+	public void readAuxiliaryVariables(DataInputStream input) throws IOException {
+		
+		int floats = input.readInt();
+		int ints = input.readInt();
+		int booleans = input.readInt();
+		int strings = input.readInt();
+		
+		for (int x = 0; x < floats; x ++) {
+
+			auxiliaryFloats.add(input.readFloat());
+
+		}
+
+		for (int x = 0; x < ints; x ++) {
+
+			auxiliaryIntegers.add(input.readInt());
+
+		}
+
+		for (int x = 0; x < booleans; x ++) {
+
+			auxiliaryBooleans.add(input.readBoolean());
+
+		}
+
+		for (int x = 0; x < strings; x ++) {
+			
+			int length = input.readInt();
+			auxiliaryStrings.add(readString(length, input));
+
+		}
+
+
+	}
+
+	public Packet addAuxiliaryFloat(float f) {
+
+		auxiliaryFloats.add(f);
+		return this;
+
+	}
+
+	public Packet addAuxiliaryInteger(Integer integer) {
+
+		auxiliaryIntegers.add(integer);
+		return this;
+
+	}
+
+	public Packet addAuxiliaryBoolean(Boolean bool) {
+
+		auxiliaryBooleans.add(bool);
+		return this;
+
+	}
+	
+	public Packet addAuxiliaryString(String string) {
+
+		auxiliaryStrings.add(string);
+		return this;
+
+	}
+
+	public Packet addAuxiliaryFloats(float[] f) {
+
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		HashSet<Float> set = new HashSet(Arrays.asList(f));
+		auxiliaryFloats.addAll(set);
+		return this;
+
+	}
+	
+	public Packet addAuxiliaryIntegers(int[] integers) {
+
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		HashSet<Integer> set = new HashSet(Arrays.asList(integers));
+		auxiliaryIntegers.addAll(set);
+		return this;
+
+	}
+	
+	public Packet addAuxiliaryBooleans(Boolean[] booleans) {
+
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		HashSet<Boolean> set = new HashSet(Arrays.asList(booleans));
+		auxiliaryBooleans.addAll(set);
+		return this;
+
+	}
+	
+	public Packet addAuxiliaryStrings(String[] strings) {
+
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		HashSet<String> set = new HashSet(Arrays.asList(strings));
+		auxiliaryStrings.addAll(set);
+		return this;
+
+	}
 	
 	public abstract void writeData(DataOutputStream output) throws IOException;
 	
