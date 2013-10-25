@@ -1,4 +1,4 @@
-package com.pixel.building;
+package com.pixel.interior;
 
 import com.badlogic.gdx.math.Rectangle;
 

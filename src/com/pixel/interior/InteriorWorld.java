@@ -1,10 +1,9 @@
-package com.pixel.world;
+package com.pixel.interior;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
-import com.pixel.building.BuildingDoor;
 import com.pixel.entity.Entity;
 import com.pixel.piece.Piece;
 import com.pixel.tile.Tile;

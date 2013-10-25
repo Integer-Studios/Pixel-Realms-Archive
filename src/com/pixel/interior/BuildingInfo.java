@@ -1,4 +1,6 @@
-package com.pixel.building;
+package com.pixel.interior;
+
+import java.util.HashMap;
 
 public class BuildingInfo {
 
@@ -8,6 +10,7 @@ public class BuildingInfo {
 	public String texture;
 	public BuildingDoor door;
 	public int maxDamage;
+	public HashMap<Integer, Integer> requirements = new HashMap<Integer, Integer>();
 	
 	public BuildingInfo(int id, int width, int height, int maxDamage) {
 		
@@ -29,6 +32,13 @@ public class BuildingInfo {
 	public BuildingInfo setDoor(BuildingDoor door) {
 		
 		this.door = door;
+		return this;
+		
+	}
+	
+	public BuildingInfo addRequirement(int id, int amount) {
+		
+		requirements.put(id, amount);
 		return this;
 		
 	}

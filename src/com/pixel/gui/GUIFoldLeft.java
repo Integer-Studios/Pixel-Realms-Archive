@@ -7,10 +7,11 @@ import com.pixel.entity.EntityPlayer;
 
 public class GUIFoldLeft {
 	
+	public boolean rob;
 	public EntityPlayer player;
 	public int originX, originY;
-	public GUIComponent window, leftFoot, rightFoot, body, leftHand, rightHand, head, scroll, statsWindow;
-	public GUIComponentText name;
+	public GUIComponent window;
+	public int menuID = -1;
 	
 	public GUIFoldLeft(EntityPlayer player) {
 		this.player = player;
@@ -18,52 +19,78 @@ public class GUIFoldLeft {
 		originY = -305;
 		window = new GUIComponent(originX, originY, 200, 350, "resources/gui/interface/foldLeft/window.png");
 		
-		leftFoot = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/leftFoot.png");
-		rightFoot = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/rightFoot.png");
-		body = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/body.png");
-		leftHand = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/leftHand.png");
-		rightHand = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/rightHand.png");
-		head = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/head.png");
+		initialize();
 		
-		scroll = new GUIComponent(originX+18, originY+30, 164, 58, "resources/gui/interface/foldLeft/scroll.png");
-		name = new GUIComponentText("Rob", originX+85, originY+34, 30, Color.black);
+	}
+	
+	public void initialize() {
 		
-		statsWindow = new GUIComponent(originX+20, originY+250, 160, 64, "resources/gui/interface/foldLeft/statsWindow.png");
+		if (menuID != -1)
+			player.interfaceManager.menus.remove(menuID);
+			
+		
+		GUIComponent leftFoot = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/leftFoot.png");
+		GUIComponent rightFoot = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/rightFoot.png");
+		GUIComponent body = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/body.png");
+		GUIComponent leftHand = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/leftHand.png");
+		GUIComponent rightHand = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/rightHand.png");
+		GUIComponent head = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/head.png");
+		GUIComponent scroll = new GUIComponent(originX+18, originY+30, 164, 58, "resources/gui/interface/foldLeft/scroll.png");
+		GUIComponentText name = new GUIComponentText("Rob", originX+85, originY+34, 30, Color.black);
+		GUIComponent statsWindow = new GUIComponent(originX+20, originY+250, 160, 64, "resources/gui/interface/foldLeft/statsWindow.png");
 
+		GUIComponentSet rob = new GUIComponentSet(originX, originY, 200, 350, new GUIComponent[]{leftFoot,rightFoot,body,rightHand,leftHand,head,scroll,name,statsWindow});
+
+		player.interfaceManager.menus.put(0, rob);
+		
+		menuID = 0;
+		
+	}
+	
+	public void updateMenu(int menu) {
+		
+		if (player.interfaceManager.menuOpenable) {
+
+			switch (menu) {
+
+			
+			case 1: 
+
+				menuID = menu;
+				player.interfaceManager.menus.put(menu, new GUIFoldConstruction(originX, originY, player.interfaceManager.menuCoordinate.x, player.interfaceManager.menuCoordinate.y));
+				player.interfaceManager.menus.put(menuID, (GUIComponentSet) GUI.addGUIComponent(player.interfaceManager.menus.get(menuID)));
+				player.interfaceManager.menuOpenable = false;
+				player.interfaceManager.menuCoordinate = null;
+				break;
+			default:
+					initialize();
+					break;
+
+			}
+
+		} else if (player.interfaceManager.getMenu(menuID) != null) {
+			
+			GUI.removeGUIComponent(player.interfaceManager.getMenu(menuID));
+			player.interfaceManager.menus.remove(menuID);
+
+		}
+		
 	}
 	
 	public void setY(int i) {
 		originY = i;
 		window.setY(originY);
 		
-		leftFoot.setY(originY+100);
-		rightFoot.setY(originY+100);
-		body.setY(originY+100);
-		leftHand.setY(originY+100);
-		rightHand.setY(originY+100);
-		head.setY(originY+100);
+		if (player.interfaceManager.getMenu(menuID) != null)
+			player.interfaceManager.getMenu(menuID).setY(originY);
 		
-		scroll.setY(originY+30);
-		name.setY(originY+34);
-		
-		statsWindow.setY(originY+250);
 	}
 	
 	public void setX(int i) {
 		originX = i;
 		window.setX(originX);
-		
-		leftFoot.setX(originX+58);
-		rightFoot.setX(originX+58);
-		body.setX(originX+58);
-		leftHand.setX(originX+58);
-		rightHand.setX(originX+58);
-		head.setX(originX+58);
-		
-		scroll.setX(originX+18);
-		name.setX(originX+85);
-		
-		statsWindow.setX(originX+20);
+		if (player.interfaceManager.getMenu(menuID) != null)
+			player.interfaceManager.getMenu(menuID).setX(originX);
 
 	}
 	
@@ -72,48 +99,21 @@ public class GUIFoldLeft {
 		originY = -305;
 		window = new GUIComponent(originX, originY, 200, 350, "resources/gui/interface/foldLeft/window.png");
 		
-		leftFoot = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/leftFoot.png");
-		rightFoot = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/rightFoot.png");
-		body = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/body.png");
-		leftHand = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/leftHand.png");
-		rightHand = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/rightHand.png");
-		head = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/head.png");
-
-		scroll = new GUIComponent(originX+18, originY+30, 164, 58, "resources/gui/interface/foldLeft/scroll.png");
-		name = new GUIComponentText("Rob", originX+85, originY+34, 30, Color.black);
+		initialize();
 		
-		statsWindow = new GUIComponent(originX+20, originY+250, 160, 64, "resources/gui/interface/foldLeft/statsWindow.png");
-
 		window = (GUIComponent) GUI.addGUIComponent(window);
 		
-		leftFoot = (GUIComponent) GUI.addGUIComponent(leftFoot);
-		rightFoot = (GUIComponent) GUI.addGUIComponent(rightFoot);
-		body = (GUIComponent) GUI.addGUIComponent(body);
-		leftHand = (GUIComponent) GUI.addGUIComponent(leftHand);
-		rightHand = (GUIComponent) GUI.addGUIComponent(rightHand);
-		head = (GUIComponent) GUI.addGUIComponent(head);
-		
-		scroll = (GUIComponent) GUI.addGUIComponent(scroll);
-		name = (GUIComponentText) GUI.addGUIComponent(name);
-		
-		statsWindow = (GUIComponent) GUI.addGUIComponent(statsWindow);
+		player.interfaceManager.menus.put(menuID,  (GUIComponentSet) GUI.addGUIComponent(player.interfaceManager.getMenu(menuID)));
 
 	}
 
 	public void removeFromGUI() {
-		GUI.removeGUIComponent(statsWindow);
 
-		GUI.removeGUIComponent(name);
-		GUI.removeGUIComponent(scroll);
-		
-		GUI.removeGUIComponent(head);
-		GUI.removeGUIComponent(rightHand);
-		GUI.removeGUIComponent(leftHand);
-		GUI.removeGUIComponent(body);
-		GUI.removeGUIComponent(rightFoot);
-		GUI.removeGUIComponent(leftFoot);
-
+		GUI.removeGUIComponent(player.interfaceManager.getMenu(menuID));
+		player.interfaceManager.menus.remove(menuID);
+		menuID = -1;
 		GUI.removeGUIComponent(window);
+	
 	}
 
 }

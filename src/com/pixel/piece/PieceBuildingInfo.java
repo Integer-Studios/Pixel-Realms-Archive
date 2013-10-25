@@ -3,11 +3,11 @@ package com.pixel.piece;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import com.pixel.building.Building;
 import com.pixel.entity.EntityPlayer;
+import com.pixel.interior.Building;
+import com.pixel.interior.InteriorWorldManager;
 import com.pixel.start.TextureLoader;
 import com.pixel.util.CollisionBox;
-import com.pixel.world.InteriorWorldManager;
 import com.pixel.world.World;
 
 public class PieceBuildingInfo extends PieceInfo {

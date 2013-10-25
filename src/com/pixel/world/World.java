@@ -21,6 +21,8 @@ import com.pixel.entity.EntityOnlinePlayer;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.frame.PanelWorld;
 import com.pixel.gui.GUILoadingScreen;
+import com.pixel.interior.InteriorWorld;
+import com.pixel.interior.InteriorWorldManager;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
 import com.pixel.player.PlayerMotionManager;

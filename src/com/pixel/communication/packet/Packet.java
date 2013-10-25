@@ -5,9 +5,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
@@ -247,38 +245,47 @@ public abstract class Packet {
 
 	}
 
-	public Packet addAuxiliaryFloats(float[] f) {
+	public Packet addAuxiliaryFloats(float[] floats) {
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
-		HashSet<Float> set = new HashSet(Arrays.asList(f));
-		auxiliaryFloats.addAll(set);
+		for (int x = 0; x < floats.length; x ++) {
+			
+			auxiliaryFloats.add(floats[x]);
+		
+		}
+			
 		return this;
 
 	}
 	
 	public Packet addAuxiliaryIntegers(int[] integers) {
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
-		HashSet<Integer> set = new HashSet(Arrays.asList(integers));
-		auxiliaryIntegers.addAll(set);
+		for (int x = 0; x < integers.length; x ++) {
+			
+			auxiliaryIntegers.add(integers[x]);
+		
+		}
 		return this;
 
 	}
 	
 	public Packet addAuxiliaryBooleans(Boolean[] booleans) {
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
-		HashSet<Boolean> set = new HashSet(Arrays.asList(booleans));
-		auxiliaryBooleans.addAll(set);
+		for (int x = 0; x < booleans.length; x ++) {
+			
+			auxiliaryBooleans.add(booleans[x]);
+		
+		}
 		return this;
 
 	}
 	
 	public Packet addAuxiliaryStrings(String[] strings) {
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
-		HashSet<String> set = new HashSet(Arrays.asList(strings));
-		auxiliaryStrings.addAll(set);
+		for (int x = 0; x < strings.length; x ++) {
+			
+			auxiliaryStrings.add(strings[x]);
+		
+		}
 		return this;
 
 	}
@@ -294,7 +301,7 @@ public abstract class Packet {
 		packetMap.put(2, PacketUpdatePlayer.class);
 		packetMap.put(3, PacketWorldData.class);
 		packetMap.put(4, PacketUpdateTile.class);
-		packetMap.put(5, PacketUpdatePiece.class);
+		packetMap.put(5, PacketChangePiece.class);
 		packetMap.put(6, PacketUpdateWorld.class);
 		packetMap.put(7, PacketUpdateLivingEntity.class);
 		packetMap.put(8, PacketChat.class);
@@ -309,6 +316,7 @@ public abstract class Packet {
 		packetMap.put(17, PacketInfoRequest.class);
 		packetMap.put(18, PacketLoadPlayer.class);
 		packetMap.put(19, PacketUpdateInteriorPiece.class);
+		packetMap.put(20, PacketUpdatePiece.class);
 
 	}
 	

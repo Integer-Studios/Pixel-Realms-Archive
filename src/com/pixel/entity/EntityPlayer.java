@@ -7,11 +7,10 @@ import org.newdawn.slick.Graphics;
 import com.badlogic.gdx.math.Rectangle;
 import com.pixel.body.BodyBiped;
 import com.pixel.body.BipedActionPunching;
-import com.pixel.building.Building;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.GetBunnies;
 import com.pixel.communication.packet.PacketUpdateInteriorPiece;
-import com.pixel.communication.packet.PacketUpdatePiece;
+import com.pixel.communication.packet.PacketChangePiece;
 import com.pixel.communication.packet.PacketUpdateWorld;
 import com.pixel.gui.GUI;
 import com.pixel.gui.GUIHotbar;
@@ -19,6 +18,7 @@ import com.pixel.gui.GUIPieceOnMouse;
 import com.pixel.gui.GUIStructureOnMouse;
 import com.pixel.gui.PlayerInterfaceManager;
 import com.pixel.input.MouseClickListener;
+import com.pixel.interior.Building;
 import com.pixel.inventory.Inventory;
 import com.pixel.item.Item;
 import com.pixel.item.ItemFood;
@@ -340,7 +340,7 @@ public class EntityPlayer extends EntityHuman {
 				if (worldID != -1) 
 					CommunicationClient.addPacket(new PacketUpdateInteriorPiece(worldID, new Piece(posX, posY, selectedItem.item.pieceID, false)));
 				else
-					CommunicationClient.addPacket(new PacketUpdatePiece(new Piece(posX, posY, selectedItem.item.pieceID, false)));
+					CommunicationClient.addPacket(new PacketChangePiece(new Piece(posX, posY, selectedItem.item.pieceID, false)));
 		
 				inventory.hotbar.depleteContent(GUIHotbar.selectedSlot.x, GUIHotbar.selectedSlot.y, 1);
 
@@ -352,7 +352,7 @@ public class EntityPlayer extends EntityHuman {
 					posY = (int) ((MouseClickListener.posY - World.globalOffsetY) / World.tileConstant) - 1;
 					
 					if (Building.canBuildingFit(0, (int)posX, (int)posY)) {
-						CommunicationClient.addPacket(new PacketUpdatePiece(26, 0, (int)posX, (int)posY, 1));
+						CommunicationClient.addPacket(new PacketChangePiece(26, 0, (int)posX, (int)posY, 1));
 						
 					}
 				}

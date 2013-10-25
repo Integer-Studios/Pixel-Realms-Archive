@@ -8,10 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import com.pixel.entity.Entity;
 import com.pixel.entity.EntityAlive;
+import com.pixel.interior.InteriorWorld;
 import com.pixel.piece.Piece;
 import com.pixel.start.PixelRealms;
 import com.pixel.tile.Tile;
-import com.pixel.world.InteriorWorld;
 import com.pixel.world.World;
 
 public class PacketLoadInterior extends Packet {

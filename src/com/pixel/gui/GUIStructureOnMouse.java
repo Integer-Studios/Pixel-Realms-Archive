@@ -3,8 +3,8 @@ package com.pixel.gui;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import com.pixel.building.Building;
 import com.pixel.input.MouseClickListener;
+import com.pixel.interior.Building;
 import com.pixel.world.World;
 
 public class GUIStructureOnMouse extends GUIComponent {

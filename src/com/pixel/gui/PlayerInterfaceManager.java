@@ -1,11 +1,14 @@
 package com.pixel.gui;
 
+import java.util.HashMap;
+
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Image;
 
 import com.pixel.entity.EntityPlayer;
 import com.pixel.input.KeyboardListener;
 import com.pixel.start.TextureLoader;
+import com.pixel.util.CoordinateKey;
 
 public class PlayerInterfaceManager {
 	
@@ -23,12 +26,17 @@ public class PlayerInterfaceManager {
 	public GUIOptionsMenu optionsMenu;
 	public GUIStructureOnMouse structureOnMouse;
 	
+	public HashMap<Integer, GUIComponentSet> menus = new HashMap<Integer,GUIComponentSet>();
+	
 	public boolean inputIntercepted;
 	public boolean centerSliding, isCenterOpen;
 	public boolean leftSliding, isLeftOpen;
 	public boolean rightSliding, isRightOpen;
 	public boolean menuSliding, isMenuOpen;
 
+	public boolean menuOpenable;
+	public CoordinateKey menuCoordinate;
+	
 	public GUIPieceOnMouse pieceOnMouse;
 	public static Image recipeSlot;
 
@@ -36,6 +44,7 @@ public class PlayerInterfaceManager {
 	
 	public PlayerInterfaceManager(EntityPlayer player) {
 		this.player = player;
+		player.interfaceManager = this;
 		bunnyCounter = new GUIBunnyCounter();
 		slotImage = TextureLoader.load("resources/gui/inventory/slot.png");
 		recipeSlot = TextureLoader.load("resources/gui/interface/foldRight/recipeSlot.png");
@@ -112,6 +121,19 @@ public class PlayerInterfaceManager {
 			if (isCenterOpen) {
 				rightSliding = true;
 			}
+		}
+		
+		if (KeyboardListener.keyBindings.get("E").onKeyUp) {
+			
+			foldLeft.updateMenu(foldLeft.menuID);
+			if (isMenuOpen) {
+				leftSliding = true;
+				rightSliding = true;
+			} else {
+				centerSliding = true;
+			}
+			menuSliding = true;
+			
 		}
 		
 		if (KeyboardListener.keyBindings.get("Menu").onKeyUp && !pauseMenu.isInGUI && !optionsMenu.isInGUI) {
@@ -266,5 +288,20 @@ public class PlayerInterfaceManager {
 		return inputIntercepted;
 				
 	}
+	
+	public GUIComponentSet getMenu(int menuID) {
+		
+		return menus.get(menuID);
+		
+	}
+
+	public void setMenu(int menuID, GUIComponentSet components) {
+
+		menus.put(menuID, components);
+		
+	}
+	
+	//rob 0
+	//construction 1
 
 }

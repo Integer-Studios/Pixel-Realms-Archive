@@ -1,8 +1,7 @@
-package com.pixel.world;
+package com.pixel.interior;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.pixel.building.BuildingDoor;
 
 public class InteriorWorldManager {
 

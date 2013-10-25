@@ -4,9 +4,11 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-import com.pixel.building.Building;
-import com.pixel.building.BuildingInfo;
+import com.pixel.entity.EntityPlayer;
+import com.pixel.interior.Building;
+import com.pixel.interior.BuildingInfo;
 import com.pixel.start.TextureLoader;
+import com.pixel.util.CoordinateKey;
 import com.pixel.world.World;
 
 public class PieceConstructionSiteInfo extends PieceInfo {
@@ -76,6 +78,17 @@ public class PieceConstructionSiteInfo extends PieceInfo {
 
 		}
 
+	}
+	
+	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
+
+		if (p.metadata != 0) {
+
+			player.interfaceManager.menuOpenable = true;
+			player.interfaceManager.foldLeft.menuID = 1;
+			player.interfaceManager.menuCoordinate = new CoordinateKey(p.posX, p.posY);
+
+		}
 	}
 
 	public boolean compareImageToStage(Piece p) {

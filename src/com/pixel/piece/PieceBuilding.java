@@ -1,7 +1,7 @@
 package com.pixel.piece;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.pixel.building.Building;
+import com.pixel.interior.Building;
 import com.pixel.world.World;
 
 public class PieceBuilding extends Piece {

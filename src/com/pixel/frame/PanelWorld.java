@@ -44,7 +44,7 @@ public class PanelWorld extends Panel {
 		KeyboardListener.addKeyBinding("FoldRight", KeyCode.KEY_RIGHT);
 		KeyboardListener.addKeyBinding("FoldLeft", KeyCode.KEY_LEFT);
 		KeyboardListener.addKeyBinding("HideMenu", KeyCode.KEY_UP);
-
+		KeyboardListener.addKeyBinding("E", KeyCode.KEY_E);
 	}
 	
 	public void update (GameContainer c, int delta) {

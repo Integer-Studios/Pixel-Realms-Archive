@@ -1,12 +1,15 @@
 package com.pixel.communication.packet;
 
+import com.pixel.interior.ConstructionSiteManager;
+import com.pixel.interior.InteriorWorld;
+import com.pixel.interior.InteriorWorldManager;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
 import com.pixel.piece.Piece;
+import com.pixel.piece.PieceConstructionSiteInfo;
 import com.pixel.piece.PieceInfo;
 import com.pixel.start.PixelRealms;
-import com.pixel.world.InteriorWorld;
-import com.pixel.world.InteriorWorldManager;
+import com.pixel.util.CoordinateKey;
 import com.pixel.world.World;
 
 public class PacketHandler {
@@ -23,7 +26,7 @@ public class PacketHandler {
 		
 	}
 
-	public static void processPieceUpdate(PacketUpdatePiece packet) {
+	public static void processPieceUpdate(PacketChangePiece packet) {
 		
 		PixelRealms.world.setPiece(packet.posX, packet.posY, packet.pieceID, packet.damage, packet.metadata, packet.buildingID, packet.worldID);
 		
@@ -56,6 +59,17 @@ public class PacketHandler {
 			InteriorWorld w = InteriorWorldManager.interiors.get(packet.worldID);
 
 			w.pieces.replace((packet.y * w.c) + packet.x, new Piece(packet.x, packet.y, packet.pieceID, packet.damage, packet.metadata, false));
+			
+		}
+		
+	}
+
+	public static void processUpdatePiece(PacketUpdatePiece packet) {
+
+		if (Piece.info[PixelRealms.world.getPiece(packet.posX, packet.posY)] instanceof PieceConstructionSiteInfo) {
+
+			if (packet.auxiliaryBooleans.get(0))
+				ConstructionSiteManager.sites.get(new CoordinateKey(packet.posX, packet.posY)).addItem(packet.auxiliaryIntegers.get(0), packet.auxiliaryIntegers.get(1));
 			
 		}
 		

@@ -1,9 +1,8 @@
-package com.pixel.building;
+package com.pixel.interior;
 
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.pixel.world.InteriorWorldManager;
 import com.pixel.world.World;
 
 public class Building {
