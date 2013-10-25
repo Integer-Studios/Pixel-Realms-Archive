@@ -310,12 +310,36 @@ public class World {
 						for (int i = 0; i < entityArray.size(); i ++) {
 
 							Entity entity = entityArray.get(i);
+							ArrayList<Entity> qualifiedEntities = new ArrayList<Entity>();
 							if (p.posY + pieceLayerOffset > entity.getY() && !paintedEntities.contains(entity)) {
 
-								entity.render(c, g, this);
-								paintedEntities.add(entity);
+//								entity.render(c, g, this);
+//								paintedEntities.add(entity);
+								qualifiedEntities.add(entity);
+								//TODO re order these qualified entities based on y coordinates then paint them in order 
+							}
+							
+							float lowestY = -1F;
+							int lowestEntity = -1;
+							int paintedQualifiedEntities = 0;
+
+							while (paintedQualifiedEntities < qualifiedEntities.size()) {
+								for (int x = 0; x < qualifiedEntities.size(); x++) {
+									if (lowestEntity == -1) {
+										lowestY = qualifiedEntities.get(x).getY();
+										lowestEntity = x;
+									} else if (qualifiedEntities.get(x).getY() < lowestY) {
+										lowestY = qualifiedEntities.get(x).getY();
+										lowestEntity = x;
+									}
+								}
+
+								qualifiedEntities.get(lowestEntity).render(c, g, this);
+								paintedEntities.add(qualifiedEntities.get(lowestEntity));
+								paintedQualifiedEntities ++;
 
 							}
+							
 
 						}
 

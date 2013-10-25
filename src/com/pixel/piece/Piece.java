@@ -8,7 +8,6 @@ import org.newdawn.slick.Graphics;
 import com.badlogic.gdx.math.Rectangle;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.packet.PacketDamagePiece;
-import com.pixel.entity.Entity;
 import com.pixel.input.MouseClickListener;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
@@ -72,12 +71,12 @@ public class Piece {
 				playerInCollidedPosition= true;
 				flag = true;
 			}
-			for (int x = 0; x < World.entities.size(); x++) {
-				if (CollisionBox.testPieceAgainstEntity(this, (Entity) World.entities.values().toArray()[x], w, true)) {
-					info[id].onEntityCollided(w, this,(Entity) World.entities.values().toArray()[x]);
-				}
-				
-			}
+//			for (int x = 0; x < World.entities.size(); x++) {
+//				if (CollisionBox.testPieceAgainstEntity(this, (Entity) World.entities.values().toArray()[x], w, true)) {
+//					info[id].onEntityCollided(w, this,(Entity) World.entities.values().toArray()[x]);
+//				}
+//				
+//			}
 			playerInCollidedPosition = flag;
 			info[id].setPlayerInInteractionZone(playerInCollidedPosition);
 		} else {
