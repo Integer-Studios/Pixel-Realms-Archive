@@ -24,7 +24,16 @@ public class ConstructionSite {
 		
 	}
 	
+	public void setItem(int id, int amount) {
+		
+		items.put(id, amount);
+		PixelRealms.world.getPieceObject(x, y).metadata = calculateMetadata();
+
+	}
+	
 	public int addItem(int id, int amount) {
+		
+		System.out.println("A " + id + " " + amount);
 		
 		if (items.containsKey(id)) {
 			

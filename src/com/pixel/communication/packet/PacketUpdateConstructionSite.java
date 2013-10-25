@@ -75,11 +75,10 @@ public class PacketUpdateConstructionSite extends Packet {
 		}
 		
 		for (int x = 0; x < itemAmount; x ++) {
-			
 			int id = input.readInt();
 			int amount = input.readInt();
-			amount = Building.info.get(buildingID).requirements.get(id) - amount;
-			ConstructionSiteManager.sites.get(new CoordinateKey(siteX, siteY)).addItem(id, amount);
+//			amount = Building.info.get(buildingID).requirements.get(id) - amount;
+			ConstructionSiteManager.sites.get(new CoordinateKey(siteX, siteY)).setItem(id, amount);
 			
 			
 		}
