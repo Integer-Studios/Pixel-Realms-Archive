@@ -2,6 +2,8 @@ package com.pixel.interior;
 
 import java.util.HashMap;
 
+import com.pixel.start.PixelRealms;
+
 public class ConstructionSite {
 
 	public int x, y;
@@ -43,8 +45,51 @@ public class ConstructionSite {
 			
 		}
 		
-		System.out.println(isCompleted());
+		PixelRealms.world.getPieceObject(x, y).metadata = calculateMetadata();
+		
 		return 0;
+		
+	}
+	
+	public int calculateMetadata() {
+		
+		int total = 0;
+		int amount = 0;
+		
+		for (Integer amt : Building.info.get(buildingID).requirements.values()) {
+			
+			total += amt;
+			
+		}
+		
+		for (Integer amt : items.values()) {
+			
+			amount += amt;
+			
+		}
+		
+		amount = total - amount;
+		
+		float percentage = (float) amount / (float) total;
+		
+		if (percentage <= .25) {
+			
+			return 1;
+			
+		} else if (percentage <= .5) {
+			
+			return 2;
+			
+		} else if (percentage <= .75) {
+			
+			return 3;
+			
+		} else if (percentage <= .99) {
+			
+			return 4;
+			
+		} else
+			return 1;
 		
 	}
 	
