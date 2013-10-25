@@ -171,6 +171,12 @@ public class World {
 		else
 			return 0;
 	}
+	
+	public Piece getPieceObjectFromHash(int hash) {
+		
+		return pieces.get(hash);
+		
+	}
 
 	public Piece getPieceObject(int x, int y) {
 		return pieces.get((y * c) + x);

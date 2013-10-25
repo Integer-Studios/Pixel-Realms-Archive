@@ -93,7 +93,7 @@ public class CollisionBox {
 		for (Piece p : pieces) {
 
 			if (p != null) {
-				if (r.overlaps(p.getCollisionBox()) && Piece.info[p.id].isCollectable) {
+				if (r.overlaps(p.getCollisionBox()) || p.getCollisionBox().contains(r)) {
 					
 					if (p instanceof PieceBuilding)
 						return -1;

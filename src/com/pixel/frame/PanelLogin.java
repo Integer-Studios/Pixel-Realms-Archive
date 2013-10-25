@@ -42,8 +42,23 @@ public class PanelLogin extends Panel {
 
 		PixelRealms.ip = "54.245.228.235";
 
-		System.out.println("[Pixel Realms] Current Server IP: " + PixelRealms.ip);
 
+		switch (PixelRealms.port) {
+		
+		case 25570:
+			System.out.println("[Pixel Realms] Currently connected to the Joint Development Server");
+			break;
+		case 25571:
+			System.out.println("[Pixel Realms] Currently connected to Jakes Development Server");
+			break;
+		case 25572:
+			System.out.println("[Pixel Realms] Currently connected to Quinn's Development Server");
+			break;
+		}
+		
+		System.out.println("[Pixel Realms] Current Server IP: " + PixelRealms.ip + ":" + PixelRealms.port);
+
+		
 		if (unix) {
 		
 			basePath = t.shortEndPath(t.getHomeFolder()) + "/Library/Application Support/Pixel Realms/";

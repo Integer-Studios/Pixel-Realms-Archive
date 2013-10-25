@@ -5,9 +5,16 @@ import java.util.HashMap;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Image;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.input.KeyboardListener;
+import com.pixel.input.MouseClickListener;
+import com.pixel.piece.Piece;
+import com.pixel.piece.PieceConstructionSiteInfo;
+import com.pixel.start.PixelLogger;
+import com.pixel.start.PixelRealms;
 import com.pixel.start.TextureLoader;
+import com.pixel.util.CollisionBox;
 import com.pixel.util.CoordinateKey;
 
 public class PlayerInterfaceManager {
@@ -26,6 +33,7 @@ public class PlayerInterfaceManager {
 	public GUIOptionsMenu optionsMenu;
 	public GUIStructureOnMouse structureOnMouse;
 	
+	public GUIComponentSet leftMenu, rightMenu;
 	public HashMap<Integer, GUIComponentSet> menus = new HashMap<Integer,GUIComponentSet>();
 	
 	public boolean inputIntercepted;
@@ -73,12 +81,54 @@ public class PlayerInterfaceManager {
 		
 	}
 	
+	public void reorderLayers() {
+		
+		centerFold.moveToFront();
+		healthBar = (GUIHealthBar) GUI.moveToFront(healthBar);
+		hungerBar = (GUIHungerBar) GUI.moveToFront(hungerBar);
+		hotbarWindow.moveToFront();
+	}
+	
 	public void onMouseReleased(int x, int y, boolean right) {
 
 		if (pauseMenu.isInGUI && !right) {
 			
 			pauseMenu.onMouseReleased(x, y);
 			
+		}
+
+		if (!pauseMenu.isInGUI) {
+			if (right) {
+				float xFloat = (int) MouseClickListener.getXWorldMousePosition();
+				float yFloat = (int) MouseClickListener.getYWorldMousePosition() + 1;
+
+				Rectangle scope = new Rectangle(xFloat, yFloat, 20F, 20F);
+
+				PixelLogger.debug("CLICK", xFloat, yFloat);
+				int hash = CollisionBox.testPiecesAgainstCollisionBox(scope, PixelRealms.world);
+				
+				Piece p = PixelRealms.world.getPieceObjectFromHash(hash);
+				int id = p.id;
+
+				if (id != -1) {
+
+					if (Piece.info[id] instanceof PieceConstructionSiteInfo) {
+
+						menuCoordinate = new CoordinateKey(p.posX, p.posY);
+
+						foldLeft.updateMenu(1);
+						slide();
+					}
+
+				}
+
+			} else {
+				
+				if (leftMenu instanceof GUIFoldConstruction) 
+					((GUIFoldConstruction) leftMenu).onMouseReleased(x, y, right);
+				
+			}
+
 		}
 		
 	}
@@ -96,13 +146,14 @@ public class PlayerInterfaceManager {
 	public void tick() {
 		
 		if (KeyboardListener.keyBindings.get("Inventory").onKeyUp) {
-			if (isMenuOpen) {
-				leftSliding = true;
-				rightSliding = true;
-			} else {
-				centerSliding = true;
+			
+			if (foldLeft.menuID != 0 && !isCenterOpen) {
+				
+				foldLeft.updateMenu(0);
+				
 			}
-			menuSliding = true;
+			slide();
+			
 		}
 		
 		if (KeyboardListener.keyBindings.get("CenterFold").onKeyUp) {
@@ -122,20 +173,7 @@ public class PlayerInterfaceManager {
 				rightSliding = true;
 			}
 		}
-		
-		if (KeyboardListener.keyBindings.get("E").onKeyUp) {
-			
-			foldLeft.updateMenu(foldLeft.menuID);
-			if (isMenuOpen) {
-				leftSliding = true;
-				rightSliding = true;
-			} else {
-				centerSliding = true;
-			}
-			menuSliding = true;
-			
-		}
-		
+
 		if (KeyboardListener.keyBindings.get("Menu").onKeyUp && !pauseMenu.isInGUI && !optionsMenu.isInGUI) {
 			pauseMenu.addToGUI();
 		} else if (KeyboardListener.keyBindings.get("Menu").onKeyUp && pauseMenu.isInGUI) {
@@ -218,6 +256,11 @@ public class PlayerInterfaceManager {
 				foldLeft.setX(Display.getWidth()/2-225);
 				isLeftOpen = false;
 				leftSliding = false;
+				if (foldLeft.menuID != 0) {
+					
+					foldLeft.updateMenu(0);
+					
+				}
 				if (menuSliding && isMenuOpen) {
 					centerSliding = true;
 				}
@@ -280,6 +323,20 @@ public class PlayerInterfaceManager {
 			
 		}
 		
+		
+	}
+	
+	public void slide() {
+		
+		if (isMenuOpen) {
+			leftSliding = true;
+			rightSliding = true;
+
+		} else {
+			
+			centerSliding = true;
+		}
+		menuSliding = true;
 		
 	}
 	

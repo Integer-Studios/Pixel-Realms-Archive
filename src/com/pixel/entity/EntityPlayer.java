@@ -55,6 +55,7 @@ public class EntityPlayer extends EntityHuman {
 	public boolean door;
 	public int currentlySelectedInterior;
 	public float doorX, doorY;
+	public Piece collidedPiece;
 	
 	public EntityPlayer(int x, int y) {
 		super(x, y, .2F, .2F);
@@ -355,6 +356,9 @@ public class EntityPlayer extends EntityHuman {
 						CommunicationClient.addPacket(new PacketChangePiece(26, 0, (int)posX, (int)posY, 1));
 						
 					}
+
+					inventory.hotbar.depleteContent(GUIHotbar.selectedSlot.x, GUIHotbar.selectedSlot.y, 1);
+					
 				}
 				
 			}

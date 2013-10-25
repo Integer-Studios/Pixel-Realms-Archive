@@ -49,7 +49,7 @@ public class PieceInfo {
 	}
 	
 	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
-
+		
 	}
 	
 	public void onPlayerHitting(World w, Piece p, EntityPlayer player) {

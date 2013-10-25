@@ -15,12 +15,14 @@ public class PixelRealms {
 	public static boolean server;
 	public static Toolkit t;
 	public static String ip;
+	public static int port = 25570;
 	public static boolean loggedIn = false;
 	public static MainLoop loop;
 	
 	public static void main(String[] args) {
 		System.out.println("-- Pixel Realms V1.0 --");
-
+		
+		port = 25572;
 		server = false;
 
 		t = new Toolkit();

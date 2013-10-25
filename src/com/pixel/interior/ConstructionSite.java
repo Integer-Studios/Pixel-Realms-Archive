@@ -14,20 +14,37 @@ public class ConstructionSite {
 		this.y = y;
 		this.buildingID = buildingID;
 		
+		for (Integer id : Building.info.get(buildingID).requirements.keySet()) {
+
+			items.put(id, Building.info.get(buildingID).requirements.get(id));
+			
+		}
+		
 	}
 	
-	public void addItem(int id, int amount) {
+	public int addItem(int id, int amount) {
 		
 		if (items.containsKey(id)) {
 			
-			amount += items.get(id);
-			items.put(id, amount);
-			
+			if (amount <= items.get(id)) {
+				amount = items.get(id) - amount;
+				items.put(id, amount);
+			} else {
+				
+				amount -= items.get(id);
+				items.put(id, 0);
+				return amount;
+				
+			}
+
 		} else {
 			
-			items.put(id, amount);
+			return -1;
 			
 		}
+		
+		System.out.println(isCompleted());
+		return 0;
 		
 	}
 	
@@ -41,7 +58,7 @@ public class ConstructionSite {
 				
 			} else {
 				
-				if (items.get(id) < Building.info.get(buildingID).requirements.get(id)) {
+				if (items.get(id) != 0) {
 					
 					return false;
 					

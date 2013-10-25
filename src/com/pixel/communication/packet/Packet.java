@@ -64,6 +64,9 @@ public abstract class Packet {
 
 			Packet packet = getPacket(id);
 
+			if (packet == null) 
+				System.out.println("[Pixel Realms] Skipping packet with id: " + id);
+			
 			packet.userID = userID;
 			packet.id = id;
 			packet.readAuxiliaryVariables(input);
@@ -317,6 +320,7 @@ public abstract class Packet {
 		packetMap.put(18, PacketLoadPlayer.class);
 		packetMap.put(19, PacketUpdateInteriorPiece.class);
 		packetMap.put(20, PacketUpdatePiece.class);
+		packetMap.put(21, PacketUpdateConstructionSite.class);
 
 	}
 	

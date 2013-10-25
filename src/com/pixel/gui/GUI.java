@@ -43,17 +43,38 @@ public class GUI {
 		}
 	}
 
+	public static GUIComponent moveToFront(GUIComponent e) {
+
+		if (components.contains(e)) {
+			components.remove(e);
+
+		}
+		components.add(e);
+
+		return e;
+		
+	}
+
+	
+	public static GUIComponentSet moveToFront(GUIComponentSet e) {
+
+		if (components.contains(e)) {
+			components.remove(e);
+		}
+		components.add(e);
+		return e;
+		
+	}
+
 	public static GUIComponent addGUIComponent(GUIComponent e) {
 		components.add(e);
 
 		e.onAddedToGUI();
-		e.indexInGUI = components.size()-1;
 		return e;
 	}
 	
 	public static void removeGUIComponent(GUIComponent e) {
-		components.remove(e.indexInGUI);
-		components.add(e.indexInGUI, new GUIComponentBlank());
+		components.remove(e);
 	}
 	
 	public static void clear() {

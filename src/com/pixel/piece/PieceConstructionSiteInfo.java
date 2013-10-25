@@ -8,7 +8,6 @@ import com.pixel.entity.EntityPlayer;
 import com.pixel.interior.Building;
 import com.pixel.interior.BuildingInfo;
 import com.pixel.start.TextureLoader;
-import com.pixel.util.CoordinateKey;
 import com.pixel.world.World;
 
 public class PieceConstructionSiteInfo extends PieceInfo {
@@ -27,6 +26,13 @@ public class PieceConstructionSiteInfo extends PieceInfo {
 		stages = new Image[stageCount];
 
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void onCreated(Piece p) {
+		super.onCreated(p);
+		
+//		ConstructionSiteManager.addSite(new ConstructionSite(p.posX, p.posY, ((PieceConstructionSiteInfo) Piece.info[p.id]).buildingID));
+		
 	}
 	
 	public void render(GameContainer c, Graphics g, World w, Piece p) {
@@ -82,13 +88,15 @@ public class PieceConstructionSiteInfo extends PieceInfo {
 	
 	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
 
-		if (p.metadata != 0) {
-
-			player.interfaceManager.menuOpenable = true;
-			player.interfaceManager.foldLeft.menuID = 1;
-			player.interfaceManager.menuCoordinate = new CoordinateKey(p.posX, p.posY);
-
-		}
+		super.onPlayerCollided(w, p, player);
+		
+//		if (p.metadata != 0) {
+//
+//			player.interfaceManager.menuOpenable = true;
+//			player.interfaceManager.foldLeft.menuID = 1;
+//			player.interfaceManager.menuCoordinate = new CoordinateKey(p.posX, p.posY);
+//
+//		}
 	}
 
 	public boolean compareImageToStage(Piece p) {

@@ -91,7 +91,7 @@ public class MouseClickListener {
 		
 		if (World.loaded) {
 			
-			PixelRealms.world.player.interfaceManager.onMousePressed(x, y, (button == 3));
+			PixelRealms.world.player.interfaceManager.onMousePressed(x, y, (button == 1));
 			
 		}
 		
@@ -111,8 +111,8 @@ public class MouseClickListener {
 	public static void mouseReleased(int button, int x, int y) {
 
 		if (World.loaded) {
-			
-			PixelRealms.world.player.interfaceManager.onMouseReleased(x, y, (button == 3));
+
+			PixelRealms.world.player.interfaceManager.onMouseReleased(x, y, (button == 1));
 			PixelRealms.world.player.onMouseReleased(x, y, button);
 			
 		}

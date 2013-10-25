@@ -4,6 +4,7 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.pixel.entity.EntityPlayer;
+import com.pixel.start.PixelRealms;
 
 public class GUIFoldLeft {
 	
@@ -25,10 +26,6 @@ public class GUIFoldLeft {
 	
 	public void initialize() {
 		
-		if (menuID != -1)
-			player.interfaceManager.menus.remove(menuID);
-			
-		
 		GUIComponent leftFoot = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/leftFoot.png");
 		GUIComponent rightFoot = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/rightFoot.png");
 		GUIComponent body = new GUIComponent(originX+58, originY+100, 84, 132, "resources/entities/rob/front/body.png");
@@ -41,56 +38,57 @@ public class GUIFoldLeft {
 
 		GUIComponentSet rob = new GUIComponentSet(originX, originY, 200, 350, new GUIComponent[]{leftFoot,rightFoot,body,rightHand,leftHand,head,scroll,name,statsWindow});
 
-		player.interfaceManager.menus.put(0, rob);
+		player.interfaceManager.leftMenu = rob;
 		
 		menuID = 0;
 		
 	}
 	
 	public void updateMenu(int menu) {
-		
-		if (player.interfaceManager.menuOpenable) {
 
+		if (menuID == menu) 
+			return;
+		
+			if (player.interfaceManager.leftMenu != null) {
+				
+				GUI.removeGUIComponent(player.interfaceManager.leftMenu);
+				player.interfaceManager.leftMenu = null;
+				
+			}
+				
+			
 			switch (menu) {
 
-			
+			case 0:
+					initialize();
+					break;
 			case 1: 
 
 				menuID = menu;
-				player.interfaceManager.menus.put(menu, new GUIFoldConstruction(originX, originY, player.interfaceManager.menuCoordinate.x, player.interfaceManager.menuCoordinate.y));
-				player.interfaceManager.menus.put(menuID, (GUIComponentSet) GUI.addGUIComponent(player.interfaceManager.menus.get(menuID)));
-				player.interfaceManager.menuOpenable = false;
-				player.interfaceManager.menuCoordinate = null;
+				player.interfaceManager.leftMenu = new GUIFoldConstruction(originX, originY, player.interfaceManager.menuCoordinate.x, player.interfaceManager.menuCoordinate.y, PixelRealms.world.getPiece(player.interfaceManager.menuCoordinate.x, player.interfaceManager.menuCoordinate.y));
 				break;
-			default:
-					initialize();
-					break;
-
-			}
-
-		} else if (player.interfaceManager.getMenu(menuID) != null) {
 			
-			GUI.removeGUIComponent(player.interfaceManager.getMenu(menuID));
-			player.interfaceManager.menus.remove(menuID);
-
-		}
-		
+			}
+			
+			player.interfaceManager.menuCoordinate = null;
+			player.interfaceManager.leftMenu = (GUIComponentSet) GUI.addGUIComponent(player.interfaceManager.leftMenu);
+			player.interfaceManager.reorderLayers();
 	}
 	
 	public void setY(int i) {
 		originY = i;
 		window.setY(originY);
 		
-		if (player.interfaceManager.getMenu(menuID) != null)
-			player.interfaceManager.getMenu(menuID).setY(originY);
+		if (player.interfaceManager.leftMenu != null)
+			player.interfaceManager.leftMenu.setY(originY);
 		
 	}
 	
 	public void setX(int i) {
 		originX = i;
 		window.setX(originX);
-		if (player.interfaceManager.getMenu(menuID) != null)
-			player.interfaceManager.getMenu(menuID).setX(originX);
+		if (player.interfaceManager.leftMenu != null)
+			player.interfaceManager.leftMenu.setX(originX);
 
 	}
 	
@@ -103,14 +101,14 @@ public class GUIFoldLeft {
 		
 		window = (GUIComponent) GUI.addGUIComponent(window);
 		
-		player.interfaceManager.menus.put(menuID,  (GUIComponentSet) GUI.addGUIComponent(player.interfaceManager.getMenu(menuID)));
+		player.interfaceManager.leftMenu = (GUIComponentSet) GUI.addGUIComponent(player.interfaceManager.leftMenu);
 
 	}
 
 	public void removeFromGUI() {
 
-		GUI.removeGUIComponent(player.interfaceManager.getMenu(menuID));
-		player.interfaceManager.menus.remove(menuID);
+		GUI.removeGUIComponent(player.interfaceManager.leftMenu);
+		player.interfaceManager.leftMenu = null;
 		menuID = -1;
 		GUI.removeGUIComponent(window);
 	

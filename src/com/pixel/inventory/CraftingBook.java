@@ -31,7 +31,7 @@ public class CraftingBook {
 				new ItemStack(Item.stick, 1)
 			}),
 			new CraftingPage(new ItemStack(Item.cabinCornerstone, 1), "Cornerstone", new ItemStack[]{
-				new ItemStack(Item.rock, 1),
+				new ItemStack(Item.rock, 25),
 			}),
 			
 	});

@@ -20,6 +20,7 @@ public class CommunicationClient implements Runnable {
     public static AtomicInteger sent = new AtomicInteger();
     public static AtomicInteger received = new AtomicInteger();
     public String host;
+    public int port;
 	public Thread writer, reader;
 
     private volatile static ArrayList<Packet> packetQue = new ArrayList<Packet>();
@@ -28,9 +29,10 @@ public class CommunicationClient implements Runnable {
 	private volatile static boolean running;
 	private volatile static Socket socket;
 
-	public CommunicationClient(String host) {
+	public CommunicationClient(String host, int port) {
 		
 		this.host = host;
+		this.port = port;
 		
 	}
 	
@@ -39,7 +41,7 @@ public class CommunicationClient implements Runnable {
 
 		try {
 			Packet.init();
-			socket = new Socket(host, 25570);
+			socket = new Socket(host, port);
 			socket.setTcpNoDelay(true);
 			output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream(), 5120));
 			input = new DataInputStream(socket.getInputStream());

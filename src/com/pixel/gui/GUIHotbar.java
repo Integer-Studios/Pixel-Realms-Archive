@@ -50,8 +50,7 @@ public class GUIHotbar {
 	}
 	
 	public void selectSlot(int x, int y) {
-		
-		System.out.println("A");
+
 		((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[0].setImage(slotImage);
 		
 		selectedSlot = new CoordinateKey(x, y);
@@ -83,6 +82,14 @@ public class GUIHotbar {
 		GUI.removeGUIComponent(inventory);
 		GUI.removeGUIComponent(window);
 		
+	}
+
+	public void moveToFront() {
+
+		window = GUI.moveToFront(window);
+		energyBar = (GUIEnergyBar) GUI.moveToFront(energyBar);
+		inventory = (GUIInventory) GUI.moveToFront(inventory);
+
 	}
 	
 

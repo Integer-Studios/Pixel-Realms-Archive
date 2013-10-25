@@ -25,25 +25,22 @@ public class PieceBuildingInfo extends PieceInfo {
 	
 	public void onCreated(Piece p) {
 
-		
+
 	}
-	
+
 	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
 		Building b = ((PieceBuilding) p).building;
 
-		if (p.metadata == 0) {
-
-			if (CollisionBox.testBoxAgainstEntity(w.player, InteriorWorldManager.doors.get(b.worldID).box, w, true) && !player.inside) {
-				player.door = true;
-				player.currentlySelectedInterior = ((PieceBuilding) p).building.worldID;
-				player.doorX = player.getX();
-				player.doorY = player.getY();
-
-			}
+		if (CollisionBox.testBoxAgainstEntity(w.player, InteriorWorldManager.doors.get(b.worldID).box, w, true) && !player.inside) {
+			player.door = true;
+			player.currentlySelectedInterior = ((PieceBuilding) p).building.worldID;
+			player.doorX = player.getX();
+			player.doorY = player.getY();
 
 		}
+
 	}
-	
+
 	public void render(GameContainer c, Graphics g, World w, Piece piece) {
 
 		PieceBuilding p = (PieceBuilding) piece;

@@ -50,7 +50,7 @@ public class PanelWorld extends Panel {
 	public void update (GameContainer c, int delta) {
 
 		if (World.loadingScreen != null && clientThread == null) {
-			CommunicationClient client = new CommunicationClient(PixelRealms.ip);
+			CommunicationClient client = new CommunicationClient(PixelRealms.ip, PixelRealms.port);
 			clientThread = new Thread(client);
 			clientThread.start();     
 			world = new World(this);

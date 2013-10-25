@@ -50,5 +50,14 @@ public class GUICenterFold {
 		GUI.removeGUIComponent(leftInv);
 		GUI.removeGUIComponent(window);
 	}
+
+	public void moveToFront() {
+
+		window = GUI.moveToFront(window);
+		leftInv = (GUIInventory) GUI.moveToFront(leftInv);
+		rightInv = (GUIInventory) GUI.moveToFront(rightInv);
+		decor = GUI.moveToFront(decor);
+
+	}
 	
 }
