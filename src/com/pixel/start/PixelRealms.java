@@ -22,7 +22,7 @@ public class PixelRealms {
 	public static void main(String[] args) {
 		System.out.println("-- Pixel Realms V1.0 --");
 		
-		port = 25572;
+		port = 25571;
 		server = false;
 
 		t = new Toolkit();
