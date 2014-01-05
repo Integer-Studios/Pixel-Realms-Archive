@@ -42,12 +42,13 @@ public class GUICraftingPage extends GUIComponentSet {
 	
 	public void setPage(CraftingPage page) {
 		this.page = page;
-		((GUIItemStackPreview)this.components[0]).setItem(page.item);
 		((GUIComponentText)this.components[1]).setText(page.name);
 		
 		itemImage.setItem(page.item);
 		itemSlot.setItem(page.item);
 
+		components[0] = itemImage;
+		
 		for (int i = 0; i < page.itemstacks.length; i++) {
 			((GUIRecipeSlot)components[i+2]).setRecipe(page.itemstacks[i].item, 0, page.itemstacks[i].size);
 		}
@@ -68,14 +69,7 @@ public class GUICraftingPage extends GUIComponentSet {
 			((GUIRecipeSlot)components[7]).applyStack(slot.itemsInCrafting.get(i));
 			((GUIRecipeSlot)components[8]).applyStack(slot.itemsInCrafting.get(i));
 			((GUIRecipeSlot)components[9]).applyStack(slot.itemsInCrafting.get(i));
-		}
-		
-		
-		if (satisfied) {
-			itemImage = new GUIItemStackPreview(x+105, y+30, page.item);
-		} else {
-			itemSlot = new GUIFreeInventorySlot(x+105, y+30, page.item);
-		}
+		}	
 		
 		
 		satisfied = true;
@@ -85,6 +79,17 @@ public class GUICraftingPage extends GUIComponentSet {
 			}
 		}
 		
+//		if (satisfied) {
+//			itemImage = new GUIItemStackPreview(x+105, y+30, page.item);
+//		} else {
+//			itemSlot = new GUIFreeInventorySlot(x+105, y+30, page.item);
+//		}
+		
+		if (components[0] instanceof GUIItemStackPreview && satisfied) {
+			itemSlot = new GUIFreeInventorySlot(x+105, y+30, page.item);
+		} else if (components[0] instanceof GUIFreeInventorySlot && !satisfied) {
+			itemImage = new GUIItemStackPreview(x+105, y+30, page.item);
+		}
 		
 		if (satisfied) {
 			components[0] = itemSlot;

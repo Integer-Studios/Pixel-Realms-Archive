@@ -23,8 +23,8 @@ public class EntityBunny extends EntityAnimal {
 		this.setBodyPiece(15);
 	}
 	
-	public void damage(World w, float damage, Entity damageSource) {
-		super.damage(w, damage, damageSource);
+	public void damage(World w, float damage, Entity damageSource, boolean fromServer) {
+		super.damage(w, damage, damageSource, fromServer);
 
 		CommunicationClient.addPacket(new PacketDamageEntity(this, damage));
 

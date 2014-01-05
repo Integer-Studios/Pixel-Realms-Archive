@@ -220,9 +220,9 @@ public class EntityPlayer extends EntityHuman {
 			
 			EntityAlive entityAlive = (EntityAlive) e;
 			if (entityAlive instanceof EntityOnlinePlayer)
-				((EntityOnlinePlayer) entityAlive).damage(w, tempDamage, this);
+				((EntityOnlinePlayer) entityAlive).damage(w, tempDamage, this, false);
 			else 
-				entityAlive.damage(w, tempDamage, this);
+				entityAlive.damage(w, tempDamage, this, false);
 
 		} else {
 			int i = CollisionBox.testPiecesAgainstCollisionBox(clickScope, w);

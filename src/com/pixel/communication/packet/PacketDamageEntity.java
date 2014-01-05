@@ -31,8 +31,6 @@ public class PacketDamageEntity extends Packet {
 
 	@Override
 	public void writeData(DataOutputStream output) throws IOException {
-
-		output.writeBoolean(false);
 		output.writeInt(entity.serverID);
 		output.writeFloat(damage);
 
@@ -40,15 +38,16 @@ public class PacketDamageEntity extends Packet {
 
 	@Override
 	public void readData(DataInputStream input) throws IOException {
-
+		System.out.println("reading");
 		this.serverID = input.readInt();
 		this.damage = input.readFloat();
-
-		if (this.damage <= 0) {
-
-			((EntityAlive)World.entities.get(this.serverID)).kill(PixelRealms.world, null);
-
-		}
+		((EntityAlive)World.entities.get(this.serverID)).damage(PixelRealms.world, this.damage, PixelRealms.world.player, true);
+//
+//		if (this.damage <= 0) {
+//
+//			((EntityAlive)World.entities.get(this.serverID)).kill(PixelRealms.world, null);
+//
+//		}
 
 	}
 

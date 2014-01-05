@@ -21,7 +21,7 @@ public class EntityOnlinePlayer extends EntityHuman {
 
 	}
 	
-	public void damage(World w, float damage, Entity damageSource) {
+	public void damage(World w, float damage, Entity damageSource, boolean fromServer) {
 		CommunicationClient.addPacket(new PacketDamagePlayer(this, damage));
 			
 	}
