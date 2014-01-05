@@ -1,12 +1,10 @@
 package com.pixel.entity;
 
-import javax.sound.sampled.Clip;
-
-
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.SaveBunny;
 import com.pixel.communication.packet.PacketDamageEntity;
-import com.pixel.sound.Sound;
+import com.pixel.sound.PixelEffect;
+import com.pixel.sound.PixelSoundManager;
 import com.pixel.world.World;
 
 public class EntityBunny extends EntityAnimal {
@@ -30,9 +28,7 @@ public class EntityBunny extends EntityAnimal {
 
 		CommunicationClient.addPacket(new PacketDamageEntity(this, damage));
 
-		Clip hurt = Sound.getEffect(Sound.Effect.BUNNY_DEATH);
-		hurt.setFramePosition(0);
-		hurt.start();
+		PixelSoundManager.createEffect(PixelEffect.BUNNY_DEATH).start();
 		
 	}
 	

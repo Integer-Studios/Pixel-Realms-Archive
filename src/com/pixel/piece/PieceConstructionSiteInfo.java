@@ -49,7 +49,6 @@ public class PieceConstructionSiteInfo extends PieceInfo {
 
 		image = stages[p.metadata];
 		
-		
 		if (image != null && compareImageToStage(p)) {
 			image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY - ((building.height - 1) * World.tileConstant), World.tileConstant * building.width, World.tileConstant * building.height);
 			//			image.draw(building.door.box.getX()*World.tileConstant+World.globalOffsetX ,  building.door.box.getY()*World.tileConstant+World.globalOffsetY, building.door.width, building.door.height);
@@ -67,15 +66,15 @@ public class PieceConstructionSiteInfo extends PieceInfo {
 					break;
 				case 2:
 					p.setSize(0F, 0.4F, 4F, 0.8F);
-					p.redrawCollisionBox(false);
+					p.redrawCollisionBox(true);
 					break;
 				case 3:
 					p.setSize(0F, 0F, 4F, 1F);
-					p.redrawCollisionBox(false);
+					p.redrawCollisionBox(true);
 					break;
 				case 4:
 					p.setSize(0F, -0.4F, 4F, 1.35F);
-					p.redrawCollisionBox(false);
+					p.redrawCollisionBox(true);
 					break;
 				}
 

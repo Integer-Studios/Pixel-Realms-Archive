@@ -13,10 +13,11 @@ public class Entity {
 
 	public float posX;
 	public float posY;
+	public float posZ;
 	protected float prevPosX;
 	protected float prevPosY;
-	public float velocityX, velocityY;
-	public float prevVelocityX, prevVelocityY;
+	public float velocityX, velocityY, velocityZ;
+	public float prevVelocityX, prevVelocityY, prevVelocityZ;
 	protected Animation animation;
 	public boolean painted;
 	public float width, height;

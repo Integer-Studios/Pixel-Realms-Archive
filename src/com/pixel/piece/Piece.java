@@ -1,7 +1,5 @@
 package com.pixel.piece;
 
-import javax.sound.sampled.Clip;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
@@ -12,7 +10,8 @@ import com.pixel.input.MouseClickListener;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
 import com.pixel.player.PlayerMotionManager;
-import com.pixel.sound.Sound;
+import com.pixel.sound.PixelEffect;
+import com.pixel.sound.PixelSoundManager;
 import com.pixel.tile.Material;
 import com.pixel.util.CollisionBox;
 import com.pixel.util.Toolkit;
@@ -112,9 +111,9 @@ public class Piece {
 	public void damage(int i, World w) {
 		info[id].onPlayerHitting(w, this, w.player);
 		damage -= i;
-		Clip hitSound = Sound.getEffect(Sound.Effect.PUNCHING_DEFAULT);
-		hitSound.setFramePosition(0);
-		hitSound.start();
+		
+		PixelSoundManager.createEffect(PixelEffect.PUNCHING_DEFAULT).start();
+		
 		if (damage < 0)
 			damage = 0;
 		

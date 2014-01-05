@@ -5,12 +5,11 @@ import com.pixel.entity.EntityPlayer;
 import com.pixel.frame.MainFrame;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
-import com.pixel.sound.Sound;
+import com.pixel.sound.PixelEffect;
+import com.pixel.sound.PixelSoundManager;
 import com.pixel.start.TextureLoader;
 import com.pixel.tile.Material;
 import com.pixel.world.World;
-
-import javax.sound.sampled.Clip;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -57,11 +56,10 @@ public class PieceInfo {
 	}
 	
 	public void onDestroyed(World w, Piece p, EntityPlayer player) {
-//		if (dropItemStack != null) {
-//			pickupSound.setFramePosition(0);
-//			pickupSound.start();
-//			player.giveItem(dropItemStack);
-//		}
+		if (dropItemStack != null) {
+			PixelSoundManager.createEffect(PixelEffect.PICKUP_DEFAULT).start();
+			player.giveItem(dropItemStack);
+		}
 	}
 	
 	public void setPlayerInInteractionZone(boolean b) {
@@ -138,5 +136,5 @@ public class PieceInfo {
 	public ItemStack dropItemStack = null;
 	public Item rolloverItem = null;
 	public Material material = Material.VEGITATION;
-	public static Clip pickupSound = Sound.getEffect(Sound.Effect.PICKUP_DEFAULT);
+//	public static Clip pickupSound = Sound.getEffect(Sound.PixelEffect.PICKUP_DEFAULT);
 }

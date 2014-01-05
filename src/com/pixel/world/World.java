@@ -26,8 +26,8 @@ import com.pixel.interior.InteriorWorldManager;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
 import com.pixel.player.PlayerMotionManager;
-import com.pixel.sound.Sound;
-import com.pixel.sound.Sound.Music;
+import com.pixel.sound.PixelEffect;
+import com.pixel.sound.PixelSoundManager;
 import com.pixel.start.PixelRealms;
 import com.pixel.tile.Tile;
 import com.pixel.util.Toolkit;
@@ -50,7 +50,7 @@ public class World {
 	
 	public static boolean loaded, loadingScreenDone, removeLoadingScreen, locked;
 	public float oldX, oldY;
-	public boolean playerReset;
+	public boolean playerReset, playedLogin;
 	public int worldSaveCount = 0;
 	public ArrayList<Particle> particles = new ArrayList<Particle>();
 	public static int c = 400;
@@ -65,6 +65,7 @@ public class World {
 	public PanelWorld panelWorld;
 	public static GUILoadingScreen loadingScreen;
 	public LightingManager lightingManager;
+	public int waitCount = 0;
 	public long time = 12000;
 	public long dayLength = 24000;
 	public static boolean interior;
@@ -228,13 +229,20 @@ public class World {
 	}
 
 	public void render(GameContainer c, Graphics g) {
-		
-		if (!loadingScreenDone)
-			loadingScreen.tick();
 
 		if (!loaded) {
 			
 			return;
+			
+		} 
+		
+		if (loaded && loadingScreenDone && !playedLogin) {
+
+			waitCount ++;
+			if (waitCount >= 15) {
+				PixelSoundManager.createEffect(PixelEffect.LOGIN).start();
+				playedLogin = true;
+			}
 			
 		}
 		
@@ -251,8 +259,6 @@ public class World {
 		ConcurrentMap<Integer, Piece> piecesArray;
 		
 		if (locked) {
-
-		
 
 			entityArray.addAll(entitiesLocked.values());
 
@@ -377,6 +383,17 @@ public class World {
 	}
 
 	public void tick() {
+
+		if (loaded && removeLoadingScreen == false) {
+			
+			World.removeLoadingScreen = true;
+			PixelRealms.loggedIn = true;
+			PixelRealms.world.player.updated = true;
+			
+		}
+		
+		if (!loadingScreenDone)
+			loadingScreen.tick();
 		
 		time++;
 
@@ -438,14 +455,14 @@ public class World {
 		}
 		
 		player.tick(this);
-		
-		int play = 0 + (int)(Math.random() * ((10000 - 0) + 1));
-		
-		if (play == 1 && Sound.getCurrentSong() == Sound.Music.OFF) {
-			
-			PixelRealms.playSong(Music.ROB_IN_WHITE_SATIN);
-			
-		}
+//		
+//		int play = 0 + (int)(Math.random() * ((10000 - 0) + 1));
+//		
+//		if (play == 1 && Sound.getCurrentSong() == Sound.Music.OFF) {
+//			
+//			PixelRealms.playSong(Music.ROB_IN_WHITE_SATIN);
+//			
+//		}
 
 	}
 	

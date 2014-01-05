@@ -8,7 +8,6 @@ import com.pixel.communication.PlayerManager;
 import com.pixel.entity.Entity;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
-import com.pixel.start.PixelRealms;
 import com.pixel.tile.Tile;
 import com.pixel.world.World;
 
@@ -96,10 +95,7 @@ public class PacketWorldData extends Packet {
 		}
 		
 		World.loaded = true;
-		World.removeLoadingScreen = true;
-		PixelRealms.loggedIn = true;
-		PixelRealms.world.player.updated = true;
-
+		
 	}
 	
 }

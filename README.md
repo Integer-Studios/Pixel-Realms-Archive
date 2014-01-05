@@ -5,7 +5,7 @@ Pixel Realms is an R.P.G. adventure sandbox - or should we say it WILL be. You s
 stage and adding more and more every week, and we were hoping you could join us for the ride! But enough about that, 
 let's talk about what will become of this humble beginning.
 
-Roam around the realm with your firends raiding dungeons, winning duels, mining for resources, hunting your next meal, 
+Roam around the realm with your friends raiding dungeons, winning duels, mining for resources, hunting your next meal, 
 exploring caves, fighting robbers, and trading in any towns you pass on the way! Purchase a home in a town or set up 
 your own camp in the wild - who knows, maybe you'll have your own town one day, maybe even your own kingdom! Being a 
 king isn't a walk in the park either. You'll have to defend your citizens and conquer anything you see fit. No matter 

@@ -24,7 +24,6 @@ import com.pixel.item.Item;
 import com.pixel.item.ItemFood;
 import com.pixel.item.ItemStack;
 import com.pixel.piece.Piece;
-import com.pixel.piece.PieceInfo;
 import com.pixel.player.PlayerInventory;
 import com.pixel.player.PlayerMotionManager;
 import com.pixel.start.PixelRealms;
@@ -240,8 +239,6 @@ public class EntityPlayer extends EntityHuman {
 			
 			interfaceInitialized = true;
 			interfaceManager.initializeInterface();
-			PieceInfo.pickupSound.setFramePosition(0);
-			PieceInfo.pickupSound.start();
 			
 		}
 		super.render(c, g, w);

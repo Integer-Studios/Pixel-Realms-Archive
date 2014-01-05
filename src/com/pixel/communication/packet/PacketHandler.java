@@ -1,5 +1,8 @@
 package com.pixel.communication.packet;
 
+import com.pixel.body.BipedActionKickback;
+import com.pixel.communication.PlayerManager;
+import com.pixel.entity.EntityAlive;
 import com.pixel.interior.ConstructionSiteManager;
 import com.pixel.interior.InteriorWorld;
 import com.pixel.interior.InteriorWorldManager;
@@ -7,7 +10,6 @@ import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceConstructionSiteInfo;
-import com.pixel.piece.PieceInfo;
 import com.pixel.start.PixelRealms;
 import com.pixel.util.CoordinateKey;
 import com.pixel.world.World;
@@ -46,10 +48,6 @@ public class PacketHandler {
 		} else if (packet.inventory == 2) {
 			PixelRealms.world.player.inventory.inventoryRight.serverSetContent(packet.x, packet.y, new ItemStack(Item.getItemForId(packet.itemID), packet.size));
 		} 
-		if (World.loaded && PixelRealms.world.player.interfaceInitialized) {
-			PieceInfo.pickupSound.setFramePosition(0);
-			PieceInfo.pickupSound.start();
-		}
 	}
 	
 	public static void processUpdateInteriorPiece(PacketUpdateInteriorPiece packet) {
@@ -72,6 +70,44 @@ public class PacketHandler {
 				ConstructionSiteManager.sites.get(new CoordinateKey(packet.posX, packet.posY)).addItem(packet.auxiliaryIntegers.get(0), packet.auxiliaryIntegers.get(1));
 			
 		}
+		
+	}
+
+	public static void processEntityAnimation(PacketEntityAnimation packet) {
+
+		switch (packet.animationID) {
+		
+		case 1:
+			//punch
+			break;
+		case 2:
+			//kickback
+			int power = packet.auxiliaryIntegers.get(0);
+			float dirX = packet.auxiliaryFloats.get(0);
+			float dirY = packet.auxiliaryFloats.get(1);
+
+			if (packet.userID != -1) {
+				if (packet.entityID == PlayerManager.currentUserID) {
+					
+					PixelRealms.world.player.body.addAction(new BipedActionKickback(PixelRealms.world.player.body, power, dirX, dirY));
+					
+				} else {
+					
+					PlayerManager.players.get(packet.userID).body.addAction(new BipedActionKickback(PlayerManager.players.get(packet.userID).body, power, dirX, dirY));
+					
+				}
+			} else {
+				
+				EntityAlive e = ((EntityAlive) World.getEntity(packet.entityID));
+				
+				e.body.addAction(new BipedActionKickback(e.body, power, dirX, dirY));
+				
+			}
+			break;
+		
+		}
+		
+	
 		
 	}
 	

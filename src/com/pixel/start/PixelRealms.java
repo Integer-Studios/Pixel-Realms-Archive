@@ -3,9 +3,6 @@ package com.pixel.start;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
-import com.pixel.sound.SongThread;
-import com.pixel.sound.Sound;
-import com.pixel.sound.Sound.Music;
 import com.pixel.util.Toolkit;
 import com.pixel.world.World;
 
@@ -34,11 +31,6 @@ public class PixelRealms {
 			e.printStackTrace();
 		}
 		
-//		new MainFrame().createFrame();
-
-		new Sound();
-
-
 	}
 	
 	public static void initializeLWJGL() throws SlickException {
@@ -53,16 +45,6 @@ public class PixelRealms {
 
 		container.start();
 		
-	}
-
-	public static void playSong(Sound.Music song) {
-
-		if (Sound.currentSong != Music.PEACE_LEAF) {
-			Sound.stopSong();
-
-			Sound.song = new SongThread(song);
-			Sound.song.start();
-		}
 		
 	}
 

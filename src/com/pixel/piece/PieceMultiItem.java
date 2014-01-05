@@ -24,8 +24,8 @@ public class PieceMultiItem extends PieceInfo {
 		for (int i = 0; i < dropItems.length; i++) {
 			dropItemStack = dropItems[i];
 			if (dropItemStack != null) {
-				pickupSound.setFramePosition(0);
-				pickupSound.start();
+//				pickupSound.setFramePosition(0);
+//				pickupSound.start();
 				player.giveItem(dropItemStack);
 			}
 		}

@@ -20,6 +20,7 @@ import com.pixel.gui.GUIAlert;
 import com.pixel.gui.GUINewsFeed;
 import com.pixel.input.KeyboardListener;
 import com.pixel.input.MouseClickListener;
+import com.pixel.sound.PixelSoundManager;
 import com.pixel.world.World;
 
 public class MainLoop extends BasicGame implements KeyListener, MouseListener {
@@ -45,8 +46,9 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
     final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
     
 	public MainLoop(String title) throws SlickException {
+		
 		super(title);
-
+		
 	}
 
 	@Override
@@ -78,6 +80,7 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
 		panel.update(c, delta);
 		MouseClickListener.update(c, delta);
 		KeyboardListener.update(c, delta);
+		PixelSoundManager.update();
 		if (World.loaded) {
 			PixelRealms.world.tick();
 		}

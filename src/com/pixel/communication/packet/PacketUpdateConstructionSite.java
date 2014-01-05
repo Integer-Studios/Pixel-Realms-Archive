@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import com.pixel.gui.GUIFoldConstruction;
-import com.pixel.interior.Building;
 import com.pixel.interior.ConstructionSite;
 import com.pixel.interior.ConstructionSiteManager;
 import com.pixel.start.PixelRealms;
@@ -77,7 +76,6 @@ public class PacketUpdateConstructionSite extends Packet {
 		for (int x = 0; x < itemAmount; x ++) {
 			int id = input.readInt();
 			int amount = input.readInt();
-//			amount = Building.info.get(buildingID).requirements.get(id) - amount;
 			ConstructionSiteManager.sites.get(new CoordinateKey(siteX, siteY)).setItem(id, amount);
 			
 			

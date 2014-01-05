@@ -21,6 +21,7 @@ import com.pixel.gui.GUIComponent;
 import com.pixel.gui.GUIComponentText;
 import com.pixel.gui.GUITextBox;
 import com.pixel.gui.GUITextBoxPassword;
+import com.pixel.sound.PixelSoundManager;
 import com.pixel.start.MainLoop;
 import com.pixel.start.PixelRealms;
 import com.pixel.util.FileItem;
@@ -83,6 +84,9 @@ public class PanelLogin extends Panel {
 			password.setEdited();
 			
 		}
+		
+		PixelSoundManager.startMusic(PixelSoundManager.Music.ROB_IN_WHITE_SATIN);
+
 	}
 	
 	public void render(GameContainer c, Graphics g) {

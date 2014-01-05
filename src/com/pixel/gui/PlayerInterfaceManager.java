@@ -108,6 +108,9 @@ public class PlayerInterfaceManager {
 				int hash = CollisionBox.testPiecesAgainstCollisionBox(scope, PixelRealms.world);
 				
 				Piece p = PixelRealms.world.getPieceObjectFromHash(hash);
+				if (p == null) 
+					return;
+					
 				int id = p.id;
 
 				if (id != -1) {
