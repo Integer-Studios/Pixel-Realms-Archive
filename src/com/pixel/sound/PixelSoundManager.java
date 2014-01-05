@@ -1,18 +1,18 @@
 package com.pixel.sound;
 
-import java.io.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.sound.sampled.*;
 
-import org.newdawn.slick.openal.Audio;
-import org.newdawn.slick.openal.AudioLoader;
-import org.newdawn.slick.util.ResourceLoader;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
+
+import com.pixel.util.Toolkit;
 
 public class PixelSoundManager {
 
 	protected static SourceDataLine currentSongStream;
-	public static Audio song;
+	public static Sound song;
 	public static Music currentSong = Music.OFF;
 	public static ConcurrentHashMap<Integer, PixelSound> sounds = new ConcurrentHashMap<Integer, PixelSound>();
 	public static int soundID = 0;
@@ -52,20 +52,18 @@ public class PixelSoundManager {
 		
 	}
 
-	public static Audio getSong() {
+	public static Sound getSong() {
 
+		Sound song;
+		Toolkit t = new Toolkit();
 		try {
-			Audio song;
-
-			song = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("resources/sounds/music/" + currentSong.fileName));
-
+			song = new Sound(t.getPath() + "resources/sounds/music/" + currentSong.fileName);
 			return song;
-		
-		} catch (IOException e) {
+		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 		
 
@@ -75,13 +73,13 @@ public class PixelSoundManager {
 		
 		currentSong = music;
 		song = getSong();
-		song.playAsMusic(1.0F, 1.0F, false);
+		song.play(1.0F, 0.15F);
 		
 	}
 
 	public static void stopMusic() {
 
-		currentSong = null;
+		currentSong = Music.OFF;
 		song.stop();
 		song = null;
 
@@ -89,7 +87,7 @@ public class PixelSoundManager {
 	
 	public static void update() {
 		
-		if (!song.isPlaying() && currentSong != Music.OFF) {
+		if (!song.playing() && currentSong != Music.OFF) {
 			
 			onSongEnded(currentSong);
 			

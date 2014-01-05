@@ -1,10 +1,9 @@
 package com.pixel.sound;
 
-import java.io.IOException;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
-import org.newdawn.slick.openal.Audio;
-import org.newdawn.slick.openal.AudioLoader;
-import org.newdawn.slick.util.ResourceLoader;
+import com.pixel.util.Toolkit;
 
 public class PixelSound {
 	
@@ -12,8 +11,8 @@ public class PixelSound {
 	public int id;
 	public boolean repeat;
 	private boolean started;
-	private Audio clip;
-
+	private Sound clip;
+	private float volume = 1.0F;
 	
 	public PixelSound(PixelEffect effect, int id) {
 		
@@ -24,12 +23,21 @@ public class PixelSound {
 		
 	}
 	
+	public PixelSound(PixelEffect effect, int id, float volume) {
+		
+		this.effect = effect;
+		this.id = id;
+		this.getEffectClip();
+		this.volume = volume;
+		
+	}
+	
 	private void getEffectClip() {
 		
 		try {
-			
-			clip = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("resources/sounds/effects/" + effect.fileName));
-		} catch (IOException e) {
+			Toolkit t = new Toolkit();
+			clip = new Sound(t.getPath() + "resources/sounds/effects/" + effect.fileName);
+		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -38,7 +46,7 @@ public class PixelSound {
 	
 	public void update() {
 		
-		if (!clip.isPlaying() && !repeat && started) {
+		if (!clip.playing() && !repeat && started) {
 			
 			clip.stop();
 			clip = null;
@@ -58,9 +66,9 @@ public class PixelSound {
 	public int start() {
 		
 		if (repeat) 
-			clip.playAsSoundEffect(1.0F, 1.0F, true);
+			clip.loop(1.0F, volume);
 		else
-			clip.playAsSoundEffect(1.0F, 1.0F, false);
+			clip.play(1.0F, volume);
 
 		started = true;
 		

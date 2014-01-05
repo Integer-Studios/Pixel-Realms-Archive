@@ -317,6 +317,7 @@ public class FileItem extends File implements StreamMonitor{
 	    }
 	  }
 	
+	@SuppressWarnings("resource")
 	public boolean unzip() {
 		  ZipFile zipFile;
 			try {

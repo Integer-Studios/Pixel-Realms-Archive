@@ -1,12 +1,12 @@
 package com.pixel.gui;
 
 import java.awt.Font;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.util.ResourceLoader;
 
 import com.pixel.input.KeyboardListener;
 import com.pixel.util.Toolkit;
@@ -25,7 +25,8 @@ public class GUI {
 		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
 
 		try {
-			InputStream inputStream	= ResourceLoader.getResourceAsStream("resources/fonts/MixSerifCondense.ttf");
+			Toolkit t = new Toolkit();
+			InputStream inputStream	= new FileInputStream(t.getPath() + "resources/fonts/MixSerifCondense.ttf");
 
 			Font awtFont2 = Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			font = awtFont2;
