@@ -162,6 +162,7 @@ public class Piece {
 				new PieceInfo(path+"resources/pieces/walls/bottom_right.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0F, 1F, 1F),//24
 				new PieceDoor(path+"resources/pieces/walls/door.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0.1F, 1F, 1F),//25
 				new PieceConstructionSiteInfo(0).setShouldCollide(true).setSize(0F, 0.4F, 4F, 0.8F),//26
+				new PieceSac(path+"resources/pieces/other/sac.png").setShouldCollide(true).setDropItemStack(new ItemStack(Item.flowerPurple, 1)),//27
 		};
 		
 	}

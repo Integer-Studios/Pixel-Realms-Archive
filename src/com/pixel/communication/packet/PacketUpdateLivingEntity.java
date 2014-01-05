@@ -49,7 +49,7 @@ public class PacketUpdateLivingEntity extends Packet {
 		World.entities.get(serverID).setY(posY);
 		((EntityAlive)World.entities.get(serverID)).health = health;
 		if (health <= 0) {
-
+			
 			((EntityAlive)World.entities.get(serverID)).kill(PixelRealms.world, null);
 
 		}
