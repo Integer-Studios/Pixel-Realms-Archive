@@ -36,11 +36,11 @@ public class RelativePositionImageRotatable extends RelativePositionImage {
 			}
 		} 
 		
-//		if (anim.flip && !flipped) {
-//			System.out.println("flipped");
-//			flipped = true;
-//			this.image = image.getFlippedCopy(true, false);
-//		}
+		if (anim.flip && !flipped) {
+			System.out.println("flipped");
+			flipped = true;
+			this.image = image.getFlippedCopy(true, false);
+		}
 
 		int offsetX, offsetY;
 		
