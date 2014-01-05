@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import com.pixel.gui.GUIFoldConstruction;
-import com.pixel.interior.Building;
 import com.pixel.interior.ConstructionSite;
 import com.pixel.interior.ConstructionSiteManager;
 import com.pixel.start.PixelRealms;

@@ -4,6 +4,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import com.pixel.body.RelativeBody;
+import com.pixel.communication.CommunicationClient;
+import com.pixel.communication.packet.PacketDamageEntity;
 import com.pixel.world.World;
 
 public class EntityAlive extends Entity {
@@ -70,11 +72,18 @@ public class EntityAlive extends Entity {
 		
 	}
 	
-	public void damage(World w, float damage, Entity damageSource) {
-		this.health -= damage;
-		if (this.health <= 0.0F) {
-			this.kill(w, damageSource);
-			
+	public void damage(World w, float damage, Entity damageSource, boolean fromServer) {
+		if (!fromServer) {
+			CommunicationClient.addPacket(new PacketDamageEntity(this, damage));
+		} else {
+			System.out.println("damaged: " + damage);
+
+			this.health -= damage;
+			System.out.println("health: " + health);
+			if (this.health <= 0.0F) {
+				this.kill(w, damageSource);
+				
+			}
 		}
 	}
 	
