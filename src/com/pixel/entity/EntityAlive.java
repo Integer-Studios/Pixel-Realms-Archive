@@ -6,6 +6,8 @@ import org.newdawn.slick.Graphics;
 import com.pixel.body.RelativeBody;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.packet.PacketDamageEntity;
+import com.pixel.sound.PixelEffect;
+import com.pixel.sound.PixelSoundManager;
 import com.pixel.world.World;
 
 public class EntityAlive extends Entity {
@@ -74,6 +76,7 @@ public class EntityAlive extends Entity {
 	
 	public void damage(World w, float damage, Entity damageSource, boolean fromServer) {
 		if (!fromServer) {
+			PixelSoundManager.createEffect(PixelEffect.PUNCHING_DEFAULT).start();
 			CommunicationClient.addPacket(new PacketDamageEntity(this, damage));
 		} else {
 			System.out.println("damaged: " + damage);
@@ -96,6 +99,7 @@ public class EntityAlive extends Entity {
 	}
 	
 	public void kill(World w, Entity damageSource) {
+		PixelSoundManager.createEffect(PixelEffect.BUNNY_DEATH).start();
 		health = 0;
 	}
 	
