@@ -36,11 +36,11 @@ public class RelativePositionImageRotatable extends RelativePositionImage {
 			}
 		} 
 		
-		if (anim.flip && !flipped) {
-			System.out.println("flipped");
-			flipped = true;
-			this.image = image.getFlippedCopy(true, false);
-		}
+//		if (anim.flip && !flipped) {
+//			System.out.println("flipped");
+//			flipped = true;
+//			this.image = image.getFlippedCopy(true, false);
+//		}
 
 		int offsetX, offsetY;
 		
@@ -102,11 +102,11 @@ public class RelativePositionImageRotatable extends RelativePositionImage {
 	
 	public void setItemID(int itemID) {
 		
-		if (this.itemID != -1)
-			flipped = false;
-			
 		this.itemID = itemID;
 		
+		if (this.itemID != -1)
+			flipped = false;
+					
 		try {
 			this.image = Item.items[itemID].image.copy();
 
