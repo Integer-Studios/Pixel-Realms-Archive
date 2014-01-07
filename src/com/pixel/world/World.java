@@ -240,7 +240,7 @@ public class World {
 
 			waitCount ++;
 			if (waitCount >= 15) {
-				PixelSoundManager.createEffect(PixelEffect.LOGIN).start();
+				PixelSoundManager.createEffect(PixelEffect.LOGIN, 0.8F).start();
 				playedLogin = true;
 			}
 			
@@ -591,7 +591,7 @@ public class World {
 
 		tiles.clear();
 		pieces.clear();
-		entities.clear();
+//		entities.clear();
 		buildings.clear();
 		
 //		tilesLocked = tiles;

@@ -2,9 +2,14 @@ package com.pixel.start;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import com.pixel.start.PixelLogger.PixelColor;
 
 public class TextureLoader {
     
+	public static final String RESET = "\u001B[0m";
+	public static String red_color = "\u001B[31m";
+	public static String prefix = "[Pixel Realms] ";
+	
 	public static Image load(String path) {
 		
 		Image image = loadImage(path);
@@ -59,7 +64,11 @@ public class TextureLoader {
             try {
                return new Image(path);
             } catch (SlickException e) {
-                //Error Handling Here
+         
+            } 
+            catch (RuntimeException e) {
+            	System.out.println(PixelColor.RED + prefix + "Failed to load image. Skipping.");
+        		System.out.print(RESET);
             }
            return null;
        }

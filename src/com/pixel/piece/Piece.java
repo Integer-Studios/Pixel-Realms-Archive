@@ -109,10 +109,14 @@ public class Piece {
 	}
 		
 	public void damage(int i, World w) {
+		
+		if (id == 0) 
+			return;
+		
 		info[id].onPlayerHitting(w, this, w.player);
 		damage -= i;
 		
-		PixelSoundManager.createEffect(PixelEffect.PUNCHING_DEFAULT).start();
+		PixelSoundManager.createEffect(PixelEffect.HIT_DEFAULT).start();
 		
 		if (damage < 0)
 			damage = 0;
@@ -163,6 +167,7 @@ public class Piece {
 				new PieceDoor(path+"resources/pieces/walls/door.png").setIsCollectable(false).setShouldCollide(true).setSize(0F, 0.1F, 1F, 1F),//25
 				new PieceConstructionSiteInfo(0).setShouldCollide(true).setSize(0F, 0.4F, 4F, 0.8F),//26
 				new PieceSac(path+"resources/pieces/other/sac.png").setShouldCollide(true).setDropItemStack(new ItemStack(Item.flowerPurple, 1)),//27
+				new PieceSpawner(path+"resources/pieces/bodies/dead_bunny.png").setShouldCollide(false),//28
 		};
 		
 	}

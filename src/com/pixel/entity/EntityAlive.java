@@ -76,7 +76,7 @@ public class EntityAlive extends Entity {
 	
 	public void damage(World w, float damage, Entity damageSource, boolean fromServer) {
 		if (!fromServer) {
-			PixelSoundManager.createEffect(PixelEffect.PUNCHING_DEFAULT).start();
+			PixelSoundManager.createEffect(PixelEffect.HIT_DEFAULT).start();
 			CommunicationClient.addPacket(new PacketDamageEntity(this, damage));
 		} else {
 			System.out.println("damaged: " + damage);

@@ -51,6 +51,16 @@ public class PixelSoundManager {
 		return sound;
 		
 	}
+	
+	public static PixelSound createEffect(PixelEffect effect, float volume) {
+		
+		int id = soundID + 1;
+		soundID ++;
+		PixelSound sound = new PixelSound(effect, id, volume);
+		sounds.put(id, sound);
+		return sound;
+		
+	}
 
 	public static Sound getSong() {
 
