@@ -2,12 +2,9 @@ package com.pixel.gui;
 
 import org.lwjgl.opengl.Display;
 
-import com.pixel.world.World;
-
 public class GUILoadingScreen extends GUIComponentSet {
 
 	public int frame = 1;
-	public int timer = 0;
 	
 	public GUILoadingScreen () {
 		
@@ -19,25 +16,6 @@ public class GUILoadingScreen extends GUIComponentSet {
 
 	}
 
-	public void tick () {
-
-		if (World.removeLoadingScreen) {
-			
-			timer ++;
-
-		} 
-		
-		if (timer == 100) {
-			
-			World.loadingScreenDone = true;
-			GUI.removeGUIComponent(this);
-			timer = 0;
-			
-		}
-
-
-	}
-	
 	public void onAddedToGUI() {
 		super.onAddedToGUI();
 	}

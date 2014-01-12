@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
+import com.pixel.frame.PanelWorld;
+import com.pixel.start.PixelLogger;
 import com.pixel.start.PixelRealms;
 
 public class PacketLoadPlayer extends Packet{
@@ -64,6 +66,10 @@ public class PacketLoadPlayer extends Packet{
 				//load world
 				
 			}
+			
+			PixelLogger.log("Player Loaded!");
+			
+			PanelWorld.playerLoaded = true;
 			
 		}
 		

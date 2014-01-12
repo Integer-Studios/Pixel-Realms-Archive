@@ -12,7 +12,6 @@ import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
 import com.pixel.communication.packet.PacketInfoRequest;
-import com.pixel.communication.packet.PacketLogin;
 import com.pixel.communication.packet.PacketUpdateTile;
 import com.pixel.communication.packet.PacketUpdateWorld;
 import com.pixel.effects.Particle;
@@ -26,8 +25,6 @@ import com.pixel.interior.InteriorWorldManager;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
 import com.pixel.player.PlayerMotionManager;
-import com.pixel.sound.PixelEffect;
-import com.pixel.sound.PixelSoundManager;
 import com.pixel.start.PixelRealms;
 import com.pixel.tile.Tile;
 import com.pixel.util.Toolkit;
@@ -48,7 +45,7 @@ public class World {
 	public static int derp1 = 0x02;
 
 	
-	public static boolean loaded, loadingScreenDone, removeLoadingScreen, locked;
+	public static boolean loaded, locked;
 	public float oldX, oldY;
 	public boolean playerReset, playedLogin;
 	public int worldSaveCount = 0;
@@ -79,22 +76,9 @@ public class World {
 		loaded = false;
 		player = new EntityPlayer(200, 200);
 		
-		CommunicationClient.addPacket(new PacketLogin(PlayerManager.currentPlayer, PlayerManager.session));
-
 		pieces.clear();
-//		herds.clear();
 		tiles.clear();
 		entities.clear();
-
-//		for (int y = 0; y < World.c; y++) {
-//
-//			for (int x = 0; x < World.c; x ++) {
-//
-//				pieces.put((y * c) + x, new Piece(x, y, 0, false));
-//
-//			}
-//
-//		}
 
 		lightingManager = new LightingManager();
 
@@ -236,22 +220,20 @@ public class World {
 			
 		} 
 		
-		if (loaded && loadingScreenDone && !playedLogin) {
-
-			waitCount ++;
-			if (waitCount >= 15) {
-				PixelSoundManager.createEffect(PixelEffect.LOGIN, 0.8F).start();
-				playedLogin = true;
-			}
-			
-		}
+//		if (loaded && loadingScreenDone && !playedLogin) {
+//
+//			waitCount ++;
+//			if (waitCount >= 15) {
+//				
+//			}
+//			
+//		}
 		
 		if (!interior && playerReset && (player.getX() != oldX || player.getY() != oldY)) {
 			
 			return;
 			
 		}
-
 		loaded = true;
 		ArrayList<Entity> entityArray = new ArrayList<Entity>();
 		ArrayList<Entity> paintedEntities = new ArrayList<Entity>();
@@ -314,6 +296,7 @@ public class World {
 					((Tile) tileArray[x]).render(c, g, this);
 				}
 			}
+
 			player.painted = false;
 			for (Piece p : piecesArray.values()) {
 				if (p != null) {
@@ -362,10 +345,13 @@ public class World {
 						p.render(c, g, this);
 					}
 				}
+
 			}
+
 			if (!player.painted) {
 				player.render(c, g, this);
 				player.painted = true;
+
 			}
 			
 			for (int y = 0; y < particles.size(); y ++) {
@@ -375,7 +361,7 @@ public class World {
 			lightingManager.render(c, g, this);
 
 		}
-
+		
 	}
 	
 	public int getDistance(float x1, float y1, float x2, float y2) {
@@ -384,17 +370,6 @@ public class World {
 
 	public void tick() {
 
-		if (loaded && removeLoadingScreen == false) {
-			
-			World.removeLoadingScreen = true;
-			PixelRealms.loggedIn = true;
-			PixelRealms.world.player.updated = true;
-			
-		}
-		
-		if (!loadingScreenDone)
-			loadingScreen.tick();
-		
 		time++;
 
 		CommunicationClient.tick();
@@ -541,7 +516,7 @@ public class World {
 	public void disinstantiate() {
 		
 		loaded = false;
-		loadingScreenDone = false;
+		PanelWorld.loadingScreenDone = false;
 		interior = false;
 		
 //		player.walkingClip.close();

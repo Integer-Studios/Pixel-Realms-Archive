@@ -35,30 +35,24 @@ public class LightingManager {
 		} else if (lightValue <= 0) {
 			
 			lightValue = 0;
-			
+
 		}
+
+//		g.clearAlphaMap();
+//		g.setDrawMode(Graphics.MODE_ALPHA_MAP);
+//
+//		GL11.glEnable(SGL.GL_BLEND);
+//		GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+//
+//		g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
+//
+//		GL11.glBlendFunc(GL11.GL_ONE_MINUS_DST_ALPHA,GL11.GL_DST_ALPHA);
+//
+//		g.setColor(Color.black);
+//		g.fillRect(0, 0, 900, 600);
 		
-//		g2.setColor(Color.BLACK);
-//		Composite c = g2.getComposite();
-//		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, lightValue));
-//		g2.fillRect(0, 0, w.frame.getWidth(), w.frame.getHeight());
-//		g2.setComposite(c);
+		//http://www.2shared.com/complete/LEs7kHys/LightTest.html
 		
-//		BufferedImage bi = new BufferedImage(w.frame.getWidth(), w.frame.getHeight(), BufferedImage.TYPE_INT_ARGB);
-//	    Graphics2D big = bi.createGraphics();
-//	    
-//	    AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.CLEAR, 1f);
-//	    
-//	    big.setColor(Color.BLACK);
-//	    big.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-//	    big.fillRect(0, 0, w.frame.getWidth(), w.frame.getHeight());
-//		
-//		big.setComposite(ac);
-//		big.fill(new Ellipse2D.Double(200, 200, 200, 200));
-//		
-//		g2.drawImage(bi, null, 0, 0);
-//	    
-	    
 	}
 	
 	float lightValue = 0.0f;

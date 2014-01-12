@@ -10,7 +10,7 @@ public class TileRoundedAnimate extends TileRounded {
 	public boolean shouldRepaint;
 
 	public TileRoundedAnimate(String t, int frames, int speed) {
-		super(t);
+		super(t + 0);
 		this.speed = speed;
 		this.frames = frames;
 		this.initialTexture = t;

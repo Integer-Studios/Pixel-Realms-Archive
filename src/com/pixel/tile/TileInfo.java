@@ -14,6 +14,9 @@ public class TileInfo {
 	
 	public TileInfo(String t) {
 		texture = t;
+		if (texture != null && texture.length() > 0 && texture.endsWith("png")) {
+		image = TextureLoader.load(texture);
+		}
 	}
 	
 	public void render(GameContainer c, Graphics g, World w, Tile t) {
@@ -21,6 +24,7 @@ public class TileInfo {
 		if (image != null) 
 			image.draw(t.posX*World.tileConstant+World.globalOffsetX, t.posY*World.tileConstant+World.globalOffsetY, World.tileConstant, World.tileConstant);
 		else {
+
 			image = TextureLoader.load(texture);
 			image.draw(t.posX*World.tileConstant+World.globalOffsetX, t.posY*World.tileConstant+World.globalOffsetY, World.tileConstant, World.tileConstant);
 	

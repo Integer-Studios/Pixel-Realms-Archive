@@ -5,6 +5,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -18,6 +19,8 @@ import com.pixel.world.World;
 
 public class Animation {
 	
+	public ArrayList<Image> loadedImages = new ArrayList<Image>();
+	
 	public Animation(String p, float x, float y, int w, int h, int s, int sp, int sh) {
 		path = p;
 		posX = x;
@@ -28,12 +31,16 @@ public class Animation {
 		speed = sp;
 		shadow = sh;
 		images = createImageArray(p);
+		
+		
+		
 	}
 	
 	private String[] createImageArray(String path) {
 		String[] ret = new String[size];
 		for (int i = 0; i < size; i++) {
 			ret[i] = t.getPath() + path + i + ".png";
+			loadedImages.add(TextureLoader.loadImage(ret[i]));
 		}
 		return ret;
 	}
@@ -53,14 +60,14 @@ public class Animation {
 	
 	public void render(GameContainer c, Graphics g, World w) {
 		if (paused) {
-			Image image = TextureLoader.load(images[0]);
+			Image image = loadedImages.get(0);
 			image.draw((int)(posX * World.tileConstant + World.globalOffsetX) - (width / 2), (int)(posY * World.tileConstant + World.globalOffsetY - ((height) - (shadow * 4))), width, height);
 			
 		} else {
 			tick();
-			Image image = TextureLoader.load(images[currentFrame]);
+			Image image = loadedImages.get(currentFrame);
 			if (image == null) {
-				image = TextureLoader.load(images[lastWorkingFrame]);
+				image = loadedImages.get(lastWorkingFrame);
 			} else {
 				lastWorkingFrame = currentFrame;
 			}

@@ -3,6 +3,7 @@ package com.pixel.communication.packet;
 import com.pixel.body.BipedActionKickback;
 import com.pixel.communication.PlayerManager;
 import com.pixel.entity.EntityAlive;
+import com.pixel.frame.PanelWorld;
 import com.pixel.interior.ConstructionSiteManager;
 import com.pixel.interior.InteriorWorld;
 import com.pixel.interior.InteriorWorldManager;
@@ -10,6 +11,7 @@ import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceConstructionSiteInfo;
+import com.pixel.start.PixelLogger;
 import com.pixel.start.PixelRealms;
 import com.pixel.util.CoordinateKey;
 import com.pixel.world.World;
@@ -108,6 +110,42 @@ public class PacketHandler {
 		}
 		
 	
+		
+	}
+
+	public static void processLoginStage(PacketLoginStage packet) {
+
+		if (packet.completion == 1F) {
+
+			switch(packet.stageID) {
+
+			case 0:
+				//World
+				PanelWorld.worldLoaded = true;
+				break;
+			case 1:
+				//Player
+				PanelWorld.playerLoaded = true;
+				break;
+			case 2:
+				//Inventory
+				PixelLogger.log("Inventory Loaded!");
+				PanelWorld.inventoryLoaded = true;
+				break;
+			case 3: 
+				//Players
+				PixelLogger.log("Players Loaded!");
+				PanelWorld.playersLoaded = true;
+				break;
+			case 4:
+				//Entities
+				PixelLogger.log("Entities Loaded!");
+				PanelWorld.entitiesLoaded = true;
+				break;
+
+			}
+
+		}
 		
 	}
 	

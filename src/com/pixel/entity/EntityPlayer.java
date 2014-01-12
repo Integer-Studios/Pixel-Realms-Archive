@@ -12,6 +12,7 @@ import com.pixel.communication.GetBunnies;
 import com.pixel.communication.packet.PacketUpdateInteriorPiece;
 import com.pixel.communication.packet.PacketChangePiece;
 import com.pixel.communication.packet.PacketUpdateWorld;
+import com.pixel.frame.PanelWorld;
 import com.pixel.gui.GUI;
 import com.pixel.gui.GUIHotbar;
 import com.pixel.gui.GUIPieceOnMouse;
@@ -235,7 +236,7 @@ public class EntityPlayer extends EntityHuman {
 
 
 	public void render(GameContainer c, Graphics g, World w) {
-		if (World.loadingScreenDone && !interfaceInitialized) {
+		if (PanelWorld.loadingScreenDone && !interfaceInitialized) {
 			
 			interfaceInitialized = true;
 			interfaceManager.initializeInterface();

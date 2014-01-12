@@ -19,8 +19,12 @@ public class PieceInfo {
 	
 	public PieceInfo(String t) {
 		texture = t;
+		if (texture != null && texture.length() > 0) {
+			image = TextureLoader.load(texture);
+		}
+
 	}
-	
+
 	public void render(GameContainer c, Graphics g, World w, Piece p) {
 
 		if (image != null) 

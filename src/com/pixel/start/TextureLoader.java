@@ -2,7 +2,6 @@ package com.pixel.start;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import com.pixel.start.PixelLogger.PixelColor;
 
 public class TextureLoader {
     
@@ -67,8 +66,8 @@ public class TextureLoader {
          
             } 
             catch (RuntimeException e) {
-            	System.out.println(PixelColor.RED + prefix + "Failed to load image. Skipping.");
-        		System.out.print(RESET);
+            	e.printStackTrace();
+            	System.out.println(prefix + "Failed to load image. Skipping.");
             }
            return null;
        }

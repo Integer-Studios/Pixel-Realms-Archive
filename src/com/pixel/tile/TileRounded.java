@@ -14,6 +14,38 @@ public class TileRounded extends TileInfo {
 	
 	public TileRounded(String t) {
 		super(t);
+		images = new Image[]{
+				TextureLoader.load(texture+"_lrdu.png"),//0
+				TextureLoader.load(texture+"_lr.png"),//1
+				TextureLoader.load(texture+"_lr.png"),//2
+				TextureLoader.load(texture+"_lrd.png"),//3
+				TextureLoader.load(texture+"_lrd.png"),//4
+				TextureLoader.load(texture+"_lrd.png"),//5
+				TextureLoader.load(texture+"_lrd.png"),//6
+				TextureLoader.load(texture+"_ld.png"),//7
+				TextureLoader.load(texture+"_ld.png"),//8
+				TextureLoader.load(texture+"_ld.png"),//9
+				TextureLoader.load(texture+"_ld.png"),//10
+				TextureLoader.load(texture+"_l.png"),//11
+				TextureLoader.load(texture+"_l.png"),//12
+				TextureLoader.load(texture+"_l.png"),//13
+				TextureLoader.load(texture+"_l.png"),//14
+				TextureLoader.load(texture+".png"),//15
+		};
+		
+		 
+		images[2].setRotation(270f);
+		images[4].setRotation(180f);
+		images[5].setRotation(270f);
+		images[6].setRotation(90f);
+		images[8].setRotation(180f);
+		images[9].setRotation(270f);
+		images[10].setRotation(90f);
+		images[12].setRotation(180f);
+		images[13].setRotation(270f);
+		images[14].setRotation(90f);
+					
+		loaded = true;
 	}
 	
 	public void render(GameContainer c, Graphics g, World w, Tile t) {

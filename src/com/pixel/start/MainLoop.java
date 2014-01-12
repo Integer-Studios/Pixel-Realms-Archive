@@ -20,7 +20,9 @@ import com.pixel.gui.GUIAlert;
 import com.pixel.gui.GUINewsFeed;
 import com.pixel.input.KeyboardListener;
 import com.pixel.input.MouseClickListener;
+import com.pixel.piece.Piece;
 import com.pixel.sound.PixelSoundManager;
+import com.pixel.tile.Tile;
 import com.pixel.world.World;
 
 public class MainLoop extends BasicGame implements KeyListener, MouseListener {
@@ -39,6 +41,7 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
     public boolean rightButton;
     public static GUINewsFeed newsFeed;
     public static Panel panel;
+    public static boolean init;
     
     public static int fps = 60;
     
@@ -56,6 +59,14 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
 		// TODO Auto-generated method stub
 		
 		double now = System.nanoTime();
+
+		if (!init) {
+			
+			PixelLogger.log(Tile.info.length + " tiles.");
+			PixelLogger.log(Piece.info.length + " pieces.");
+			init = true;
+			
+		}
 		
 		panel.render(c, g);
 		GUI.render(c, g);
@@ -81,9 +92,8 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
 		MouseClickListener.update(c, delta);
 		KeyboardListener.update(c, delta);
 		PixelSoundManager.update();
-		if (World.loaded) {
-			PixelRealms.world.tick();
-		}
+//		if (PanelWorld.loaded) {
+//		}
 
 	}
 
@@ -118,7 +128,7 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
 			panel = new PanelMainMenu();
 			break;
 		case 2:
-			panel = new PanelWorld();
+			panel = new PanelWorld().init();
 			break;
 		
 		}

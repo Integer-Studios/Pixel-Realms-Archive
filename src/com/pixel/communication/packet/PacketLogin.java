@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.pixel.communication.PlayerManager;
+import com.pixel.frame.PanelWorld;
 
 public class PacketLogin extends Packet {
 
@@ -43,9 +44,9 @@ public class PacketLogin extends Packet {
 		this.session = input.readInt();
 		this.worldID = input.readInt();
 		
-		System.out.println("[Pixel Realms] User: " + username + " has logged in with id: " + userID);
-		
 		if (PlayerManager.currentUserID != this.userID) {
+			
+			System.out.println("[Pixel Realms] User: " + username + " has logged in with id: " + userID);
 
 			PlayerManager.spawnPlayer(username, userID, posX, posY);
 			System.out.println(username + " " + worldID);
@@ -55,7 +56,11 @@ public class PacketLogin extends Packet {
 			PlayerManager.players.get(userID).energy = energy;
 
 
-		} 
+		} else {
+			
+			PanelWorld.loginRebound = true;
+			
+		}
 		
 	}
 

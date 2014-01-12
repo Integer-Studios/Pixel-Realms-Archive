@@ -6,8 +6,10 @@ import java.io.IOException;
 
 import com.pixel.communication.PlayerManager;
 import com.pixel.entity.Entity;
+import com.pixel.frame.PanelWorld;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
+import com.pixel.start.PixelLogger;
 import com.pixel.tile.Tile;
 import com.pixel.world.World;
 
@@ -93,8 +95,15 @@ public class PacketWorldData extends Packet {
 				PlayerManager.spawnPlayer(Packet.readString(16, input), userID, input.readFloat(), input.readFloat());
 			
 		}
-		
+
 		World.loaded = true;
+
+		if (!PanelWorld.loaded) {
+
+			PanelWorld.worldLoaded = true;
+			PixelLogger.log("World Loaded!");
+
+		}
 		
 	}
 	

@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import com.pixel.entity.Entity;
 import com.pixel.entity.EntityAlive;
+import com.pixel.frame.PanelWorld;
 import com.pixel.interior.InteriorWorld;
 import com.pixel.piece.Piece;
 import com.pixel.start.PixelRealms;
@@ -92,7 +93,7 @@ public class PacketLoadInterior extends Packet {
 		new InteriorWorld(worldID, c, tiles, pieces, entities);
 
 		World.loaded = true;
-		World.removeLoadingScreen = true;
+		PanelWorld.worldLoaded = true;
 		PixelRealms.loggedIn = true;
 		PixelRealms.world.player.updated = true;
 		PixelRealms.world.loadInterior(worldID);
