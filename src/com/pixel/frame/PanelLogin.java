@@ -41,7 +41,7 @@ public class PanelLogin extends Panel {
 		boolean unix = !(operatingSystem.startsWith("Windows"));
 		t = new Toolkit();
 
-		PixelRealms.ip = "54.245.228.235";
+		PixelRealms.ip = "127.0.0.1";
 
 
 		switch (PixelRealms.port) {

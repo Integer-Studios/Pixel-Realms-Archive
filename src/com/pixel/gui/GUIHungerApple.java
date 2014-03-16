@@ -28,7 +28,9 @@ public class GUIHungerApple extends GUIComponent {
 	}
 	
 	public void render(GameContainer c, Graphics g) {
-		setTexture("resources/gui/interface/apple/" + satisfaction + ".png");
+		
+		if (!image.getResourceReference().contains(satisfaction + ".png"))
+			setTexture("resources/gui/interface/apple/" + satisfaction + ".png");
 		super.render(c, g);
 	}
 

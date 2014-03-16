@@ -1,60 +1,139 @@
 package com.pixel.world;
 
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.opengl.renderer.SGL;
 
 public class LightingManager {
 	
-	public LightingManager() {
-		
-	}
+	public boolean rising, setting;
+	float lightValue = 0.15f;
+	float defaultNight = 0.15F;
+	float defaultDay = 1F;
+	float defaultLightChange = 0.001F;
 
-	public void render(GameContainer c, Graphics g, World w) {
-		float f;
-		if (w.getTimeOfDay() < w.dayLength - w.getTimeOfDay()) {
-			//morning
-			f = (w.dayLength/2) - w.getTimeOfDay();
-			f = f / w.dayLength;
-			f = f / 1000;
-			lightValue -= f;
-		} else if (w.getTimeOfDay() > w.dayLength - w.getTimeOfDay()) {
-			//afternoon
-			f = (w.dayLength/2) - (w.dayLength - w.getTimeOfDay());
-			f = f / w.dayLength;
-			f = f / 1000;
-			lightValue += f;
+	public LightingManager() {}
+	
+	public void calcuateLightValue(World w) {
+		
+		float t = w.getTimeOfDay();
+		int min = 0;
+		
+		if (t < 12000) {
+			
+			t = t / 1000;
+			
+			float m = t - ((int) t);
+			m = 60 * m;
+			min = (int) m;
+			
+			
 		} else {
-			//noon
-			lightValue = 0.0f;
+			
+			t = t / 1000;
+			
+			float m = t - ((int) t);
+			m = 60 * m;
+			min = (int) m;
+			
 		}
 		
-		if (lightValue >= 0.9) {
+		if ((t >= 6 && t <= 6.9999) || rising) {
 			
-			lightValue = 0.9f;
+			handleSunrise(min);
 			
-		} else if (lightValue <= 0) {
+		} else if ((t >= 18 && t <= 18.9999) || setting) {
 			
-			lightValue = 0;
-
+			handleSunset(min);
+			
+		} else {
+			
+			handleNormal(t, min);
+			
 		}
-
-//		g.clearAlphaMap();
-//		g.setDrawMode(Graphics.MODE_ALPHA_MAP);
-//
-//		GL11.glEnable(SGL.GL_BLEND);
-//		GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
-//
-//		g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
-//
-//		GL11.glBlendFunc(GL11.GL_ONE_MINUS_DST_ALPHA,GL11.GL_DST_ALPHA);
-//
-//		g.setColor(Color.black);
-//		g.fillRect(0, 0, 900, 600);
-		
-		//http://www.2shared.com/complete/LEs7kHys/LightTest.html
 		
 	}
 	
-	float lightValue = 0.0f;
+	public void handleNormal(float t, int m) {
+		
+		if (t > 7 && t < 18) {
+			
+			lightValue = defaultDay;
+			
+		} 
+		
+		if (t < 6 || t > 19) {
+			
+			lightValue = defaultNight;
+			
+		}
+		
+	}
+	
+	public void handleSunrise(int m) {
 
+		if (m > 15 && !rising && lightValue != defaultDay) {
+			
+			rising = true;
+			
+		} else if (rising && lightValue < defaultDay) {
+			
+			lightValue += defaultLightChange;
+
+		} else if (lightValue >= defaultDay) {
+			
+			lightValue = defaultDay; 
+			rising = false;
+			
+		}
+		
+	}
+	
+	public void handleSunset(int m) {
+
+		if (m > 15 && !setting && lightValue != defaultNight) {
+			
+			setting = true;
+			
+		} else if (setting && lightValue > defaultNight) {
+			
+			lightValue -= defaultLightChange;
+
+		} else if (lightValue <= defaultNight) {
+			
+			lightValue = defaultNight; 
+			setting = false;
+			
+		}
+		
+	}
+	
+	public void render(GameContainer c, Graphics g, World w) {
+		
+		calcuateLightValue(w);
+		
+		g.clearAlphaMap();
+		g.setDrawMode(Graphics.MODE_ALPHA_MAP);
+
+		GL11.glEnable(SGL.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+		Color color = new Color(0, 0, 0, lightValue);
+		g.setColor(color);
+		g.fillRect(0, 0, 900, 600);
+//		World.alphaImage.setAlpha(lightValue);
+		World.alphaImage.draw((w.player.posX*World.tileConstant+World.globalOffsetX) - 200, (w.player.posY*World.tileConstant+World.globalOffsetY) - 200, 400, 400);
+		
+		g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
+
+		GL11.glBlendFunc(GL11.GL_ONE_MINUS_DST_ALPHA,GL11.GL_DST_ALPHA);
+		color = new Color(0, 0, 0, 1F);
+		g.setColor(color);
+		g.fillRect(0, 0, 900, 600);
+		
+		g.setDrawMode(Graphics.MODE_NORMAL);
+
+	}
+	
 }

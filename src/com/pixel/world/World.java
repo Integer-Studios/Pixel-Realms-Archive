@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import com.pixel.communication.CommunicationClient;
@@ -26,6 +27,7 @@ import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
 import com.pixel.player.PlayerMotionManager;
 import com.pixel.start.PixelRealms;
+import com.pixel.start.TextureLoader;
 import com.pixel.tile.Tile;
 import com.pixel.util.Toolkit;
 
@@ -35,7 +37,6 @@ public class World {
 	public static ConcurrentHashMap<Integer, PieceBuilding> buildings = new ConcurrentHashMap<Integer,PieceBuilding>();
 	public static ConcurrentMap<Integer, Piece> pieces;
 	public static ConcurrentHashMap<Integer, Entity> entities = new ConcurrentHashMap<Integer,Entity>();
-//	public static ConcurrentHashMap<Integer, Herd> herds = new ConcurrentHashMap<Integer,Herd>();
 	public static ConcurrentHashMap<Integer, Tile> tilesLocked = new ConcurrentHashMap<Integer,Tile>();
 	public static ConcurrentHashMap<Integer, PieceBuilding> buildingsLocked = new ConcurrentHashMap<Integer,PieceBuilding>();
 	public static ConcurrentMap<Integer, Piece> piecesLocked;
@@ -67,7 +68,9 @@ public class World {
 	public long dayLength = 24000;
 	public static boolean interior;
 	public InteriorWorld interiorWorld;
-	
+	public static Image alphaImage;
+	public static Image foregroundImage;
+
 	public World(PanelWorld p) {
 		PixelRealms.world = this;
 
@@ -220,6 +223,19 @@ public class World {
 			
 		} 
 		
+		if (alphaImage == null) {
+			
+			alphaImage = TextureLoader.load("resources/alpha.png");
+			
+		}
+		
+		if (foregroundImage == null) {
+			
+			foregroundImage = TextureLoader.load("resources/foreground.png");
+			
+		}
+		
+		
 //		if (loaded && loadingScreenDone && !playedLogin) {
 //
 //			waitCount ++;
@@ -234,6 +250,7 @@ public class World {
 			return;
 			
 		}
+
 		loaded = true;
 		ArrayList<Entity> entityArray = new ArrayList<Entity>();
 		ArrayList<Entity> paintedEntities = new ArrayList<Entity>();

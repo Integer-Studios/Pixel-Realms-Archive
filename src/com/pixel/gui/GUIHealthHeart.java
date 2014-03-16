@@ -28,7 +28,8 @@ public class GUIHealthHeart extends GUIComponent {
 	}
 	
 	public void render(GameContainer c, Graphics g) {
-		setTexture("resources/gui/interface/heart/" + health + ".png");
+		if (!image.getResourceReference().contains(health + ".png"))
+			setTexture("resources/gui/interface/heart/" + health + ".png");
 		super.render(c, g);
 	}
 
