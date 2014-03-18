@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentMap;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import com.pixel.communication.CommunicationClient;
@@ -23,11 +22,11 @@ import com.pixel.frame.PanelWorld;
 import com.pixel.gui.GUILoadingScreen;
 import com.pixel.interior.InteriorWorld;
 import com.pixel.interior.InteriorWorldManager;
+import com.pixel.lighting.PixelLightingManager;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
 import com.pixel.player.PlayerMotionManager;
 import com.pixel.start.PixelRealms;
-import com.pixel.start.TextureLoader;
 import com.pixel.tile.Tile;
 import com.pixel.util.Toolkit;
 
@@ -62,14 +61,12 @@ public class World {
 	public float clipConstant = 0.4F;
 	public PanelWorld panelWorld;
 	public static GUILoadingScreen loadingScreen;
-	public LightingManager lightingManager;
+	public PixelLightingManager lightingManager;
 	public int waitCount = 0;
 	public long time = 12000;
 	public long dayLength = 24000;
 	public static boolean interior;
 	public InteriorWorld interiorWorld;
-	public static Image alphaImage;
-	public static Image foregroundImage;
 
 	public World(PanelWorld p) {
 		PixelRealms.world = this;
@@ -83,7 +80,7 @@ public class World {
 		tiles.clear();
 		entities.clear();
 
-		lightingManager = new LightingManager();
+		lightingManager = new PixelLightingManager();
 
 		globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.getX() * World.tileConstant);
 		globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.getY() * World.tileConstant);
@@ -216,24 +213,16 @@ public class World {
 	}
 
 	public void render(GameContainer c, Graphics g) {
-
+		
+		PixelLightingManager.initialize();
+		
 		if (!loaded) {
 			
 			return;
 			
 		} 
 		
-		if (alphaImage == null) {
-			
-			alphaImage = TextureLoader.load("resources/alpha.png");
-			
-		}
 		
-		if (foregroundImage == null) {
-			
-			foregroundImage = TextureLoader.load("resources/foreground.png");
-			
-		}
 		
 		
 //		if (loaded && loadingScreenDone && !playedLogin) {

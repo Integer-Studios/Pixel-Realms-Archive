@@ -5,6 +5,8 @@ import com.pixel.entity.EntityPlayer;
 import com.pixel.frame.MainFrame;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
+import com.pixel.lighting.PixelLight;
+import com.pixel.lighting.PixelLightType;
 import com.pixel.sound.PixelEffect;
 import com.pixel.sound.PixelSoundManager;
 import com.pixel.start.TextureLoader;
@@ -52,11 +54,16 @@ public class PieceInfo {
 	}
 	
 	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
-		
+//		if (p.light == null && p.id != 0 && p.id != 1 && p.id != 2) {
+//			
+//			p.light = new PixelLight(p.posX, p.posY, 400, 400, PixelLightType.DEFAULT);
+//		
+//		}
+			
 	}
 	
 	public void onPlayerHitting(World w, Piece p, EntityPlayer player) {
-
+	
 	}
 	
 	public void onDestroyed(World w, Piece p, EntityPlayer player) {

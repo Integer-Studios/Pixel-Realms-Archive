@@ -9,6 +9,7 @@ import com.pixel.communication.packet.PacketDamagePiece;
 import com.pixel.input.MouseClickListener;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
+import com.pixel.lighting.PixelLight;
 import com.pixel.player.PlayerMotionManager;
 import com.pixel.sound.PixelEffect;
 import com.pixel.sound.PixelSoundManager;
@@ -218,6 +219,7 @@ public class Piece {
 	public int posX;
 	public int posY;
 	public int damage = 10;
+	public PixelLight light;
 	public boolean playerInCollidedPosition;
 	public Rectangle collisionBox;
 	public static PieceInfo[] info;
