@@ -8,7 +8,7 @@ public class GUIHungerApple extends GUIComponent {
 	public int satisfaction = 5;
 	
 	public GUIHungerApple(int x, int y, int satisfaction) {
-		super(x, y, 10, 12, "resources/gui/interface/heart/5.png");
+		super(x, y, 10, 12, "resources/gui/interface/apple/5.png");
 		this.satisfaction = satisfaction;
 	}
 	

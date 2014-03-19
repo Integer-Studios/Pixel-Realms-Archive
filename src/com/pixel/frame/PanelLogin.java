@@ -42,7 +42,7 @@ public class PanelLogin extends Panel {
 		t = new Toolkit();
 
 //		PixelRealms.ip = "127.0.0.1";
-		PixelRealms.ip = "107.170.97.172";
+		PixelRealms.ip = "server.pixel-realms.com";
 
 
 		switch (PixelRealms.port) {

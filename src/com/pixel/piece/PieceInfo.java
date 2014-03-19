@@ -54,11 +54,11 @@ public class PieceInfo {
 	}
 	
 	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
-//		if (p.light == null && p.id != 0 && p.id != 1 && p.id != 2) {
-//			
-//			p.light = new PixelLight(p.posX, p.posY, 400, 400, PixelLightType.DEFAULT);
-//		
-//		}
+		if (p.light == null && p.id != 0 && p.id != 1 && p.id != 2) {
+			
+			p.light = new PixelLight(p.posX, p.posY, 400, 400, PixelLightType.DEFAULT);
+		
+		}
 			
 	}
 	
