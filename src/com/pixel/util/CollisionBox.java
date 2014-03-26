@@ -9,6 +9,7 @@ import com.pixel.entity.EntityOnlinePlayer;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
 import com.pixel.world.World;
+import com.pixel.world.WorldChunk;
 
 public class CollisionBox {
 	
@@ -84,27 +85,30 @@ public class CollisionBox {
 
 	}
 	
-	public static int testPiecesAgainstCollisionBox(Rectangle r, World w) {
-		
-		ArrayList<Piece> pieces = new ArrayList<Piece>();
-		pieces.addAll(World.pieces.values());
-		pieces.addAll(World.buildings.values());
-		
-		for (Piece p : pieces) {
+	public static Piece testPiecesAgainstCollisionBox(Rectangle r, World w) {
 
-			if (p != null) {
-				if (r.overlaps(p.getCollisionBox()) || p.getCollisionBox().contains(r)) {
-					
-					if (p instanceof PieceBuilding)
-						return -1;
-					else
-						return (p.posY * World.c) + p.posX;
+//		ArrayList<Piece> pieces = new ArrayList<Piece>();
+//		pieces.addAll(World.buildings.values());
+
+		for (WorldChunk c : World.chunks.values()) {
+
+			for (Piece p : c.pieces.values()) {
+
+				if (p != null) {
+					if (r.overlaps(p.getCollisionBox()) || p.getCollisionBox().contains(r)) {
+
+						if (p instanceof PieceBuilding)
+							return null;
+						else
+							return p;
+					}
 				}
+
 			}
 
 		}
 		
-		return -1;
+		return null;
 
 	}
 	

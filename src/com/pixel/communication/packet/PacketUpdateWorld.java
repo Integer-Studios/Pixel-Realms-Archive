@@ -11,6 +11,7 @@ import com.pixel.piece.PieceBuilding;
 import com.pixel.start.PixelRealms;
 import com.pixel.tile.Tile;
 import com.pixel.world.World;
+import com.pixel.world.WorldChunk;
 
 public class PacketUpdateWorld extends Packet {
 
@@ -43,54 +44,68 @@ public class PacketUpdateWorld extends Packet {
 		
 		World.holdTillLoad();
 		
-		int tileAmount = input.readInt();
-		
-		for (int x = 0; x < tileAmount; x ++) {
+		int chunkAmount = input.readInt();
+
+		for (int a = 0; a < chunkAmount; a ++) {
+
+			int cx = input.readInt();
+			int cy = input.readInt();
+
+			new WorldChunk(PixelRealms.world, cx, cy);
+
+			int tileAmount = input.readInt();
+
+			for (int x = 0; x < tileAmount; x ++) {
+
+				int id = input.readInt();
+				int posX = input.readInt();
+				int posY = input.readInt();
+				int metadata = input.readInt();
+
+				new Tile(posX, posY, id, metadata, true);
+
+			}
+
+			int pieceAmount = input.readInt();
+
+			for (int x = 0; x < pieceAmount; x ++) {
+
+				int id = input.readInt();
+				int posX = input.readInt();
+				int posY = input.readInt();
+				int damage = input.readInt();
+				int metadata = input.readInt();
+				int lightID = input.readInt();
+				int buildingID = -1;
+				int worldID = -1;
+
+				if (input.readBoolean()) {
+					worldID = input.readInt();
+					buildingID = input.readInt();
+					new PieceBuilding(worldID, posX, posY, buildingID, damage, metadata, lightID);
+
+				} else
+					new Piece(posX, posY, id, damage, metadata, lightID, true);
+
+			}
 			
-			int id = input.readInt();
-			int posX = input.readInt();
-			int posY = input.readInt();
-			int metadata = input.readInt();
 
-			new Tile(posX, posY, id, metadata, true);
+			int entityAmount = input.readInt();
 
-		}
-		
-		int pieceAmount = input.readInt();
-		
-		for (int x = 0; x < pieceAmount; x ++) {
+			for (int x = 0; x < entityAmount; x ++) {
 
-			int id = input.readInt();
-			int posX = input.readInt();
-			int posY = input.readInt();
-			int damage = input.readInt();
-			int metadata = input.readInt();
-			int buildingID = -1;
-			int worldID = -1;
-
-			if (input.readBoolean()) {
-				worldID = input.readInt();
-				buildingID = input.readInt();
-				new PieceBuilding(worldID, posX, posY, buildingID, damage, metadata);
+				int id = input.readInt();
+				float posX = input.readFloat();
+				float posY = input.readFloat();
+				int serverID = input.readInt();
+				Entity e = Entity.getEntity(id);
+				e.serverID = serverID;
+				e.setPosition(posX, posY);
 				
-			} else
-				new Piece(posX, posY, id, damage, metadata, true);
-			
-		}
-		
-		int entityAmount = input.readInt();
+			}
 
-		for (int x = 0; x < entityAmount; x ++) {
-
-			int id = input.readInt();
-			float posX = input.readFloat();
-			float posY = input.readFloat();
-			int serverID = input.readInt();
-			Entity e = Entity.getEntity(id);
-			e.serverID = serverID;
-			e.setPosition(posX, posY);
-			
 		}
+
 		
 		World.release();
 

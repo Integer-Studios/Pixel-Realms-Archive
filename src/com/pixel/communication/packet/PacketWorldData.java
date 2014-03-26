@@ -10,8 +10,10 @@ import com.pixel.frame.PanelWorld;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
 import com.pixel.start.PixelLogger;
+import com.pixel.start.PixelRealms;
 import com.pixel.tile.Tile;
 import com.pixel.world.World;
+import com.pixel.world.WorldChunk;
 
 public class PacketWorldData extends Packet {
 
@@ -24,7 +26,7 @@ public class PacketWorldData extends Packet {
 	@Override
 	public void writeData(DataOutputStream output) throws IOException {
 
-		
+
 	}
 
 	@Override
@@ -32,69 +34,78 @@ public class PacketWorldData extends Packet {
 
 		int c = input.readInt();
 		World.c = c;
-		int tileAmount = input.readInt();
-		World.tiles.clear();
-		
-		for (int x = 0; x < tileAmount; x ++) {
+		World.chunks.clear();
+		int chunkAmount = input.readInt();
+		for (int a = 0; a < chunkAmount; a ++) {
 			
-			int id = input.readInt();
-			int posX = input.readInt();
-			int posY = input.readInt();
-			int metadata = input.readInt();
-
-			new Tile(posX, posY, id, metadata, true);
-
-		}
-		
-
-		int pieceAmount = input.readInt();
-		World.pieces.clear();
-		
-		for (int x = 0; x < pieceAmount; x ++) {
-
-			int id = input.readInt();
-			int posX = input.readInt();
-			int posY = input.readInt();
-			int damage = input.readInt();
-			int metadata = input.readInt();
-			int buildingID = -1;
-			int worldID = -1;
+			int cx = input.readInt();
+			int cy = input.readInt();
 			
-			if (input.readBoolean()) {
-				worldID = input.readInt();
-				buildingID = input.readInt();
-				new PieceBuilding(worldID, posX, posY, buildingID, damage, metadata);
+			new WorldChunk(PixelRealms.world, cx, cy);
+			int tileAmount = input.readInt();
+
+			for (int x = 0; x < tileAmount; x ++) {
+
+				int id = input.readInt();
+				int posX = input.readInt();
+				int posY = input.readInt();
+				int metadata = input.readInt();
+
+				new Tile(posX, posY, id, metadata, true);
+
+			}
+
+
+			int pieceAmount = input.readInt();
+
+			for (int x = 0; x < pieceAmount; x ++) {
+
+				int id = input.readInt();
+				int posX = input.readInt();
+				int posY = input.readInt();
+				int damage = input.readInt();
+				int metadata = input.readInt();
+				int lightID = input.readInt();
+				int buildingID = -1;
+				int worldID = -1;
+
+				if (input.readBoolean()) {
+					worldID = input.readInt();
+					buildingID = input.readInt();
+					new PieceBuilding(worldID, posX, posY, buildingID, damage, metadata, lightID);
+
+				} else
+					new Piece(posX, posY, id, damage, metadata, lightID, true);
+
+			}
+			
+			int entityAmount = input.readInt();
+			
+			for (int x = 0; x < entityAmount; x ++) {
+
+				int id = input.readInt();
+				float posX = input.readFloat();
+				float posY = input.readFloat();
+				int serverID = input.readInt();
+				Entity e = Entity.getEntity(id);
+				e.serverID = serverID;
+				World.propagateEntity(e);
+				e.setPosition(posX, posY);
 				
-			} else
-				new Piece(posX, posY, id, damage, metadata, true);
+			}
 
 		}
 
-		int entityAmount = input.readInt();
-		World.entities.clear();
 		
-		for (int x = 0; x < entityAmount; x ++) {
-
-			int id = input.readInt();
-			float posX = input.readFloat();
-			float posY = input.readFloat();
-			int serverID = input.readInt();
-			Entity e = Entity.getEntity(id);
-			e.serverID = serverID;
-			World.propagateEntity(e);
-			e.setPosition(posX, posY);
-			
-		}
-		
-		int playerAmount = input.readInt();
-
-		for (int x = 0; x < playerAmount; x ++) {
-			int userID = input.readInt();
-			System.out.println(userID);
-			if (userID != this.userID) 
-				PlayerManager.spawnPlayer(Packet.readString(16, input), userID, input.readFloat(), input.readFloat());
-			
-		}
+//		int playerAmount = input.readInt();
+//
+//		for (int x = 0; x < playerAmount; x ++) {
+//			int userID = input.readInt();
+//			System.out.println(userID);
+//			if (userID != this.userID) 
+//				PlayerManager.spawnPlayer(Packet.readString(16, input), userID, input.readFloat(), input.readFloat());
+//			
+//		}
 
 		World.loaded = true;
 

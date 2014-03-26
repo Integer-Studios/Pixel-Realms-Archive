@@ -11,7 +11,6 @@ import com.pixel.input.KeyboardListener;
 import com.pixel.input.MouseClickListener;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceConstructionSiteInfo;
-import com.pixel.start.PixelLogger;
 import com.pixel.start.PixelRealms;
 import com.pixel.start.TextureLoader;
 import com.pixel.util.CollisionBox;
@@ -104,10 +103,9 @@ public class PlayerInterfaceManager {
 
 				Rectangle scope = new Rectangle(xFloat, yFloat, 20F, 20F);
 
-				PixelLogger.debug("CLICK", xFloat, yFloat);
-				int hash = CollisionBox.testPiecesAgainstCollisionBox(scope, PixelRealms.world);
-				
-				Piece p = PixelRealms.world.getPieceObjectFromHash(hash);
+//				PixelLogger.debug("CLICK", xFloat, yFloat);
+			
+				Piece p = CollisionBox.testPiecesAgainstCollisionBox(scope, PixelRealms.world);
 				if (p == null) 
 					return;
 					
@@ -118,7 +116,6 @@ public class PlayerInterfaceManager {
 					if (Piece.info[id] instanceof PieceConstructionSiteInfo) {
 
 						menuCoordinate = new CoordinateKey(p.posX, p.posY);
-
 						foldLeft.updateMenu(1);
 						slide();
 					}

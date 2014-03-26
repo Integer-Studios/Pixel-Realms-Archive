@@ -19,13 +19,13 @@ public class PieceBuilding extends Piece {
 		
 	}
 	
-	public PieceBuilding(int worldID, int x, int y, int i, int damage, int metadata) {
+	public PieceBuilding(int worldID, int x, int y, int i, int damage, int metadata, int lightID) {
 		super(x, y, 17, false);
 		this.worldID = worldID;
 		this.building = new Building(worldID, i, x, y);
 		this.damage = damage;
 		this.metadata = metadata;
-		
+		this.lightID = lightID;
 		
 		World.propagatePiece(this);
 		init();

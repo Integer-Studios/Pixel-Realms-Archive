@@ -324,6 +324,7 @@ public abstract class Packet {
 		packetMap.put(22, PacketEntityAnimation.class);
 		packetMap.put(23, PacketUpdateTime.class);
 		packetMap.put(24, PacketLoginStage.class);
+		packetMap.put(25, PacketLight.class);
 
 	}
 	

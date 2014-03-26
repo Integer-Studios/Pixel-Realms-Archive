@@ -9,6 +9,7 @@ import com.pixel.body.BodyBiped;
 import com.pixel.body.BipedActionPunching;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.GetBunnies;
+import com.pixel.communication.packet.PacketEntityAnimation;
 import com.pixel.communication.packet.PacketUpdateInteriorPiece;
 import com.pixel.communication.packet.PacketChangePiece;
 import com.pixel.communication.packet.PacketUpdateWorld;
@@ -24,6 +25,9 @@ import com.pixel.inventory.Inventory;
 import com.pixel.item.Item;
 import com.pixel.item.ItemFood;
 import com.pixel.item.ItemStack;
+import com.pixel.lighting.PixelLight;
+import com.pixel.lighting.PixelLightType;
+import com.pixel.lighting.PixelLightingManager;
 import com.pixel.piece.Piece;
 import com.pixel.player.PlayerInventory;
 import com.pixel.player.PlayerMotionManager;
@@ -95,10 +99,12 @@ public class EntityPlayer extends EntityHuman {
 		
 		if (MouseClickListener.isPressed() && !MouseClickListener.rightClick && punchingIndex == 0 && !punching && !punchEnacted && !interfaceManager.getIntercept()) {
 			punchingIndex = body.addAction(new BipedActionPunching(body));
+			CommunicationClient.addPacket(new PacketEntityAnimation(0, false));
 			punching = true;
 			
 		} else if (!MouseClickListener.isPressed() && !MouseClickListener.rightClick && punchingIndex != 0 && punchEnacted) {
 			body.removeAction(punchingIndex);
+			CommunicationClient.addPacket(new PacketEntityAnimation(0, true));
 			punchingIndex = 0;
 			punchEnacted = false;
 			punching = false;
@@ -226,16 +232,30 @@ public class EntityPlayer extends EntityHuman {
 				entityAlive.damage(w, tempDamage, this, false);
 
 		} else {
-			int i = CollisionBox.testPiecesAgainstCollisionBox(clickScope, w);
-			if (i != -1) {
-				if (World.pieces.get(i).canBeDamaged(selectedItem.item))
-					World.pieces.get(i).damageWithItem(tempDamage, w, selectedItem.item);
+			Piece p = CollisionBox.testPiecesAgainstCollisionBox(clickScope, w);
+			if (p != null) {
+				if (p.canBeDamaged(selectedItem.item))
+					p.damageWithItem(tempDamage, w, selectedItem.item);
 			}
 		}
 	}
 
+	public void testLight() {
+		
+		if (lightID == -1) 
+			new PixelLight(posX, posY, 400, 400, PixelLightType.DEFAULT, this);
+	
+	}
 
 	public void render(GameContainer c, Graphics g, World w) {
+		
+		if (lightID != -1) {
+			
+			PixelLightingManager.lights.get(lightID).posX = posX;
+			PixelLightingManager.lights.get(lightID).posY = posY;
+
+		}
+		
 		if (PanelWorld.loadingScreenDone && !interfaceInitialized) {
 			
 			interfaceInitialized = true;

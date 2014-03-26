@@ -9,7 +9,13 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.opengl.renderer.SGL;
 
+import com.pixel.communication.CommunicationClient;
+import com.pixel.communication.packet.PacketLight;
+import com.pixel.entity.Entity;
+import com.pixel.piece.Piece;
+import com.pixel.start.PixelLogger;
 import com.pixel.start.TextureLoader;
+import com.pixel.tile.Tile;
 import com.pixel.world.World;
 
 public class PixelLightingManager {
@@ -22,6 +28,7 @@ public class PixelLightingManager {
 	public static Image alphaImage;
 	public static Image foregroundImage;
 	public static HashMap<String, Image> alphaImages = new HashMap<String, Image>();
+	public static HashMap<Integer, PixelLightProposal> proposedLights = new HashMap<Integer, PixelLightProposal>();
 	public static HashMap<Integer, PixelLight> lights = new HashMap<Integer, PixelLight>();
 	
 	public PixelLightingManager() {}
@@ -37,6 +44,12 @@ public class PixelLightingManager {
 		
 		light.id = id;
 		lights.put(id, light);
+		
+	}
+	
+	public static PixelLight getLight(int id) {
+		
+		return lights.get(id);
 		
 	}
 	
@@ -152,7 +165,7 @@ public class PixelLightingManager {
 			light.getImage().draw((light.posX * World.tileConstant + World.globalOffsetX) - (light.width/2), (light.posY * World.tileConstant + World.globalOffsetY) - (light.height / 2), light.width, light.height);
 			
 		}
-		alphaImage.draw((w.player.posX*World.tileConstant+World.globalOffsetX) - 200, (w.player.posY*World.tileConstant+World.globalOffsetY) - 200, 400, 400);
+//		alphaImage.draw((w.player.posX*World.tileConstant+World.globalOffsetX) - 200, (w.player.posY*World.tileConstant+World.globalOffsetY) - 200, 400, 400);
 		
 		g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
 
@@ -212,6 +225,39 @@ public class PixelLightingManager {
 			foregroundImage = TextureLoader.load("resources/foreground.png");
 			
 		}		
+		
+	}
+
+	public static void proposeLight(PixelLight pixelLight, Piece piece) {
+
+		int proposalID = proposedLights.size() + 1;
+		proposedLights.put(proposalID, new PixelLightProposal(pixelLight, piece));
+		CommunicationClient.addPacket(new PacketLight(pixelLight, proposalID));
+		
+	}
+	
+	public static void proposeLight(PixelLight pixelLight, Entity entity) {
+
+		int proposalID = proposedLights.size() + 1;
+		proposedLights.put(proposalID, new PixelLightProposal(pixelLight, entity));
+		CommunicationClient.addPacket(new PacketLight(pixelLight, proposalID));
+		
+	}
+	
+	public static void proposeLight(PixelLight pixelLight, Tile tile) {
+
+		int proposalID = proposedLights.size() + 1;
+		proposedLights.put(proposalID, new PixelLightProposal(pixelLight, tile));
+		CommunicationClient.addPacket(new PacketLight(pixelLight, proposalID));
+		
+	}
+
+	public static void confirmProposal(int proposalID, PixelLight p) {
+
+		if (proposedLights.containsKey(proposalID)) 
+			proposedLights.get(proposalID).confirm(p);
+		else
+			PixelLogger.log("Skipping proposal: " + proposalID);
 		
 	}
 	

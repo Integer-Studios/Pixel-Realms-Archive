@@ -56,6 +56,7 @@ public class Tile {
 	public int posX;
 	public int posY;
 	public int metadata = -1;
+	public int lightID;
 	public static TileInfo[] info;
 	
 	public int background = 0;

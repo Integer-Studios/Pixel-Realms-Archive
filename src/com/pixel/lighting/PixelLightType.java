@@ -12,4 +12,27 @@ public enum PixelLightType {
 		
 	}
 	
+	public int getTypeID() {
+		
+		switch(this) {
+		case DEFAULT:
+			return 0;
+		default:
+			return 0;
+		}
+ 		
+	}	
+	
+	public static PixelLightType getTypeForID(int id) {
+		
+		switch(id) {
+		case 0:
+			return PixelLightType.DEFAULT;
+		default:
+			return PixelLightType.DEFAULT;
+		}
+ 		
+	}
+	
+	
 }

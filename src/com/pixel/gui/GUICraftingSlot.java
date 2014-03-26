@@ -36,6 +36,7 @@ public class GUICraftingSlot extends GUIComponent {
 	public void drainSlotForItemStack(ItemStack is) {
 		for (int i = 0; i < itemsInCrafting.size(); i++) {
 			if (itemsInCrafting.get(i).item.id == is.item.id) {
+				System.out.println(itemsInCrafting.size());
 				if (itemsInCrafting.get(i).size > is.size) {
 					itemsInCrafting.set(i, new ItemStack(is.item, itemsInCrafting.get(i).size - is.size));
 				} else {
@@ -45,6 +46,7 @@ public class GUICraftingSlot extends GUIComponent {
 			}
 		}
 	}
+	
 	
 	public void handleItemStackExchange(boolean isRightClick) {
 		ItemStack slotStack = new ItemStack(Item.blank, 0);

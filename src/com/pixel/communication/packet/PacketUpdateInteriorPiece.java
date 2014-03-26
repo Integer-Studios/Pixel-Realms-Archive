@@ -8,7 +8,7 @@ import com.pixel.piece.Piece;
 
 public class PacketUpdateInteriorPiece extends Packet {
 	
-	public int worldID, x, y, pieceID, damage, metadata;
+	public int worldID, x, y, pieceID, damage, metadata, lightID;
 
 	public PacketUpdateInteriorPiece() {}
 	
@@ -45,6 +45,7 @@ public class PacketUpdateInteriorPiece extends Packet {
 		this.pieceID = input.readInt();
 		this.damage = input.readInt();
 		this.metadata = input.readInt();
+		this.lightID = input.readInt();
 		
 		PacketHandler.processUpdateInteriorPiece(this);
 		

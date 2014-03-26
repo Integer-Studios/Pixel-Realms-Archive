@@ -4,7 +4,6 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Image;
 
 import com.pixel.entity.EntityPlayer;
-import com.pixel.sound.PixelSoundManager;
 import com.pixel.start.PixelRealms;
 import com.pixel.start.TextureLoader;
 import com.pixel.util.CoordinateKey;
@@ -57,18 +56,18 @@ public class GUIHotbar {
 		((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[0].setImage(selectedSlotImage);
 
 		if (((GUIItemStack) ((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[1]).itemstack != null) {
-			int id = ((GUIItemStack) ((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[1]).itemstack.item.id;
-			if (id == 7 || id == 8) {
-				
-				if (PixelSoundManager.currentSong != PixelSoundManager.Music.PEACE_LEAF)
-					PixelSoundManager.startMusic(PixelSoundManager.Music.PEACE_LEAF);
-				
-				
-			} else if (PixelSoundManager.currentSong == PixelSoundManager.Music.PEACE_LEAF){
-				
-				PixelSoundManager.stopMusic();
-				
-			}
+//			int id = ((GUIItemStack) ((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[1]).itemstack.item.id;
+//			if (id == 7 || id == 8) {
+//				
+//				if (PixelSoundManager.currentSong != PixelSoundManager.Music.PEACE_LEAF)
+//					PixelSoundManager.startMusic(PixelSoundManager.Music.PEACE_LEAF);
+//				
+//				
+//			} else if (PixelSoundManager.currentSong == PixelSoundManager.Music.PEACE_LEAF){
+//				
+//				PixelSoundManager.stopMusic();
+//				
+//			}
 			PixelRealms.world.player.setSelectedItem(((GUIItemStack) ((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[1]).itemstack);
 		} else {
 			

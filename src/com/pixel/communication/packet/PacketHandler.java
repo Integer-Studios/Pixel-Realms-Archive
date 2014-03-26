@@ -58,7 +58,7 @@ public class PacketHandler {
 			
 			InteriorWorld w = InteriorWorldManager.interiors.get(packet.worldID);
 
-			w.pieces.replace((packet.y * w.c) + packet.x, new Piece(packet.x, packet.y, packet.pieceID, packet.damage, packet.metadata, false));
+			w.pieces.replace((packet.y * w.c) + packet.x, new Piece(packet.x, packet.y, packet.pieceID, packet.damage, packet.metadata, packet.lightID, false));
 			
 		}
 		
@@ -79,17 +79,29 @@ public class PacketHandler {
 
 		switch (packet.animationID) {
 		
-		case 1:
+		case 0:
 			//punch
+			if (packet.userID != -1 && packet.player) {
+
+				if (packet.userID != PlayerManager.currentUserID) {
+
+					if (!packet.remove)
+						PlayerManager.players.get(packet.userID).addPunch();
+					else
+						PlayerManager.players.get(packet.userID).removePunch();
+
+				}
+			
+			}
 			break;
-		case 2:
+		case 1:
 			//kickback
 			int power = packet.auxiliaryIntegers.get(0);
 			float dirX = packet.auxiliaryFloats.get(0);
 			float dirY = packet.auxiliaryFloats.get(1);
 
-			if (packet.userID != -1) {
-				if (packet.entityID == PlayerManager.currentUserID) {
+			if (packet.userID != -1 && packet.player) {
+				if (packet.userID == PlayerManager.currentUserID) {
 					
 					PixelRealms.world.player.body.addAction(new BipedActionKickback(PixelRealms.world.player.body, power, dirX, dirY));
 					

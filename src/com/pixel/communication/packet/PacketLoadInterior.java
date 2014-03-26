@@ -65,7 +65,7 @@ public class PacketLoadInterior extends Packet {
 			int posY = input.readInt();
 			int metadata = input.readInt();
 			int damage = input.readInt();
-			pieces.put((posY * c) + posX, new Piece(posX, posY, pieceID, damage, metadata, false));
+			pieces.put((posY * c) + posX, new Piece(posX, posY, pieceID, damage, metadata, -1, false));
 
 		}
 		

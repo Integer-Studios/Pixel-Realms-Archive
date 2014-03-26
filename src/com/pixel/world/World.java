@@ -2,17 +2,14 @@ package com.pixel.world;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
 import com.pixel.communication.packet.PacketInfoRequest;
-import com.pixel.communication.packet.PacketUpdateTile;
 import com.pixel.communication.packet.PacketUpdateWorld;
 import com.pixel.effects.Particle;
 import com.pixel.entity.Entity;
@@ -20,6 +17,7 @@ import com.pixel.entity.EntityOnlinePlayer;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.frame.PanelWorld;
 import com.pixel.gui.GUILoadingScreen;
+import com.pixel.interior.Building;
 import com.pixel.interior.InteriorWorld;
 import com.pixel.interior.InteriorWorldManager;
 import com.pixel.lighting.PixelLightingManager;
@@ -32,15 +30,12 @@ import com.pixel.util.Toolkit;
 
 public class World {
 
-	public static ConcurrentHashMap<Integer, Tile> tiles = new ConcurrentHashMap<Integer,Tile>();
+//	public static ConcurrentHashMap<Integer, Tile> tiles = new ConcurrentHashMap<Integer,Tile>();
 	public static ConcurrentHashMap<Integer, PieceBuilding> buildings = new ConcurrentHashMap<Integer,PieceBuilding>();
-	public static ConcurrentMap<Integer, Piece> pieces;
+//	public static ConcurrentMap<Integer, Piece> pieces;
 	public static ConcurrentHashMap<Integer, Entity> entities = new ConcurrentHashMap<Integer,Entity>();
-	public static ConcurrentHashMap<Integer, Tile> tilesLocked = new ConcurrentHashMap<Integer,Tile>();
-	public static ConcurrentHashMap<Integer, PieceBuilding> buildingsLocked = new ConcurrentHashMap<Integer,PieceBuilding>();
-	public static ConcurrentMap<Integer, Piece> piecesLocked;
-	public static ConcurrentHashMap<Integer, Entity> entitiesLocked = new ConcurrentHashMap<Integer,Entity>();
-
+	public static ConcurrentHashMap<Integer, WorldChunk> chunks = new ConcurrentHashMap<Integer, WorldChunk>();
+	
 	public static int derp = 0x01;
 	public static int derp1 = 0x02;
 
@@ -72,13 +67,13 @@ public class World {
 		PixelRealms.world = this;
 
 		panelWorld = p;
-		pieces = new ConcurrentLinkedHashMap.Builder<Integer, Piece>().maximumWeightedCapacity(10000000).build();
+//		pieces = new ConcurrentLinkedHashMap.Builder<Integer, Piece>().maximumWeightedCapacity(10000000).build();
 		loaded = false;
 		player = new EntityPlayer(200, 200);
 		
-		pieces.clear();
-		tiles.clear();
-		entities.clear();
+//		pieces.clear();
+//		tiles.clear();
+//		entities.clear();
 
 		lightingManager = new PixelLightingManager();
 
@@ -98,74 +93,71 @@ public class World {
 		setTile( x,  y,  id, 0);
 	}
 
-	public void setTile(int x, int y, int id, int metadata) {
-		tiles.put((y * c) + x, new Tile(x, y, id, metadata, true));
-		CommunicationClient.addPacket(new PacketUpdateTile(id, x, y));
+	public static void setTile(int x, int y, int id, int metadata) {
+		new Tile(x, y, id, metadata, true);
 	}
 
-	public int getTile(int x, int y) {
-		if (tiles.get((y * c) + x) != null)
-			return tiles.get((y * c) + x).id;
+	public static int getTile(int x, int y) {
+		return getChunk(x, y).getTile(x, y).id;
+	}
+
+	public static Tile getTileObject(int x, int y) {
+		return getChunk(x, y).getTile(x, y);
+	}
+	
+	public static void setPieceObject(int x, int y, Piece p) {
+		getChunk(x, y).setPiece(p);
+	}
+
+	public static void setPiece(int x, int y, int id) {
+		new Piece(x, y, id, true);
+
+	}
+
+	public static void setPiece(int x, int y, int id, int damage, int metadata, int buildingID) {
+
+		if (buildingID == -1) {
+			new Piece(x, y, id, true);
+			getPieceObject(x, y).damage = damage;
+			getPieceObject(x, y).metadata = metadata;
+
+		} else if (Building.canBuildingFit(buildingID, x, y)) {
+			
+			new Piece(x, y, id, true);
+			getPieceObject(x, y).damage = damage;
+			getPieceObject(x, y).metadata = metadata;
+
+		}
+
+
+	}
+	
+	public static int getPiece(int x, int y) {
+		if (getChunk(x, y).getPiece(x, y) != null)
+			return getChunk(x, y).getPiece(x, y).id;
 		else
 			return 0;
 	}
 
-	public Tile getTileObject(int x, int y) {
-		return tiles.get((y * c) + x);
+	public static Piece getPieceObject(int x, int y) {
+		return getChunk(x, y).getPiece(x, y);
 	}
 	
-	public void setPieceObject(int x, int y, Piece p) {
-		if (pieces.containsKey(hash(p)))
-			pieces.replace(hash(p), p);
-		else
-			pieces.put(hash(p), p);
-	}
-
-	public void setPiece(int x, int y, int id) {
-		if (pieces.containsKey(hash(x, y)))
-			pieces.replace(hash(x, y), new Piece(x, y, id, true));
-		else
-			pieces.put(hash(x, y), new Piece(x, y, id, true));
-
-	}
-
 	public void setPiece(int x, int y, int id, int damage, int metadata, int buildingID, int worldID) {
 		
 		if (buildingID == -1){
-			if (pieces.containsKey(hash(x, y)))
-				pieces.replace(hash(x, y), new Piece(x, y, id, true));
-			else
-				pieces.put(hash(x, y), new Piece(x, y, id, true));
+				getChunk(x,y).setPiece(new PieceBuilding(worldID, x, y, buildingID, damage, metadata, -1));
 			
 		} else  {
 
-			if (pieces.containsKey(hash(x, y)))
-				pieces.replace(hash(x, y), new PieceBuilding(worldID, x, y, buildingID, damage, metadata));
-			else
-				pieces.put(hash(x, y), new PieceBuilding(worldID, x, y, buildingID, damage, metadata));
+				getChunk(x,y).setPiece(new PieceBuilding(worldID, x, y, buildingID, damage, metadata, -1));
 
 		}
-		pieces.get((y * c) + x).damage = damage;
-		pieces.get((y * c) + x).metadata = metadata;
+		getPieceObject(x,y).damage = damage;
+		getPieceObject(x,y).metadata = metadata;
 
 	}
 	
-	public int getPiece(int x, int y) {
-		if (pieces.containsKey((y * c) + x))
-			return pieces.get((y * c) + x).id;
-		else
-			return 0;
-	}
-	
-	public Piece getPieceObjectFromHash(int hash) {
-		
-		return pieces.get(hash);
-		
-	}
-
-	public Piece getPieceObject(int x, int y) {
-		return pieces.get((y * c) + x);
-	}
 
 	public void spawnParticle(Particle p) {
 		particles.add(p);
@@ -237,119 +229,92 @@ public class World {
 		if (!interior && playerReset && (player.getX() != oldX || player.getY() != oldY)) {
 			
 			return;
-			
+
 		}
 
 		loaded = true;
 		ArrayList<Entity> entityArray = new ArrayList<Entity>();
 		ArrayList<Entity> paintedEntities = new ArrayList<Entity>();
-		Object[] tileArray;
-		ConcurrentMap<Integer, Piece> piecesArray;
-		
-		if (locked) {
 
-			entityArray.addAll(entitiesLocked.values());
+		entityArray.addAll(entities.values());
 
-			entityArray.addAll(PlayerManager.players.values());
-			
+		entityArray.addAll(PlayerManager.players.values());
 
-			try {
-				if (!interior) {
-					piecesArray = piecesLocked;
-					tileArray = (Object[]) tilesLocked.values().toArray();
-				} else {
-					piecesArray = interiorWorld.pieces;
-					tileArray = interiorWorld.tiles.values().toArray();
-				}	
-			} catch (NullPointerException e) {
+		for (WorldChunk chunk : chunks.values()) {
 
-				e.printStackTrace();
-				piecesArray = piecesLocked;
-				tileArray = (Object[]) tilesLocked.values().toArray();
+//			try {
+//				if (!interior) {
+//					piecesArray = pieces;
+//					tileArray = (Object[]) tiles.values().toArray();
+//				} else {
+//					piecesArray = interiorWorld.pieces;
+//					tileArray = interiorWorld.tiles.values().toArray();
+//				}	
+//			} catch (NullPointerException e) {
+//
+//				e.printStackTrace();
+//				piecesArray = pieces;
+//				tileArray = (Object[]) tiles.values().toArray();
+//
+//			}
 
-			}
-
-		} else {
-			
-			
-			entityArray.addAll(entities.values());
-
-			entityArray.addAll(PlayerManager.players.values());
-			
-			try {
-				if (!interior) {
-					piecesArray = pieces;
-					tileArray = (Object[]) tiles.values().toArray();
-				} else {
-					piecesArray = interiorWorld.pieces;
-					tileArray = interiorWorld.tiles.values().toArray();
-				}	
-			} catch (NullPointerException e) {
-
-				e.printStackTrace();
-				piecesArray = pieces;
-				tileArray = (Object[]) tiles.values().toArray();
-
-			}
-
-			
-		}
-		
-		if (tileArray.length > 0) {
-			//REDUCABLE LOOP
-			for (int x = 0; x < tileArray.length; x++) {
-				if ((((Tile) tileArray[x]).posX > getMinXToPaint() && ((Tile) tileArray[x]).posX < getMaxXToPaint() && ((Tile) tileArray[x]).posY > getMinYToPaint() && ((Tile) tileArray[x]).posY < getMaxYToPaint())) {
-					((Tile) tileArray[x]).render(c, g, this);
+			if (chunk.tiles.size() > 0) {
+				//REDUCABLE LOOP
+				for (Tile t : chunk.tiles.values()) {
+					if (t.posX > getMinXToPaint() && t.posX < getMaxXToPaint() && t.posY > getMinYToPaint() && t.posY < getMaxYToPaint()) {
+						t.render(c, g, this);
+					}
 				}
-			}
 
-			player.painted = false;
-			for (Piece p : piecesArray.values()) {
-				if (p != null) {
-					if (p.posX > getMinXToPaint() && p.posX < getMaxXToPaint() && p.posY > getMinYToPaint() && p.posY < getMaxYToPaint()) {
+				player.painted = false;
+				for (Piece p : chunk.pieces.values()) {
+					if (p != null) {
+						if (p.posX > getMinXToPaint() && p.posX < getMaxXToPaint() && p.posY > getMinYToPaint() && p.posY < getMaxYToPaint()) {
 
-						for (int i = 0; i < entityArray.size(); i ++) {
+							for (int i = 0; i < entityArray.size(); i ++) {
 
-							Entity entity = entityArray.get(i);
-							ArrayList<Entity> qualifiedEntities = new ArrayList<Entity>();
-							if (p.posY + pieceLayerOffset > entity.getY() && !paintedEntities.contains(entity)) {
+								Entity entity = entityArray.get(i);
+								ArrayList<Entity> qualifiedEntities = new ArrayList<Entity>();
+								if (p.posY + pieceLayerOffset > entity.getY() && !paintedEntities.contains(entity)) {
 
-//								entity.render(c, g, this);
-//								paintedEntities.add(entity);
-								qualifiedEntities.add(entity);
-								//TODO re order these qualified entities based on y coordinates then paint them in order 
-							}
-							
-							float lowestY = -1F;
-							int lowestEntity = -1;
-							int paintedQualifiedEntities = 0;
-
-							while (paintedQualifiedEntities < qualifiedEntities.size()) {
-								for (int x = 0; x < qualifiedEntities.size(); x++) {
-									if (lowestEntity == -1) {
-										lowestY = qualifiedEntities.get(x).getY();
-										lowestEntity = x;
-									} else if (qualifiedEntities.get(x).getY() < lowestY) {
-										lowestY = qualifiedEntities.get(x).getY();
-										lowestEntity = x;
-									}
+									//								entity.render(c, g, this);
+									//								paintedEntities.add(entity);
+									qualifiedEntities.add(entity);
+									//TODO re order these qualified entities based on y coordinates then paint them in order 
 								}
 
-								qualifiedEntities.get(lowestEntity).render(c, g, this);
-								paintedEntities.add(qualifiedEntities.get(lowestEntity));
-								paintedQualifiedEntities ++;
+								float lowestY = -1F;
+								int lowestEntity = -1;
+								int paintedQualifiedEntities = 0;
+
+								while (paintedQualifiedEntities < qualifiedEntities.size()) {
+									for (int x = 0; x < qualifiedEntities.size(); x++) {
+										if (lowestEntity == -1) {
+											lowestY = qualifiedEntities.get(x).getY();
+											lowestEntity = x;
+										} else if (qualifiedEntities.get(x).getY() < lowestY) {
+											lowestY = qualifiedEntities.get(x).getY();
+											lowestEntity = x;
+										}
+									}
+
+									qualifiedEntities.get(lowestEntity).render(c, g, this);
+									paintedEntities.add(qualifiedEntities.get(lowestEntity));
+									paintedQualifiedEntities ++;
+
+								}
+
 
 							}
-							
 
+							if (p.posY + pieceLayerOffset > player.getY() && !player.painted && (chunk.x == ((int)player.getX() >> 4)) &&( chunk.y == ((int)player.getY() >> 4))) {
+								player.render(c, g, this);
+								player.painted = true;
+							}
+							p.render(c, g, this);
 						}
-
-						if (p.posY + pieceLayerOffset > player.getY() && !player.painted) {
-							player.render(c, g, this);
-							player.painted = true;
-						}
-						p.render(c, g, this);
 					}
+
 				}
 
 			}
@@ -359,36 +324,34 @@ public class World {
 				player.painted = true;
 
 			}
-			
+
 			for (int y = 0; y < particles.size(); y ++) {
 				particles.get(y).render(c, g, this);
 			}
-			
+
 			lightingManager.render(c, g, this);
 
 		}
-		
+
 	}
-	
+
 	public int getDistance(float x1, float y1, float x2, float y2) {
-		return (int)Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
-	}
+	return (int)Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+}
 
-	public void tick() {
+public void tick() {
 
-		time++;
+	time++;
 
-		CommunicationClient.tick();
+	CommunicationClient.tick();
 		
-		Object[] tileArray;
-		ConcurrentMap<Integer, Piece> piecesArray;
-		if (!interior) {
-			 piecesArray = pieces;
-			 tileArray = (Object[]) tiles.values().toArray();
-		} else {
-			piecesArray = interiorWorld.pieces;
-			tileArray = (Object[]) interiorWorld.tiles.values().toArray();
-		}	
+//		if (!interior) {
+//			 piecesArray = pieces;
+//			 tileArray = (Object[]) tiles.values().toArray();
+//		} else {
+//			piecesArray = interiorWorld.pieces;
+//			tileArray = (Object[]) interiorWorld.tiles.values().toArray();
+//		}	
 		
 		PlayerMotionManager.updatePlayerMotion(player, this);
 		
@@ -396,27 +359,31 @@ public class World {
 			Tile.info[i].infoTick(this);
 		}
 
-		for (int x = 0; x < tileArray.length; x ++) {
-			if (getDistance(player.posX, player.posY, ((Tile) tileArray[x]).posX, ((Tile) tileArray[x]).posY) < 10) {
-
-				((Tile) tileArray[x]).tick(this);
-			}
+		for (WorldChunk c : chunks.values()) {
 			
-		}
+			for (Tile t : c.tiles.values()) {
+				
+				t.tick(this);
 
+			}
 
-		for (Piece p : piecesArray.values()) {
+			for (Piece p : c.pieces.values()) {
+
 				if (p != null) {
+
 					if (p.posX > getMinXToPaint() && p.posX < getMaxXToPaint() && p.posY > getMinYToPaint() && p.posY < getMaxYToPaint()) {
 
 						p.tick(this);
 
 					}
-			} else 
-				break;
+
+				}
+
+			}
 
 		}
-				
+
+
 		for (int x = 0; x < entities.size(); x ++) {
 
 			((Entity) entities.values().toArray()[x]).tick(this);
@@ -485,7 +452,7 @@ public class World {
 
 		        	if (z > 0 && b > 0) {
 
-						if (this.getPiece(b, z) == id) {
+						if (getPiece(b, z) == id) {
 
 							float distance = (float) Math.sqrt((b - x) * (b - x) + (z - y) * (z - y));
 
@@ -515,7 +482,7 @@ public class World {
 		int xNew = (int) (top[0] + 0);
 		int yNew = (int) (top[1] + 0);
 
-		return this.getPieceObject(xNew, yNew);
+		return getPieceObject(xNew, yNew);
 
 	}
 	
@@ -530,29 +497,54 @@ public class World {
 		PlayerManager.players.clear();
 		
 		entities = new ConcurrentHashMap<Integer,Entity>();;
-		tiles = new ConcurrentHashMap<Integer,Tile>();
-		pieces = new ConcurrentLinkedHashMap.Builder<Integer, Piece>().maximumWeightedCapacity(10000000).build();
+//		tiles = new ConcurrentHashMap<Integer,Tile>();
+//		pieces = new ConcurrentLinkedHashMap.Builder<Integer, Piece>().maximumWeightedCapacity(10000000).build();
+		chunks = new ConcurrentHashMap<Integer, WorldChunk>();
+	}
+	
+	public static WorldChunk getChunk(Tile tile) {
+		
+		return getChunk(tile.posX, tile.posY);
+
+	}
+
+	public static WorldChunk getChunk(Piece piece) {
+
+		return getChunk(piece.posX, piece.posY);
+
+	}
+
+	public static WorldChunk getChunk(int x, int y) {
+		
+		int id = (y * (c >> 4)) + x;
+		
+		if (chunks.containsKey(id)) {
+			
+			return (chunks.get(id));
+			
+		} else {
+			
+			return new WorldChunk(PixelRealms.world, x, y);
+			
+		}
 		
 	}
 	
 	public static void propagatePiece(Piece piece) {
 
-		if (!interior)
-			if (pieces.containsKey(hash(piece)))
-				pieces.replace(hash(piece), piece);
-			else
-				pieces.put(hash(piece), piece);
+		getChunk(piece).propagatePiece(piece);
+
 	}
-	
+
 	public static void propagateTile(Tile tile) {
 
-		tiles.put((tile.posY * c) + tile.posX, tile);
+		getChunk(tile).propagateTile(tile);
 		
 	}
 	
 	public static void propagateEntity(Entity entity) {
 
-		entities.put(entity.serverID, entity);
+//		getChunk(entity).propagateEntity(entity);
 		
 	}
 
@@ -570,8 +562,8 @@ public class World {
 	
 	public static void holdTillLoad() {
 
-		tiles.clear();
-		pieces.clear();
+//		tiles.clear();
+//		pieces.clear();
 //		entities.clear();
 		buildings.clear();
 		
@@ -596,4 +588,10 @@ public class World {
 		
 	}
 
+	public static void propagateChunk(WorldChunk chunk) {
+
+		chunks.put((chunk.y * (c >> 4)) + chunk.x, chunk);
+		
+	}
+	
 }

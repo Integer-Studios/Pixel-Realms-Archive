@@ -97,7 +97,7 @@ public class PixelSoundManager {
 	
 	public static void update() {
 		
-		if (!song.playing() && currentSong != Music.OFF) {
+		if (song != null && !song.playing() && currentSong != Music.OFF) {
 			
 			onSongEnded(currentSong);
 			

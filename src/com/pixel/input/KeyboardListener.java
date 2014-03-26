@@ -146,6 +146,10 @@ public class KeyboardListener {
 				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(9, 0);
 				break;
 				
+			case KeyCode.KEY_F:
+				PixelRealms.world.player.testLight();
+				break;
+				
 			}
 
 		}

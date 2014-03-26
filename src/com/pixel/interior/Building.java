@@ -44,30 +44,30 @@ public class Building {
 	
 	public static boolean canBuildingFit(int buildingID, int x, int y) {
 		
-		int width = info.get(buildingID).width;
-		int height = info.get(buildingID).height;
-		
-		for (int b = x; b < (x + width); b ++) {
-			
-			for (int i = y; i > (y - height); i --) {
-
-				if (World.pieces.get((i * World.c) + b) != null) {
-					
-					int tempID = World.pieces.get((i * World.c) + b).id;
-					
-					if (tempID != 0 && tempID != 1 && tempID != 2 && tempID != 3) {
-						
-						//Obstruction
-						System.out.println("Obstruction");
-						return false;
-						
-					}
-					
-				}
-
-			}
-
-		}
+//		int width = info.get(buildingID).width;
+//		int height = info.get(buildingID).height;
+//		
+//		for (int b = x; b < (x + width); b ++) {
+//			
+//			for (int i = y; i > (y - height); i --) {
+//
+//				if (World.pieces.get((i * World.c) + b) != null) {
+//					
+//					int tempID = World.pieces.get((i * World.c) + b).id;
+//					
+//					if (tempID != 0 && tempID != 1 && tempID != 2 && tempID != 3) {
+//						
+//						//Obstruction
+//						System.out.println("Obstruction");
+//						return false;
+//						
+//					}
+//					
+//				}
+//
+//			}
+//
+//		}
 		
 		return true;
 	}
