@@ -40,7 +40,8 @@ public class PacketWorldData extends Packet {
 			
 			int cx = input.readInt();
 			int cy = input.readInt();
-			
+			PixelLogger.debug("A", cx, cy);
+
 			new WorldChunk(PixelRealms.world, cx, cy);
 			int tileAmount = input.readInt();
 

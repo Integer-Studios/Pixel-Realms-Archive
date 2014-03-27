@@ -8,6 +8,7 @@ import com.pixel.entity.Entity;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
+import com.pixel.start.PixelLogger;
 import com.pixel.start.PixelRealms;
 import com.pixel.tile.Tile;
 import com.pixel.world.World;
@@ -50,7 +51,7 @@ public class PacketUpdateWorld extends Packet {
 
 			int cx = input.readInt();
 			int cy = input.readInt();
-
+			
 			new WorldChunk(PixelRealms.world, cx, cy);
 
 			int tileAmount = input.readInt();
