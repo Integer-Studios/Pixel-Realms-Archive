@@ -91,19 +91,28 @@ public class TileRounded extends TileInfo {
 		
 				
 		boolean l=false,r=false,d=false,u=false;
-		if (t.posX > 0 && w.getTile(t.posX-1, t.posY) != t.id) {
-			l = true;
+
+		try {
+
+			if (t.posX > 0 && World.getTile(t.posX-1, t.posY) != t.id) {
+				l = true;
+			}
+			if (t.posX < World.c -1 && World.getTile(t.posX+1, t.posY) != t.id) {
+				r = true;
+			}
+			if (t.posY < World.c -1 && World.getTile(t.posX, t.posY+1) != t.id) {
+				d = true;
+			}
+			if (t.posY > 0 && World.getTile(t.posX, t.posY-1) != t.id) {
+				u = true;
+			}
+
+		} catch (NullPointerException e) {
+			
+			//Ignore, means tile in question is not loaded (rounded tile on edge of loaded map)
+			
 		}
-		if (t.posX < World.c -1 && w.getTile(t.posX+1, t.posY) != t.id) {
-			r = true;
-		}
-		if (t.posY < World.c -1 && w.getTile(t.posX, t.posY+1) != t.id) {
-			d = true;
-		}
-		if (t.posY > 0 && w.getTile(t.posX, t.posY-1) != t.id) {
-			u = true;
-		}
-		
+
 		if (l) {
 			if (r) {
 				if (d) {

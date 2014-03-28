@@ -2,7 +2,6 @@ package com.pixel.piece;
 
 import com.pixel.entity.Entity;
 import com.pixel.entity.EntityPlayer;
-import com.pixel.frame.MainFrame;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
 import com.pixel.sound.PixelEffect;
@@ -115,14 +114,6 @@ public class PieceInfo {
 	public PieceInfo setRolloverItem(Item i) {
 		rolloverItem = i;
 		return this;
-	}
-	
-	public void onMouseOver() {
-		if (rolloverItem != null) {
-			MainFrame.setCursorToItem(rolloverItem);
-		} else {
-			MainFrame.setCursorDefault();
-		}
 	}
 	
 	public PieceInfo setMaterial(Material m) {

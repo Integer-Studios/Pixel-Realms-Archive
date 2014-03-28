@@ -100,7 +100,6 @@ public class Piece {
 		
 		if ((int)MouseClickListener.getXWorldMousePosition() == posX && (int)MouseClickListener.getYWorldMousePosition() == posY) {
 
-			info[id].onMouseOver();
 			if (MouseClickListener.onMouseUp && id != 0) {
 				w.player.setTargetPiece(this);
 			}

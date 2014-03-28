@@ -442,19 +442,19 @@ public class World {
 		return time % dayLength;
 	}
 
-	public int getMinXToPaint() {
+	public static int getMinXToPaint() {
 		return (-1*globalOffsetX/tileConstant) - 2;
 	}
 
-	public int getMaxXToPaint() {
+	public static int getMaxXToPaint() {
 		return (-1*globalOffsetX+Display.getWidth())/tileConstant + 2;
 	}
 
-	public int getMinYToPaint() {
+	public static int getMinYToPaint() {
 		return (-1*globalOffsetY/tileConstant) - 2;
 	}
 
-	public int getMaxYToPaint() {
+	public static int getMaxYToPaint() {
 		return (-1*globalOffsetY+Display.getHeight())/tileConstant + 2;
 	}
 

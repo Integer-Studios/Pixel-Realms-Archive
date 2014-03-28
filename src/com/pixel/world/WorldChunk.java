@@ -9,7 +9,6 @@ import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import com.pixel.entity.Entity;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
-import com.pixel.start.PixelLogger;
 import com.pixel.tile.Tile;
 
 public class WorldChunk {

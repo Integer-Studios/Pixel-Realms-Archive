@@ -128,7 +128,6 @@ public class EntityPlayer extends EntityHuman {
 		PlayerMotionManager.checkMovement(this);
 
 		super.tick(w);
-		PixelLogger.debug("player", posX, posY);
 		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(posX * World.tileConstant);
 		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(posY * World.tileConstant);
 	}
