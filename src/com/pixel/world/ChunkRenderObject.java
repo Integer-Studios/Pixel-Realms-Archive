@@ -3,6 +3,8 @@ package com.pixel.world;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+import com.pixel.start.PixelLogger;
+
 public class ChunkRenderObject {
 	
 	public ChunkRenderObject(WorldChunk chunk, int id, int index) {

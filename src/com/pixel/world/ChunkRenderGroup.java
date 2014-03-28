@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+
 public class ChunkRenderGroup {
 	
 	public ChunkRenderGroup(int id, ConcurrentHashMap<Integer, ChunkRenderObject> objects) {

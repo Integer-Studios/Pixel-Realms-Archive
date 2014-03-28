@@ -3,6 +3,7 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.pixel.communication.PlayerManager;
 import com.pixel.entity.Entity;
@@ -12,6 +13,8 @@ import com.pixel.piece.PieceBuilding;
 import com.pixel.start.PixelLogger;
 import com.pixel.start.PixelRealms;
 import com.pixel.tile.Tile;
+import com.pixel.world.ChunkRenderGroup;
+import com.pixel.world.ChunkRenderObject;
 import com.pixel.world.World;
 import com.pixel.world.WorldChunk;
 
@@ -40,11 +43,13 @@ public class PacketWorldData extends Packet {
 			
 			int cx = input.readInt();
 			int cy = input.readInt();
+			PixelLogger.debug("chunk", cx*16, cy*16);
 			
 			WorldChunk chunk = new WorldChunk(PixelRealms.world, cx, cy);
-
+			
+			ChunkRenderGroup tileGroup = new ChunkRenderGroup(0, new ConcurrentHashMap<Integer, ChunkRenderObject>());
 			int tileAmount = input.readInt();
-
+			
 			for (int x = 0; x < tileAmount; x ++) {
 
 				int id = input.readInt();
@@ -52,10 +57,13 @@ public class PacketWorldData extends Packet {
 				int posY = input.readInt();
 				int metadata = input.readInt();
 				new Tile(posX, posY, id, metadata, true);
-
+				tileGroup.objects.put(x, new ChunkRenderObject(chunk, 0, ((posY*World.c)+posX)));
 			}
+			
+			chunk.renderGroups.put(0, tileGroup);
 
-
+			ChunkRenderGroup pieceGroup = new ChunkRenderGroup(1, new ConcurrentHashMap<Integer, ChunkRenderObject>());
+			int currentY = 0;
 			int pieceAmount = input.readInt();
 
 			for (int x = 0; x < pieceAmount; x ++) {
@@ -74,8 +82,17 @@ public class PacketWorldData extends Packet {
 					buildingID = input.readInt();
 					new PieceBuilding(worldID, posX, posY, buildingID, damage, metadata, lightID);
 
-				} else
+				} else {
 					new Piece(posX, posY, id, damage, metadata, lightID, true);
+					if (posY == currentY) {
+						pieceGroup.objects.put(x, new ChunkRenderObject(chunk, 1, ((posY*World.c)+posX)));
+					} else {
+						chunk.renderGroups.put((currentY + 1)*2, pieceGroup);
+						currentY++;
+						pieceGroup = new ChunkRenderGroup(1, new ConcurrentHashMap<Integer, ChunkRenderObject>());
+						pieceGroup.objects.put(x, new ChunkRenderObject(chunk, 1, ((posY*World.c)+posX)));
+					}
+				}
 
 			}
 			

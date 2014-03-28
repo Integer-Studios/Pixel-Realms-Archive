@@ -31,6 +31,7 @@ import com.pixel.lighting.PixelLightingManager;
 import com.pixel.piece.Piece;
 import com.pixel.player.PlayerInventory;
 import com.pixel.player.PlayerMotionManager;
+import com.pixel.start.PixelLogger;
 import com.pixel.start.PixelRealms;
 import com.pixel.util.CollisionBox;
 import com.pixel.world.World;
@@ -127,7 +128,7 @@ public class EntityPlayer extends EntityHuman {
 		PlayerMotionManager.checkMovement(this);
 
 		super.tick(w);
-		
+		PixelLogger.debug("player", posX, posY);
 		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(posX * World.tileConstant);
 		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(posY * World.tileConstant);
 	}

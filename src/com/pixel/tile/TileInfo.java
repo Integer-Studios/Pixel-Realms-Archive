@@ -20,11 +20,10 @@ public class TileInfo {
 	}
 	
 	public void render(GameContainer c, Graphics g, World w, Tile t) {
-		
-		if (image != null) 
-			image.draw(t.posX*World.tileConstant+World.globalOffsetX, t.posY*World.tileConstant+World.globalOffsetY, World.tileConstant, World.tileConstant);
-		else {
 
+		if (image != null)  {
+			image.draw(t.posX*World.tileConstant+World.globalOffsetX, t.posY*World.tileConstant+World.globalOffsetY, World.tileConstant, World.tileConstant);
+		} else {
 			image = TextureLoader.load(texture);
 			image.draw(t.posX*World.tileConstant+World.globalOffsetX, t.posY*World.tileConstant+World.globalOffsetY, World.tileConstant, World.tileConstant);
 	
