@@ -203,8 +203,26 @@ public class World {
 		CommunicationClient.addPacket(new PacketUpdateWorld());
 		
 	}
-
+	
 	public void render(GameContainer c, Graphics g) {
+		if (!loaded) {
+			return;
+		} 
+		for (WorldChunk chunk : chunks.values()) {
+//			System.out.println("render: " + chunk.x + " " + chunk.y);
+//			render: 0 0
+//			render: 1 0
+//			render: 2 0
+//			render: 1 0
+//			render: 1 1
+//			render: 1 2
+//			render: 2 0
+//			etc
+			chunk.render(c, g, this);
+		}
+	}
+
+	public void renderOld(GameContainer c, Graphics g) {
 		
 		PixelLightingManager.initialize();
 		
@@ -336,10 +354,12 @@ public class World {
 	}
 
 	public int getDistance(float x1, float y1, float x2, float y2) {
-	return (int)Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
-}
+		return (int)Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+	}
+	
+	
 
-public void tick() {
+	public void tick() {
 
 	time++;
 

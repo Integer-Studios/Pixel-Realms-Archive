@@ -1,4 +1,4 @@
-package com.pixel.communication.packet;
+ package com.pixel.communication.packet;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -41,7 +41,7 @@ public class PacketWorldData extends Packet {
 			int cx = input.readInt();
 			int cy = input.readInt();
 			
-			new WorldChunk(PixelRealms.world, cx, cy);
+			WorldChunk chunk = new WorldChunk(PixelRealms.world, cx, cy);
 			int tileAmount = input.readInt();
 
 			for (int x = 0; x < tileAmount; x ++) {
@@ -50,7 +50,6 @@ public class PacketWorldData extends Packet {
 				int posX = input.readInt();
 				int posY = input.readInt();
 				int metadata = input.readInt();
-
 				new Tile(posX, posY, id, metadata, true);
 
 			}

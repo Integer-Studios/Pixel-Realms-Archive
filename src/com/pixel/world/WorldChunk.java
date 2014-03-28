@@ -2,10 +2,14 @@ package com.pixel.world;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import com.pixel.entity.Entity;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
+import com.pixel.start.PixelLogger;
 import com.pixel.tile.Tile;
 
 public class WorldChunk {
@@ -14,6 +18,7 @@ public class WorldChunk {
 	public ConcurrentLinkedHashMap<Integer, Piece> pieces;
 	public ConcurrentHashMap<Integer, PieceBuilding> buildings = new ConcurrentHashMap<Integer,PieceBuilding>();
 	public ConcurrentHashMap<Integer, Entity> entities = new ConcurrentHashMap<Integer,Entity>();
+	public ConcurrentHashMap<Integer, ChunkRenderGroup> renderGroups = new ConcurrentHashMap<Integer, ChunkRenderGroup>();
 	public World world; 
 	public int x, y;
 	
@@ -21,7 +26,19 @@ public class WorldChunk {
 		
 		this.world = world;
 		pieces = new ConcurrentLinkedHashMap.Builder<Integer, Piece>().maximumWeightedCapacity(1000000).build();
-		
+		initializeRenderGroups();
+	}
+	
+	public void initializeRenderGroups() {
+		for (int i = 0; i < 33; i++) {
+			if (i == 0) {
+				renderGroups.put(0, new ChunkRenderGroup(0, new ConcurrentHashMap<Integer, ChunkRenderObject>()));
+			} else if (i % 2 == 0) {
+				renderGroups.put(i, new ChunkRenderGroup(1, new ConcurrentHashMap<Integer, ChunkRenderObject>()));
+			} else {
+				renderGroups.put(i, new ChunkRenderGroup(2, new ConcurrentHashMap<Integer, ChunkRenderObject>()));
+			}
+		}
 	}
 	
 	public WorldChunk(World world, int x, int y) {
@@ -30,7 +47,7 @@ public class WorldChunk {
 		this.x = x; 
 		this.y = y;
 		pieces = new ConcurrentLinkedHashMap.Builder<Integer, Piece>().maximumWeightedCapacity(1000000).build();
-
+		initializeRenderGroups();
 		World.propagateChunk(this);
 		
 	}
@@ -56,6 +73,18 @@ public class WorldChunk {
 		}
 
 		
+	}
+	
+	public void render(GameContainer c, Graphics g, World w) {
+		for (ChunkRenderGroup group : renderGroups.values()) {
+			group.render(c, g, w);
+		}
+		//tiles
+		//entities from 0-0.85
+		//pieces at 0
+		//entities from 0.85-1.85
+		//pieces at 1
+		//etc
 	}
 
 	public void propagateTile(Tile tile) {
