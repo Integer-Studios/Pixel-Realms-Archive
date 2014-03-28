@@ -536,7 +536,7 @@ public class World {
 
 	public static WorldChunk getChunk(int x, int y) {
 		
-		int id = (y * (c >> 4)) + x;
+		int id = ((y >> 4) * (c >> 4)) + (x >> 4);
 		
 		if (chunks.containsKey(id)) {
 			
@@ -544,12 +544,12 @@ public class World {
 			
 		} else {
 			
-			return new WorldChunk(PixelRealms.world, x, y);
+			return new WorldChunk(PixelRealms.world, (x >> 4), (y >> 4));
 			
 		}
 		
 	}
-	
+
 	public static void propagatePiece(Piece piece) {
 
 		getChunk(piece).propagatePiece(piece);

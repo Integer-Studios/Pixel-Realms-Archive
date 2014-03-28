@@ -42,6 +42,7 @@ public class PacketWorldData extends Packet {
 			int cy = input.readInt();
 			
 			WorldChunk chunk = new WorldChunk(PixelRealms.world, cx, cy);
+
 			int tileAmount = input.readInt();
 
 			for (int x = 0; x < tileAmount; x ++) {
