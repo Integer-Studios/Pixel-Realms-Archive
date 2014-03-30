@@ -12,7 +12,7 @@ public class PixelRealms {
 	public static boolean server;
 	public static Toolkit t;
 	public static String ip;
-	public static int port = 25573;
+	public static int port = 25571;
 	public static boolean loggedIn = false;
 	public static MainLoop loop;
 	
