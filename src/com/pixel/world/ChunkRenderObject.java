@@ -34,7 +34,6 @@ public class ChunkRenderObject {
 			if (p.posX > World.getMinXToPaint() && p.posX < World.getMaxXToPaint() && p.posY > World.getMinYToPaint() && p.posY < World.getMaxYToPaint()) {
 				p.render(c, g, w);
 			}
-			p.render(c, g, w);
 			break;
 		case 2:
 			//entity

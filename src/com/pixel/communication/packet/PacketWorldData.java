@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.pixel.communication.PlayerManager;
 import com.pixel.entity.Entity;
 import com.pixel.frame.PanelWorld;
 import com.pixel.piece.Piece;
@@ -43,8 +42,7 @@ public class PacketWorldData extends Packet {
 			
 			int cx = input.readInt();
 			int cy = input.readInt();
-			PixelLogger.debug("chunk", cx*16, cy*16);
-			
+
 			WorldChunk chunk = new WorldChunk(PixelRealms.world, cx, cy);
 			
 			ChunkRenderGroup tileGroup = new ChunkRenderGroup(0, new ConcurrentHashMap<Integer, ChunkRenderObject>());
@@ -87,6 +85,7 @@ public class PacketWorldData extends Packet {
 					if (posY == currentY) {
 						pieceGroup.objects.put(x, new ChunkRenderObject(chunk, 1, ((posY*World.c)+posX)));
 					} else {
+//						System.out.println(posY + " X " + currentY);
 						chunk.renderGroups.put((currentY + 1)*2, pieceGroup);
 						currentY++;
 						pieceGroup = new ChunkRenderGroup(1, new ConcurrentHashMap<Integer, ChunkRenderObject>());

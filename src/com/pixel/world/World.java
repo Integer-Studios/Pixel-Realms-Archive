@@ -361,28 +361,28 @@ public class World {
 
 	public void tick() {
 
-	time++;
+		time++;
 
-	CommunicationClient.tick();
-		
-//		if (!interior) {
-//			 piecesArray = pieces;
-//			 tileArray = (Object[]) tiles.values().toArray();
-//		} else {
-//			piecesArray = interiorWorld.pieces;
-//			tileArray = (Object[]) interiorWorld.tiles.values().toArray();
-//		}	
-		
+		CommunicationClient.tick();
+
+		//		if (!interior) {
+		//			 piecesArray = pieces;
+		//			 tileArray = (Object[]) tiles.values().toArray();
+		//		} else {
+		//			piecesArray = interiorWorld.pieces;
+		//			tileArray = (Object[]) interiorWorld.tiles.values().toArray();
+		//		}	
+
 		PlayerMotionManager.updatePlayerMotion(player, this);
-		
+
 		for (int i = 0; i < Tile.info.length; i++) {
 			Tile.info[i].infoTick(this);
 		}
 
 		for (WorldChunk c : chunks.values()) {
-			
+
 			for (Tile t : c.tiles.values()) {
-				
+
 				t.tick(this);
 
 			}
@@ -409,8 +409,8 @@ public class World {
 			((Entity) entities.values().toArray()[x]).tick(this);
 
 		}
-		
-		
+
+
 		for (int x = 0; x < PlayerManager.players.size(); x ++) {
 
 			((EntityOnlinePlayer)PlayerManager.players.values().toArray()[x]).tick(this);
@@ -421,19 +421,19 @@ public class World {
 		for (int x = 0; x < particles.size(); x ++) {
 			particles.get(x).tick(this, x);
 		}
-		
+
 		player.tick(this);
-//		
-//		int play = 0 + (int)(Math.random() * ((10000 - 0) + 1));
-//		
-//		if (play == 1 && Sound.getCurrentSong() == Sound.Music.OFF) {
-//			
-//			PixelRealms.playSong(Music.ROB_IN_WHITE_SATIN);
-//			
-//		}
+		//		
+		//		int play = 0 + (int)(Math.random() * ((10000 - 0) + 1));
+		//		
+		//		if (play == 1 && Sound.getCurrentSong() == Sound.Music.OFF) {
+		//			
+		//			PixelRealms.playSong(Music.ROB_IN_WHITE_SATIN);
+		//			
+		//		}
 
 	}
-	
+
 	public long getTime() {
 		return time;
 	}
