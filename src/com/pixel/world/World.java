@@ -1,6 +1,9 @@
 package com.pixel.world;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.lwjgl.opengl.Display;
@@ -34,7 +37,7 @@ public class World {
 	public static ConcurrentHashMap<Integer, PieceBuilding> buildings = new ConcurrentHashMap<Integer,PieceBuilding>();
 //	public static ConcurrentMap<Integer, Piece> pieces;
 	public static ConcurrentHashMap<Integer, Entity> entities = new ConcurrentHashMap<Integer,Entity>();
-	public static ConcurrentHashMap<Integer, WorldChunk> chunks = new ConcurrentHashMap<Integer, WorldChunk>();
+	public static Map<Integer, WorldChunk> chunks;
 	
 	public static int derp = 0x01;
 	public static int derp1 = 0x02;
@@ -65,6 +68,7 @@ public class World {
 
 	public World(PanelWorld p) {
 		PixelRealms.world = this;
+		chunks = Collections.synchronizedMap(new LinkedHashMap<Integer, WorldChunk>());
 
 		panelWorld = p;
 //		pieces = new ConcurrentLinkedHashMap.Builder<Integer, Piece>().maximumWeightedCapacity(10000000).build();
@@ -204,6 +208,8 @@ public class World {
 		
 	}
 	
+	boolean a = false;
+	
 	public void render(GameContainer c, Graphics g) {
 		if (!loaded) {
 			return;
@@ -218,8 +224,11 @@ public class World {
 //			render: 1 2
 //			render: 2 0
 //			etc
+			
 			chunk.render(c, g, this);
 		}
+		a = true;
+
 	}
 
 	public void renderOld(GameContainer c, Graphics g) {

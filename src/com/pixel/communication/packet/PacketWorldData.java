@@ -3,7 +3,6 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.pixel.entity.Entity;
 import com.pixel.frame.PanelWorld;
@@ -38,14 +37,17 @@ public class PacketWorldData extends Packet {
 		World.c = c;
 		World.chunks.clear();
 		int chunkAmount = input.readInt();
+		int amt = 0;
 		for (int a = 0; a < chunkAmount; a ++) {
 			
 			int cx = input.readInt();
 			int cy = input.readInt();
+			amt ++;
+			System.out.println("C: " + amt + " " + cx + " " + cy);
 
 			WorldChunk chunk = new WorldChunk(PixelRealms.world, cx, cy);
 			
-			ChunkRenderGroup tileGroup = new ChunkRenderGroup(0, new ConcurrentHashMap<Integer, ChunkRenderObject>());
+			ChunkRenderGroup tileGroup = new ChunkRenderGroup(0);
 			int tileAmount = input.readInt();
 			
 			for (int x = 0; x < tileAmount; x ++) {
@@ -60,7 +62,7 @@ public class PacketWorldData extends Packet {
 			
 			chunk.renderGroups.put(0, tileGroup);
 
-			ChunkRenderGroup pieceGroup = new ChunkRenderGroup(1, new ConcurrentHashMap<Integer, ChunkRenderObject>());
+			ChunkRenderGroup pieceGroup = new ChunkRenderGroup(1);
 			int currentY = 0;
 			int pieceAmount = input.readInt();
 
@@ -88,7 +90,7 @@ public class PacketWorldData extends Packet {
 //						System.out.println(posY + " X " + currentY);
 						chunk.renderGroups.put((currentY + 1)*2, pieceGroup);
 						currentY++;
-						pieceGroup = new ChunkRenderGroup(1, new ConcurrentHashMap<Integer, ChunkRenderObject>());
+						pieceGroup = new ChunkRenderGroup(1);
 						pieceGroup.objects.put(x, new ChunkRenderObject(chunk, 1, ((posY*World.c)+posX)));
 					}
 				}
