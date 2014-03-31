@@ -111,21 +111,21 @@ public class PacketWorldData extends Packet {
 				e.serverID = serverID;
 				World.propagateEntity(e);
 				e.setPosition(posX, posY);
-				
-				int posYint = (int)posY;
-				PixelLogger.debug("PacketWorldData Entities PosY:", posY, posYint);
-				//9.8, 9; 9.3, 9; 9.0, 9; 8.9, 8;
-				if ((posY -(float)posYint) < World.pieceLayerOffset) {
-					ChunkEntityRenderGroup group = (ChunkEntityRenderGroup)chunk.renderGroups.get((2*posYint)+1);
-					group.objects.put(x, new ChunkRenderObject(chunk, 2, id));
-					group.reorder(chunk);
-					chunk.renderGroups.put((2*posYint)+1, group);
-				} else {
-					ChunkEntityRenderGroup group = (ChunkEntityRenderGroup)chunk.renderGroups.get((2*(posYint-1))+1);
-					group.objects.put(x, new ChunkRenderObject(chunk, 2, id));
-					group.reorder(chunk);
-					chunk.renderGroups.put((2*(posYint-1))+1, group);
-				}
+//				
+//				int posYint = (int)posY;
+//				PixelLogger.debug("PacketWorldData Entities PosY:", posY, posYint);
+//				//9.8, 9; 9.3, 9; 9.0, 9; 8.9, 8;
+//				if ((posY -(float)posYint) < World.pieceLayerOffset) {
+//					ChunkEntityRenderGroup group = (ChunkEntityRenderGroup)chunk.renderGroups.get((2*posYint)+1);
+//					group.objects.put(x, new ChunkRenderObject(chunk, 2, id));
+//					group.reorder(chunk);
+//					chunk.renderGroups.put((2*posYint)+1, group);
+//				} else {
+//					ChunkEntityRenderGroup group = (ChunkEntityRenderGroup)chunk.renderGroups.get((2*(posYint-1))+1);
+//					group.objects.put(x, new ChunkRenderObject(chunk, 2, id));
+//					group.reorder(chunk);
+//					chunk.renderGroups.put((2*(posYint-1))+1, group);
+//				}
 				
 			}
 
