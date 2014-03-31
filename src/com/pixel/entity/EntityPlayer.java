@@ -352,6 +352,8 @@ public class EntityPlayer extends EntityHuman {
 
 		int posX = (int)MouseClickListener.getXWorldMousePosition();
 		int posY = (int)MouseClickListener.getYWorldMousePosition();
+		
+		System.out.println("Click: " + posX + " " + posY);
 		if (button == 1) {
 			
 			if (PixelRealms.world.getPiece(posX, posY) == 0 && selectedItem.item.pieceID != 0) {

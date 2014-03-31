@@ -1,7 +1,5 @@
 package com.pixel.util;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Rectangle;
 import com.pixel.communication.PlayerManager;
 import com.pixel.entity.Entity;

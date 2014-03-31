@@ -1,6 +1,8 @@
 package com.pixel.render;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -10,9 +12,15 @@ import com.pixel.world.World;
 
 public class ChunkRenderGroup {
 	
-	public ChunkRenderGroup(int id, ConcurrentHashMap<Integer, ChunkRenderObject> objects) {
+	public ChunkRenderGroup(int id, Map<Integer, ChunkRenderObject> objects) {
 		this.id = id;
 		this.objects = objects;
+	}
+	
+	public ChunkRenderGroup(int id) {
+		
+		objects = Collections.synchronizedMap(new LinkedHashMap<Integer, ChunkRenderObject>());
+		
 	}
 	
 	public void render(GameContainer c, Graphics g, World w) {
@@ -22,6 +30,6 @@ public class ChunkRenderGroup {
 	}
 	
 	public int id;
-	public ConcurrentHashMap<Integer, ChunkRenderObject> objects;
+	public Map<Integer, ChunkRenderObject> objects;
 
 }
