@@ -542,6 +542,12 @@ public class World {
 		return getChunk(piece.posX, piece.posY);
 
 	}
+	
+	public static WorldChunk getChunk(Entity entity) {
+		
+		return getChunk(Math.round(entity.getX()), Math.round(entity.getY()));
+		
+	}
 
 	public static WorldChunk getChunk(int x, int y) {
 		
