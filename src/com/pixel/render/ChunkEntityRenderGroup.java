@@ -1,6 +1,9 @@
 package com.pixel.render;
 
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.pixel.world.WorldChunk;
@@ -14,21 +17,26 @@ public class ChunkEntityRenderGroup extends ChunkRenderGroup {
 	
 	public void reorder(WorldChunk c) {
 		
-		ConcurrentHashMap<Integer, ChunkRenderObject> orderedObjects = new ConcurrentHashMap<Integer, ChunkRenderObject>();
+		Map<Integer, ChunkRenderObject> orderedObjects;
+		orderedObjects = Collections.synchronizedMap(new LinkedHashMap<Integer, ChunkRenderObject>());
 		for (ChunkRenderObject object : objects.values()) {
 			int index = 0;
+			boolean added = false;
 			for (ChunkRenderObject orderedObject : orderedObjects.values()) {
 				if (c.entities.get(object.index).posY < c.entities.get(orderedObject.index).posY) {
 					orderedObjects = insertObject(object, orderedObjects, index);
+					added = true;
 				}
 				index++;
 			}
-			orderedObjects.put(index, object);
+			if (!added) {
+				orderedObjects.put(index, object);
+			}
 		}
 		objects = orderedObjects;
 	}
 	
-	private ConcurrentHashMap<Integer, ChunkRenderObject> insertObject(ChunkRenderObject object, ConcurrentHashMap<Integer, ChunkRenderObject> objects, int index) {
+	private Map<Integer, ChunkRenderObject> insertObject(ChunkRenderObject object, Map<Integer, ChunkRenderObject> objects, int index) {
 		for (int i = objects.size()-1; i >= index; i--) {
 			objects.put(i+1, objects.get(i));
 		}

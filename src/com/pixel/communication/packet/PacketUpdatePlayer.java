@@ -7,7 +7,12 @@ import java.io.IOException;
 import com.pixel.communication.PlayerManager;
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
+import com.pixel.render.ChunkEntityRenderGroup;
+import com.pixel.render.ChunkRenderObject;
+import com.pixel.start.PixelLogger;
 import com.pixel.start.PixelRealms;
+import com.pixel.world.World;
+import com.pixel.world.WorldChunk;
 
 public class PacketUpdatePlayer extends Packet {
 
@@ -87,6 +92,22 @@ public class PacketUpdatePlayer extends Packet {
 					PlayerManager.players.get(userID).setEnergy(energy);
 					PlayerManager.players.get(userID).setSelectedItem(new ItemStack(Item.getItemForId(itemID), itemAmount));
 					PlayerManager.players.get(userID).worldID = worldID;
+					
+					int posYint = (int)posY;
+					WorldChunk chunk = World.getChunk(Math.round(posX), Math.round(posY));
+					PixelLogger.debug("PacketWorldData Entities PosY:", posY, posYint);
+					//9.8, 9; 9.3, 9; 9.0, 9; 8.9, 8;
+					if ((posY -(float)posYint) < World.pieceLayerOffset) {
+						ChunkEntityRenderGroup group = (ChunkEntityRenderGroup)chunk.renderGroups.get((2*posYint)+1);
+						group.objects.put(group.objects.size(), new ChunkRenderObject(chunk, 2, id));
+						group.reorder(chunk);
+						chunk.renderGroups.put((2*posYint)+1, group);
+					} else {
+						ChunkEntityRenderGroup group = (ChunkEntityRenderGroup)chunk.renderGroups.get((2*(posYint-1))+1);
+						group.objects.put(group.objects.size(), new ChunkRenderObject(chunk, 2, id));
+						group.reorder(chunk);
+						chunk.renderGroups.put((2*(posYint-1))+1, group);
+					}
 			}
 
 		} else {

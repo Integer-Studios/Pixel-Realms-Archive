@@ -111,7 +111,6 @@ class FeedLoader extends Thread {
 
 		try {
 			URL url = new URL(news.feedURL);
-			@SuppressWarnings("resource")
 			Scanner s = new Scanner(url.openStream());
 
 			int lineCount = 1;
