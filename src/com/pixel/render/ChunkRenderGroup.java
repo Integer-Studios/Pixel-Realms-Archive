@@ -1,9 +1,11 @@
-package com.pixel.world;
+package com.pixel.render;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+
+import com.pixel.world.World;
 
 
 public class ChunkRenderGroup {

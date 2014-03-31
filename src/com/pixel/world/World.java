@@ -52,7 +52,7 @@ public class World {
 	public static int globalOffsetX = 0;
 	public static int globalOffsetY = 0;
 	public EntityPlayer player;
-	public float pieceLayerOffset = 0.85F;
+	public static float pieceLayerOffset = 0.85F;
 	public float clipConstant = 0.4F;
 	public PanelWorld panelWorld;
 	public static GUILoadingScreen loadingScreen;

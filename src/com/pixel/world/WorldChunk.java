@@ -9,6 +9,9 @@ import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import com.pixel.entity.Entity;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
+import com.pixel.render.ChunkEntityRenderGroup;
+import com.pixel.render.ChunkRenderGroup;
+import com.pixel.render.ChunkRenderObject;
 import com.pixel.tile.Tile;
 
 public class WorldChunk {
@@ -35,7 +38,7 @@ public class WorldChunk {
 			} else if (i % 2 == 0) {
 				renderGroups.put(i, new ChunkRenderGroup(1, new ConcurrentHashMap<Integer, ChunkRenderObject>()));
 			} else {
-				renderGroups.put(i, new ChunkRenderGroup(2, new ConcurrentHashMap<Integer, ChunkRenderObject>()));
+				renderGroups.put(i, new ChunkEntityRenderGroup(new ConcurrentHashMap<Integer, ChunkRenderObject>()));
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-package com.pixel.world;
+package com.pixel.render;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -6,6 +6,8 @@ import org.newdawn.slick.Graphics;
 import com.pixel.entity.Entity;
 import com.pixel.piece.Piece;
 import com.pixel.tile.Tile;
+import com.pixel.world.World;
+import com.pixel.world.WorldChunk;
 
 public class ChunkRenderObject {
 	
