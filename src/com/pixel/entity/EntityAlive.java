@@ -110,7 +110,7 @@ public class EntityAlive extends Entity {
 		
 		if (bodyID != -1) {
 			
-			w.setPiece(newX, newY, bodyID);
+			World.setPiece(newX, newY, bodyID);
 			
 		}
 		

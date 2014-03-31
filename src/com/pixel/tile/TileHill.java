@@ -56,21 +56,21 @@ public class TileHill extends TileInfo {
 		int rO = -1;
 		int dO = -1;
 		int uO = -1;
-		if (t.posX > 0 && (w.getTile(t.posX-1, t.posY) == t.id)) {
+		if (t.posX > 0 && (World.getTile(t.posX-1, t.posY) == t.id)) {
 			l = true;
-			lO = w.getTileObject(t.posX-1, t.posY).metadata;
+			lO = World.getTileObject(t.posX-1, t.posY).metadata;
 		}
-		if (t.posX < World.c -1 && (w.getTile(t.posX+1, t.posY) == t.id)) {
+		if (t.posX < World.c -1 && (World.getTile(t.posX+1, t.posY) == t.id)) {
 			r = true;
-			rO = w.getTileObject(t.posX+1, t.posY).metadata;
+			rO = World.getTileObject(t.posX+1, t.posY).metadata;
 		}
-		if (t.posY < World.c -1 && (w.getTile(t.posX, t.posY+1) == t.id)) {
+		if (t.posY < World.c -1 && (World.getTile(t.posX, t.posY+1) == t.id)) {
 			d = true;
-			dO = w.getTileObject(t.posX, t.posY+1).metadata;
+			dO = World.getTileObject(t.posX, t.posY+1).metadata;
 		}
-		if (t.posY > 0 && (w.getTile(t.posX, t.posY-1) == t.id)) {
+		if (t.posY > 0 && (World.getTile(t.posX, t.posY-1) == t.id)) {
 			u = true;
-			uO = w.getTileObject(t.posX, t.posY-1).metadata;
+			uO = World.getTileObject(t.posX, t.posY-1).metadata;
 		}
 		
 		//if statement

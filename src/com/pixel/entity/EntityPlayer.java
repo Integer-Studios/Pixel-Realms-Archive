@@ -31,8 +31,6 @@ import com.pixel.lighting.PixelLightingManager;
 import com.pixel.piece.Piece;
 import com.pixel.player.PlayerInventory;
 import com.pixel.player.PlayerMotionManager;
-import com.pixel.start.PixelLogger;
-import com.pixel.start.PixelRealms;
 import com.pixel.util.CollisionBox;
 import com.pixel.world.World;
 
@@ -88,7 +86,7 @@ public class EntityPlayer extends EntityHuman {
 		}
 
 		try {
-			if ((PixelRealms.world.getPiece((int)MouseClickListener.getXWorldMousePosition(), (int)MouseClickListener.getYWorldMousePosition())) == 0) {
+			if (World.getPiece((int)MouseClickListener.getXWorldMousePosition(), (int)MouseClickListener.getYWorldMousePosition()) == 0) {
 
 				targetPiece = null;
 
@@ -356,7 +354,7 @@ public class EntityPlayer extends EntityHuman {
 		System.out.println("Click: " + posX + " " + posY);
 		if (button == 1) {
 			
-			if (PixelRealms.world.getPiece(posX, posY) == 0 && selectedItem.item.pieceID != 0) {
+			if (World.getPiece(posX, posY) == 0 && selectedItem.item.pieceID != 0) {
 				
 				if (worldID != -1) 
 					CommunicationClient.addPacket(new PacketUpdateInteriorPiece(worldID, new Piece(posX, posY, selectedItem.item.pieceID, false)));

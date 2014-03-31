@@ -2,7 +2,7 @@ package com.pixel.interior;
 
 import java.util.HashMap;
 
-import com.pixel.start.PixelRealms;
+import com.pixel.world.World;
 
 public class ConstructionSite {
 
@@ -27,7 +27,7 @@ public class ConstructionSite {
 	public void setItem(int id, int amount) {
 		
 		items.put(id, amount);
-		PixelRealms.world.getPieceObject(x, y).metadata = calculateMetadata();
+		World.getPieceObject(x, y).metadata = calculateMetadata();
 
 	}
 	
@@ -54,7 +54,7 @@ public class ConstructionSite {
 			
 		}
 		
-		PixelRealms.world.getPieceObject(x, y).metadata = calculateMetadata();
+		World.getPieceObject(x, y).metadata = calculateMetadata();
 		
 		return 0;
 		

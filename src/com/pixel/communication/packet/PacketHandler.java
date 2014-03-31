@@ -26,7 +26,7 @@ public class PacketHandler {
 	
 	public static void processTileUpdate(PacketUpdateTile packet) {
 		
-		PixelRealms.world.setTile(packet.posX, packet.posY, packet.tileID, packet.metadata);
+		World.setTile(packet.posX, packet.posY, packet.tileID, packet.metadata);
 		
 	}
 
@@ -38,7 +38,7 @@ public class PacketHandler {
 	
 	public static void processDamagePiece(PacketDamagePiece packet) {
 		
-		PixelRealms.world.getPieceObject(packet.posX, packet.posY).damage(packet.deltaDamage, PixelRealms.world);
+		World.getPieceObject(packet.posX, packet.posY).damage(packet.deltaDamage, PixelRealms.world);
 
 	}
 	
@@ -66,7 +66,7 @@ public class PacketHandler {
 
 	public static void processUpdatePiece(PacketUpdatePiece packet) {
 
-		if (Piece.info[PixelRealms.world.getPiece(packet.posX, packet.posY)] instanceof PieceConstructionSiteInfo) {
+		if (Piece.info[World.getPiece(packet.posX, packet.posY)] instanceof PieceConstructionSiteInfo) {
 
 			if (packet.auxiliaryBooleans.get(0))
 				ConstructionSiteManager.sites.get(new CoordinateKey(packet.posX, packet.posY)).addItem(packet.auxiliaryIntegers.get(0), packet.auxiliaryIntegers.get(1));

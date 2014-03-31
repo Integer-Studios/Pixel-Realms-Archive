@@ -4,7 +4,7 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.pixel.entity.EntityPlayer;
-import com.pixel.start.PixelRealms;
+import com.pixel.world.World;
 
 public class GUIFoldLeft {
 	
@@ -65,7 +65,7 @@ public class GUIFoldLeft {
 			case 1: 
 
 				menuID = menu;
-				player.interfaceManager.leftMenu = new GUIFoldConstruction(originX, originY, player.interfaceManager.menuCoordinate.x, player.interfaceManager.menuCoordinate.y, PixelRealms.world.getPiece(player.interfaceManager.menuCoordinate.x, player.interfaceManager.menuCoordinate.y));
+				player.interfaceManager.leftMenu = new GUIFoldConstruction(originX, originY, player.interfaceManager.menuCoordinate.x, player.interfaceManager.menuCoordinate.y, World.getPiece(player.interfaceManager.menuCoordinate.x, player.interfaceManager.menuCoordinate.y));
 				break;
 			
 			}
