@@ -8,7 +8,6 @@ import com.pixel.entity.Entity;
 import com.pixel.frame.PanelWorld;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
-import com.pixel.render.ChunkEntityRenderGroup;
 import com.pixel.render.ChunkRenderGroup;
 import com.pixel.render.ChunkRenderObject;
 import com.pixel.start.PixelLogger;
