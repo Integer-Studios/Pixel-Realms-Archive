@@ -1,4 +1,4 @@
-package com.pixel.world;
+package com.pixel.render;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+
+import com.pixel.world.World;
 
 
 public class ChunkRenderGroup {
