@@ -5,16 +5,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.pixel.entity.Entity;
-import com.pixel.frame.PanelWorld;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
 import com.pixel.render.ChunkRenderGroup;
 import com.pixel.render.ChunkRenderObject;
+import com.pixel.stage.StageWorld;
 import com.pixel.start.PixelLogger;
-import com.pixel.start.PixelRealms;
 import com.pixel.tile.Tile;
 import com.pixel.world.World;
 import com.pixel.world.WorldChunk;
+import com.pixel.world.WorldManager;
 
 public class PacketWorldData extends Packet {
 
@@ -34,18 +34,18 @@ public class PacketWorldData extends Packet {
 	public void readData(DataInputStream input) throws IOException {
 
 		int c = input.readInt();
-		World.c = c;
-		World.chunks.clear();
+		
+		WorldManager.createWorld(c);
+		
+		WorldManager.getWorld().c = c;
+		WorldManager.getWorld().chunks.clear();
 		int chunkAmount = input.readInt();
-		int amt = 0;
 		for (int a = 0; a < chunkAmount; a ++) {
 			
 			int cx = input.readInt();
 			int cy = input.readInt();
-			amt ++;
-			System.out.println("C: " + amt + " " + cx + " " + cy);
 
-			WorldChunk chunk = new WorldChunk(PixelRealms.world, cx, cy);
+			WorldChunk chunk = new WorldChunk(WorldManager.getWorld(), cx, cy);
 			
 			ChunkRenderGroup tileGroup = new ChunkRenderGroup(0);
 			int tileAmount = input.readInt();
@@ -57,7 +57,7 @@ public class PacketWorldData extends Packet {
 				int posY = input.readInt();
 				int metadata = input.readInt();
 				new Tile(posX, posY, id, metadata, true);
-				tileGroup.objects.put(x, new ChunkRenderObject(chunk, 0, ((posY*World.c)+posX)));
+				tileGroup.objects.put(x, new ChunkRenderObject(chunk, 0, ((posY*WorldManager.getWorld().c)+posX)));
 			}
 			
 			chunk.renderGroups.put(0, tileGroup);
@@ -85,13 +85,12 @@ public class PacketWorldData extends Packet {
 				} else {
 					new Piece(posX, posY, id, damage, metadata, lightID, true);
 					if (posY == currentY) {
-						pieceGroup.objects.put(x, new ChunkRenderObject(chunk, 1, ((posY*World.c)+posX)));
+						pieceGroup.objects.put(x, new ChunkRenderObject(chunk, 1, ((posY*WorldManager.getWorld().c)+posX)));
 					} else {
-//						System.out.println(posY + " X " + currentY);
 						chunk.renderGroups.put((currentY + 1)*2, pieceGroup);
 						currentY++;
 						pieceGroup = new ChunkRenderGroup(1);
-						pieceGroup.objects.put(x, new ChunkRenderObject(chunk, 1, ((posY*World.c)+posX)));
+						pieceGroup.objects.put(x, new ChunkRenderObject(chunk, 1, ((posY*WorldManager.getWorld().c)+posX)));
 					}
 				}
 
@@ -108,7 +107,7 @@ public class PacketWorldData extends Packet {
 				int serverID = input.readInt();
 				Entity e = Entity.getEntity(id);
 				e.serverID = serverID;
-				World.propagateEntity(e);
+				WorldManager.getWorld().propagateEntity(e);
 				e.setPosition(posX, posY);
 //				
 //				int posYint = (int)posY;
@@ -143,9 +142,9 @@ public class PacketWorldData extends Packet {
 
 		World.loaded = true;
 
-		if (!PanelWorld.loaded) {
+		if (!WorldManager.worldLoaded) {
 
-			PanelWorld.worldLoaded = true;
+			WorldManager.worldLoaded = true;
 			PixelLogger.log("World Loaded!");
 
 		}

@@ -6,6 +6,7 @@ import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
 import com.pixel.communication.packet.PacketDamagePlayer;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class EntityOnlinePlayer extends EntityHuman {
 
@@ -13,12 +14,13 @@ public class EntityOnlinePlayer extends EntityHuman {
 	public int userID;
 	public int punchingIndex;
 	
-	public EntityOnlinePlayer(int userID, String username, float x, float y) {
+	public EntityOnlinePlayer(int userID, String username, float x, float y, int serverID) {
 		super(x, y, .2F, .2F);
 		
 		this.username = username;
 		body = new BodyBiped(this, "rob");
-		PlayerManager.players.put(userID, this);
+		WorldManager.getWorld().entities.put(serverID, this);
+		PlayerManager.players.put(userID, serverID);
 		this.userID = userID;
 
 	}

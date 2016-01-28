@@ -1,6 +1,7 @@
 package com.pixel.entity;
 
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class EntityMonster extends EntityAlive {
 
@@ -14,6 +15,6 @@ public class EntityMonster extends EntityAlive {
 	
 	public void kill(World w, Entity damageSource) {
 		super.kill(w, damageSource);
-		World.entities.remove(this.serverID);
+		WorldManager.getWorld().entities.remove(this.serverID);
 	}
 }

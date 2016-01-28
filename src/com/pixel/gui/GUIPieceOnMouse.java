@@ -6,6 +6,7 @@ import org.newdawn.slick.Graphics;
 import com.pixel.input.MouseClickListener;
 import com.pixel.piece.Piece;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class GUIPieceOnMouse extends GUIComponent {
 
@@ -23,12 +24,12 @@ public class GUIPieceOnMouse extends GUIComponent {
 			
 		}
 
-		int pieceX = (int) ((MouseClickListener.posX - World.globalOffsetX) / World.tileConstant);
-		int pieceY = (int) ((MouseClickListener.posY - World.globalOffsetY) / World.tileConstant);
+		int pieceX = (int) ((MouseClickListener.posX - WorldManager.getWorld().globalOffsetX) / World.tileConstant);
+		int pieceY = (int) ((MouseClickListener.posY - WorldManager.getWorld().globalOffsetY) / World.tileConstant);
 
 		image.setAlpha(0.4F);
-		setX(pieceX * World.tileConstant + World.globalOffsetX);
-		setY(pieceY * World.tileConstant + World.globalOffsetY);
+		setX(pieceX * World.tileConstant + WorldManager.getWorld().globalOffsetX);
+		setY(pieceY * World.tileConstant + WorldManager.getWorld().globalOffsetY);
 		super.render(c, g);
 
 	}

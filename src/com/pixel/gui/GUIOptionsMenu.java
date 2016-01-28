@@ -1,6 +1,7 @@
 package com.pixel.gui;
 
 import com.pixel.start.PixelRealms;
+import com.pixel.world.WorldManager;
 
 public class GUIOptionsMenu extends GUIInGameMenu {
 
@@ -79,7 +80,7 @@ public class GUIOptionsMenu extends GUIInGameMenu {
 		if (shouldGoBack) {
 			shouldGoBack = false;
 			removeFromGUI();
-			PixelRealms.world.player.interfaceManager.pauseMenu.addToGUI();
+			WorldManager.player.interfaceManager.pauseMenu.addToGUI();
 		}
 		
 		if (backButton.onMouseUp) {

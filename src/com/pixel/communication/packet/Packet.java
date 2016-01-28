@@ -26,15 +26,16 @@ public abstract class Packet {
 	private static HashMap<Integer, Class> packetMap = new HashMap<Integer, Class>();
 	
 	public static void writePacket(Packet packet, DataOutputStream output) {
-		if (((packet.id != 1 && packet.id != 3) && !PixelRealms.loggedIn) || (packet.id == 2 && !World.loaded)) {
-			
-			return;
-			
-		} 
-		
+//		if (((packet.id != 1 && packet.id != 3)) || (packet.id == 2)) {
+//			
+//			return;
+//			
+//		} 
+//		
 		packet.userID = PlayerManager.currentUserID;
 		try {
 			output.writeInt(packet.id);
+			System.out.println(packet.id);
 			output.writeInt(PlayerManager.currentUserID);
 			packet.writeAuxiliaryVariables(output);
 			packet.writeData(output);
@@ -80,7 +81,7 @@ public abstract class Packet {
 			if (CommunicationClient.isRunning()) {
 				CommunicationClient.disconnect();
 				PixelRealms.loop.displayAlert("The server is not up! Try again later.", Color.black, "connect");
-				System.err.println("Client lost the connection to: " + PixelRealms.ip  + ".");
+				System.err.println("Client lost the connection to: " + PixelRealms.getIP()  + ".");
 				
 			}
 
@@ -301,7 +302,7 @@ public abstract class Packet {
 		
 		packetMap.put(0, PacketBlank.class);
 		packetMap.put(1, PacketLogin.class);
-		packetMap.put(2, PacketUpdatePlayer.class);
+		packetMap.put(2, PacketLoginRequest.class);
 		packetMap.put(3, PacketWorldData.class);
 		packetMap.put(4, PacketUpdateTile.class);
 		packetMap.put(5, PacketChangePiece.class);
@@ -315,7 +316,6 @@ public abstract class Packet {
 		packetMap.put(13, PacketDamagePlayer.class);
 		packetMap.put(14, PacketLoadInterior.class);
 		packetMap.put(15, PacketMoveLivingEntity.class);
-		packetMap.put(16, PacketMovePlayer.class);
 		packetMap.put(17, PacketInfoRequest.class);
 		packetMap.put(18, PacketLoadPlayer.class);
 		packetMap.put(19, PacketUpdateInteriorPiece.class);

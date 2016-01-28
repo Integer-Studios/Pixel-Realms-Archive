@@ -17,6 +17,7 @@ import com.pixel.start.PixelLogger;
 import com.pixel.start.TextureLoader;
 import com.pixel.tile.Tile;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class PixelLightingManager {
 	
@@ -162,7 +163,7 @@ public class PixelLightingManager {
 
 		for (PixelLight light : lights.values()) {
 			
-			light.getImage().draw((light.posX * World.tileConstant + World.globalOffsetX) - (light.width/2), (light.posY * World.tileConstant + World.globalOffsetY) - (light.height / 2), light.width, light.height);
+			light.getImage().draw((light.posX * World.tileConstant + WorldManager.getWorld().globalOffsetX) - (light.width/2), (light.posY * World.tileConstant + WorldManager.getWorld().globalOffsetY) - (light.height / 2), light.width, light.height);
 			
 		}
 //		alphaImage.draw((w.player.posX*World.tileConstant+World.globalOffsetX) - 200, (w.player.posY*World.tileConstant+World.globalOffsetY) - 200, 400, 400);

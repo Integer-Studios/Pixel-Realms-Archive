@@ -6,6 +6,7 @@ import org.newdawn.slick.Graphics;
 import com.pixel.item.Item;
 import com.pixel.start.PixelRealms;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class RelativePositionImageRotatable extends RelativePositionImage {
 	
@@ -52,8 +53,8 @@ public class RelativePositionImageRotatable extends RelativePositionImage {
 		
 		if (playing && image != null) {
 			
-			posX = (int)(anim.entity.getX() * World.tileConstant + World.globalOffsetX)  + x[currentFrame];
-			posY = (int)(anim.entity.getY() * World.tileConstant + World.globalOffsetY) + y[currentFrame];
+			posX = (int)(anim.entity.getX() * World.tileConstant + WorldManager.getWorld().globalOffsetX)  + x[currentFrame];
+			posY = (int)(anim.entity.getY() * World.tileConstant + WorldManager.getWorld().globalOffsetY) + y[currentFrame];
 			
 			
 			image.setCenterOfRotation(offsetX*-1, offsetY*-1);
@@ -68,8 +69,8 @@ public class RelativePositionImageRotatable extends RelativePositionImage {
 
 				if (currentFrame != 0 && currentFrame != frames && actionID == 2) {
 					
-					if (PixelRealms.world.player.punchEnacted && PixelRealms.world.player.punching) {
-						PixelRealms.world.player.punchEnacted = false;
+					if (WorldManager.player.punchEnacted && WorldManager.player.punching) {
+						WorldManager.player.punchEnacted = false;
 					}
 					
 				}
@@ -78,9 +79,9 @@ public class RelativePositionImageRotatable extends RelativePositionImage {
 					if (actionID == 2) {
 						
 						//punch image
-						if (!PixelRealms.world.player.punchEnacted && PixelRealms.world.player.punching) {
-							PixelRealms.world.player.enactPunch(w);
-							PixelRealms.world.player.punchEnacted = true;
+						if (!WorldManager.player.punchEnacted && WorldManager.player.punching) {
+							WorldManager.player.enactPunch(w);
+							WorldManager.player.punchEnacted = true;
 						}
 						
 					}
@@ -88,8 +89,8 @@ public class RelativePositionImageRotatable extends RelativePositionImage {
 				}
 			}
 		} else if (image != null) {
-			posX = (int)(anim.entity.getX() * World.tileConstant + World.globalOffsetX)  + x[0];
-			posY = (int)(anim.entity.getY() * World.tileConstant + World.globalOffsetY) + y[0];
+			posX = (int)(anim.entity.getX() * World.tileConstant + WorldManager.getWorld().globalOffsetX)  + x[0];
+			posY = (int)(anim.entity.getY() * World.tileConstant + WorldManager.getWorld().globalOffsetY) + y[0];
 			
 			
 			image.setCenterOfRotation(offsetX*-1, offsetY*-1);

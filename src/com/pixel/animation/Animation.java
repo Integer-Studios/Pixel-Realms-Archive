@@ -16,6 +16,7 @@ import org.newdawn.slick.Image;
 import com.pixel.start.TextureLoader;
 import com.pixel.util.Toolkit;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class Animation {
 	
@@ -61,7 +62,7 @@ public class Animation {
 	public void render(GameContainer c, Graphics g, World w) {
 		if (paused) {
 			Image image = loadedImages.get(0);
-			image.draw((int)(posX * World.tileConstant + World.globalOffsetX) - (width / 2), (int)(posY * World.tileConstant + World.globalOffsetY - ((height) - (shadow * 4))), width, height);
+			image.draw((int)(posX * World.tileConstant + WorldManager.getWorld().globalOffsetX) - (width / 2), (int)(posY * World.tileConstant + WorldManager.getWorld().globalOffsetY - ((height) - (shadow * 4))), width, height);
 			
 		} else {
 			tick();
@@ -71,7 +72,7 @@ public class Animation {
 			} else {
 				lastWorkingFrame = currentFrame;
 			}
-			image.draw((int)(posX * World.tileConstant + World.globalOffsetX) - (width / 2), (int)(posY * World.tileConstant + World.globalOffsetY - ((height) - (shadow * 4))), width, height);
+			image.draw((int)(posX * World.tileConstant + WorldManager.getWorld().globalOffsetX) - (width / 2), (int)(posY * World.tileConstant + WorldManager.getWorld().globalOffsetY - ((height) - (shadow * 4))), width, height);
 		}
 	}
 	

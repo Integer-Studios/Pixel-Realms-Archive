@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 
 import com.pixel.start.TextureLoader;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class PieceDoubleWidth extends PieceInfo{
 	
@@ -22,11 +23,11 @@ public class PieceDoubleWidth extends PieceInfo{
 	public void render(GameContainer c, Graphics g, World w, Piece p) {
 
 		if (image != null) 
-			image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY, World.tileConstant*2, World.tileConstant);
+			image.draw(p.posX*World.tileConstant+WorldManager.getWorld().globalOffsetX, p.posY*World.tileConstant+WorldManager.getWorld().globalOffsetY, World.tileConstant*2, World.tileConstant);
 		else {
 			if (texture != null && texture.length() > 0) {
 				image = TextureLoader.load(texture);
-				image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY, World.tileConstant*2, World.tileConstant);
+				image.draw(p.posX*World.tileConstant+WorldManager.getWorld().globalOffsetX, p.posY*World.tileConstant+WorldManager.getWorld().globalOffsetY, World.tileConstant*2, World.tileConstant);
 			}
 		}
 

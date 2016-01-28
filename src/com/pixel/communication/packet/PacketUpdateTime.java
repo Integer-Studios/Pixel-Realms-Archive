@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 
 import com.pixel.start.PixelRealms;
+import com.pixel.world.WorldManager;
 
 public class PacketUpdateTime extends Packet {
 
@@ -39,7 +40,7 @@ public class PacketUpdateTime extends Packet {
 			
 		}
 		
-		PixelRealms.world.time = time;
+		WorldManager.getWorld().time = time;
 
 	}
 

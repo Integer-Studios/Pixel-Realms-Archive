@@ -1,11 +1,14 @@
-package com.pixel.frame;
+package com.pixel.stage;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
+import com.pixel.communication.packet.PacketLoadPlayer;
 import com.pixel.communication.packet.PacketLogin;
+import com.pixel.communication.packet.PacketLoginRequest;
+import com.pixel.communication.packet.PacketWorldData;
 import com.pixel.gui.GUI;
 import com.pixel.gui.GUILoadingScreen;
 import com.pixel.input.KeyCode;
@@ -14,60 +17,64 @@ import com.pixel.sound.PixelEffect;
 import com.pixel.sound.PixelSoundManager;
 import com.pixel.start.PixelLogger;
 import com.pixel.start.PixelRealms;
-import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
-public class PanelWorld extends Panel {
+public class StageWorld extends Stage {
 	
-	public World world;
 	public static Thread clientThread;
 	
 	public static boolean loadingScreenDone, rendered;
-	public static boolean inventoryLoaded;
-	public static boolean playerLoaded;
-	public static boolean worldLoaded;
-	public static boolean loginRebound;
-	public static boolean loaded;
-	public static boolean playersLoaded;
-	public static boolean entitiesLoaded;
+	public static boolean loggedIn, finalized;
+	public static GUILoadingScreen loadingScreen;
 
-	public PanelWorld() {}
+	public StageWorld() {}
 	
-	public PanelWorld init() {
+	public StageWorld init() {
 		
-		World.loadingScreen = new GUILoadingScreen();
-		GUI.addGUIComponent(World.loadingScreen);
+//		loadingScreen = new GUILoadingScreen();
+//		GUI.addGUIComponent(loadingScreen);
 		
-		CommunicationClient client = new CommunicationClient(PixelRealms.ip, PixelRealms.port);
+		CommunicationClient client = new CommunicationClient(PixelRealms.getIP(), PixelRealms.port);
 		clientThread = new Thread(client);
 		clientThread.start();     
-		world = new World(this);
-		PixelRealms.world = world;
+		WorldManager.init(this);
 		
-        CommunicationClient.addPacket(new PacketLogin(PlayerManager.currentPlayer, PlayerManager.session));
+        CommunicationClient.addPacket(new PacketLoginRequest(PlayerManager.currentUserID, PlayerManager.session, PlayerManager.currentPlayer));
 
 		KeyboardListener.clearKeyBindings();
 		initializeKeyBindings();
 		
 		return this;
+
+	}
+	
+	public void requestFinalization() {
+		
+        CommunicationClient.addPacket(new PacketLogin(PlayerManager.currentUserID));
+		
+	}
+	
+	public static void finalizeLogin() {
+
+		finalized = true;
+		
+	}
+	
+	public void continueLogin(PacketLoginRequest packet) {
+		
+	      CommunicationClient.addPacket(new PacketLoadPlayer(PlayerManager.currentPlayer));
+	      CommunicationClient.addPacket(new PacketWorldData());
+		
 	}
 	
 	public void disinstantiate() {
-		World.loadingScreen = null;
-		world.disinstantiate();
-		world = null;
+		loadingScreen = null;
+		WorldManager.disinstantiate();
 		CommunicationClient.disinstantiate();
 		clientThread.interrupt();
 		clientThread = null;
 		
 		loadingScreenDone = false;
-		inventoryLoaded = false;
-		worldLoaded = false;
-		playersLoaded = false;
-		entitiesLoaded = false;
-		inventoryLoaded = false;
-		loginRebound = false;
-		playerLoaded = false;
-		loaded = false;
 		
 	}
 	
@@ -89,24 +96,30 @@ public class PanelWorld extends Panel {
 	
 	public void update (GameContainer c, int delta) {
 		
-		if (loaded) {
+		if (WorldManager.worldLoaded && WorldManager.playerLoaded && !loggedIn) {
 			
-			PixelRealms.world.tick();
+			finalizeLogin();
+			loggedIn = true;
 			
 		}
-
-		if (worldLoaded && playerLoaded && loginRebound && inventoryLoaded && playersLoaded && entitiesLoaded) {
+		
+		if (finalized) {
+			
+			WorldManager.getWorld().tick();
+			
+		}
+		
+		if (WorldManager.playerLoaded && WorldManager.worldLoaded && PlayerManager.playerLoggedIn) {
 			
 			if (!loadingScreenDone) {
 				
 				PixelLogger.log("User: " + PlayerManager.currentPlayer + " has logged in with id: " + PlayerManager.currentUserID);
 				
-				GUI.removeGUIComponent(World.loadingScreen);
-				PanelWorld.loadingScreenDone = true;
+				GUI.removeGUIComponent(loadingScreen);
+				StageWorld.loadingScreenDone = true;
 
-				PixelRealms.loggedIn = true;
-				PixelRealms.world.player.updated = true;
-				loaded = true;
+				WorldManager.player.updated = true;
+				finalized = true;
 
 			} 
 			
@@ -116,9 +129,9 @@ public class PanelWorld extends Panel {
 
 	public void render(GameContainer c, Graphics g) {
 
-		if (loaded) {
+		if (finalized) {
 
-			world.render(c, g);
+			WorldManager.getWorld().render(c, g);
 
 			if (!rendered) {
 				

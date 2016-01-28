@@ -9,6 +9,7 @@ import com.pixel.sound.PixelSoundManager;
 import com.pixel.start.TextureLoader;
 import com.pixel.tile.Material;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -27,11 +28,11 @@ public class PieceInfo {
 	public void render(GameContainer c, Graphics g, World w, Piece p) {
 
 		if (image != null) 
-			image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY, World.tileConstant, World.tileConstant);
+			image.draw(p.posX*World.tileConstant+WorldManager.getWorld().globalOffsetX, p.posY*World.tileConstant+WorldManager.getWorld().globalOffsetY, World.tileConstant, World.tileConstant);
 		else {
 			if (texture != null && texture.length() > 0) {
 				image = TextureLoader.load(texture);
-				image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY, World.tileConstant, World.tileConstant);
+				image.draw(p.posX*World.tileConstant+WorldManager.getWorld().globalOffsetX, p.posY*World.tileConstant+WorldManager.getWorld().globalOffsetY, World.tileConstant, World.tileConstant);
 			}
 		}
 

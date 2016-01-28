@@ -3,6 +3,7 @@ package com.pixel.interior;
 import java.util.HashMap;
 
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class ConstructionSite {
 
@@ -27,7 +28,7 @@ public class ConstructionSite {
 	public void setItem(int id, int amount) {
 		
 		items.put(id, amount);
-		World.getPieceObject(x, y).metadata = calculateMetadata();
+		WorldManager.getWorld().getPieceObject(x, y).metadata = calculateMetadata();
 
 	}
 	
@@ -54,7 +55,7 @@ public class ConstructionSite {
 			
 		}
 		
-		World.getPieceObject(x, y).metadata = calculateMetadata();
+		WorldManager.getWorld().getPieceObject(x, y).metadata = calculateMetadata();
 		
 		return 0;
 		

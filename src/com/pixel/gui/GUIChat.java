@@ -12,6 +12,7 @@ import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
 import com.pixel.communication.packet.PacketChat;
 import com.pixel.start.PixelRealms;
+import com.pixel.world.WorldManager;
 
 public class GUIChat extends GUIComponentSet {
 	
@@ -87,7 +88,7 @@ public class GUIChat extends GUIComponentSet {
 			
 			if (message.equals("/l")) {
 				
-				PixelRealms.world.leaveInterior();
+				WorldManager.getWorld().leaveInterior();
 				return;
 				
 			}

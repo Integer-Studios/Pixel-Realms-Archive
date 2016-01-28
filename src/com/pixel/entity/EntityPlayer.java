@@ -13,7 +13,6 @@ import com.pixel.communication.packet.PacketEntityAnimation;
 import com.pixel.communication.packet.PacketUpdateInteriorPiece;
 import com.pixel.communication.packet.PacketChangePiece;
 import com.pixel.communication.packet.PacketUpdateWorld;
-import com.pixel.frame.PanelWorld;
 import com.pixel.gui.GUI;
 import com.pixel.gui.GUIHotbar;
 import com.pixel.gui.GUIPieceOnMouse;
@@ -31,8 +30,10 @@ import com.pixel.lighting.PixelLightingManager;
 import com.pixel.piece.Piece;
 import com.pixel.player.PlayerInventory;
 import com.pixel.player.PlayerMotionManager;
+import com.pixel.stage.StageWorld;
 import com.pixel.util.CollisionBox;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class EntityPlayer extends EntityHuman {
 	
@@ -49,11 +50,11 @@ public class EntityPlayer extends EntityHuman {
 	public boolean teleported;
 	public PlayerInterfaceManager interfaceManager;
 	public PlayerInventory inventory;
-	public boolean updated = true;
+	public boolean updated = false;
 	public boolean punchEnacted = false;
 	public int jumpWait;
 	public int punchingIndex;
-	public boolean interfaceInitialized;
+	public boolean interfaceInitialized = false;
 	public boolean inside;
 	public boolean door;
 	public int currentlySelectedInterior;
@@ -70,23 +71,37 @@ public class EntityPlayer extends EntityHuman {
 		new GetBunnies(this).start();
 	}
 	
+	public EntityPlayer(float x, float y, float health, float satisfaction, float energy, int worldID, int serverID) {
+		super(x, y, .2F, .2F);
+		body = new BodyBiped(this, "rob");
+		inventory = new PlayerInventory(this);
+		this.health = health;
+		this.satisfaction = satisfaction;
+		this.energy = energy;
+		this.worldID = worldID;
+		this.serverID = serverID;
+		loadedX = (int)x;
+		loadedY = (int)y;
+	}
+	
 	public void tick(World w) {
 		
 //		w.setTile(Math.round(posX), Math.round(posY), 6);
-		if (World.loaded) {
+		if (World.loaded && interfaceManager != null) {
 			
 			interfaceManager.tick();
 			
 		}
 		if (!inside && (Math.sqrt((loadedX - posX)*(loadedX - posX) + (loadedY - posY)*(loadedY - posY)) >= 25) && updated) {
 			
+//			System.out.println(posX + " " + posY + " " + loadedX + " " + loadedY);
 			updated = false;
 			CommunicationClient.addPacket(new PacketUpdateWorld());
 
 		}
 
 		try {
-			if (World.getPiece((int)MouseClickListener.getXWorldMousePosition(), (int)MouseClickListener.getYWorldMousePosition()) == 0) {
+			if (WorldManager.getWorld().getPiece((int)MouseClickListener.getXWorldMousePosition(), (int)MouseClickListener.getYWorldMousePosition()) == 0) {
 
 				targetPiece = null;
 
@@ -126,8 +141,8 @@ public class EntityPlayer extends EntityHuman {
 		PlayerMotionManager.checkMovement(this);
 
 		super.tick(w);
-		World.globalOffsetX = (int)(Display.getWidth()/2)-(int)(posX * World.tileConstant);
-		World.globalOffsetY = (int)(Display.getHeight()/2)-(int)(posY * World.tileConstant);
+		WorldManager.getWorld().globalOffsetX = (int)(Display.getWidth()/2)-(int)(posX * World.tileConstant);
+		WorldManager.getWorld().globalOffsetY = (int)(Display.getHeight()/2)-(int)(posY * World.tileConstant);
 	}
 	
 	public boolean eatFood(ItemFood i) {
@@ -177,8 +192,8 @@ public class EntityPlayer extends EntityHuman {
 	}
 	
 	public boolean testEntityCollisions(World w) {
-		for (int x = 0; x < World.entities.size(); x ++) {
-			if (CollisionBox.testEntities((Entity) World.entities.values().toArray()[x], this, w)) {
+		for (int x = 0; x < WorldManager.getWorld().entities.size(); x ++) {
+			if (CollisionBox.testEntities((Entity) WorldManager.getWorld().entities.values().toArray()[x], this, w)) {
 				return true;
 			}
 		}
@@ -247,14 +262,20 @@ public class EntityPlayer extends EntityHuman {
 
 	public void render(GameContainer c, Graphics g, World w) {
 		
+		if (interfaceManager == null) {
+			
+			interfaceManager = new PlayerInterfaceManager(this);
+			
+		}
+		
 		if (lightID != -1) {
 			
 			PixelLightingManager.lights.get(lightID).posX = posX;
 			PixelLightingManager.lights.get(lightID).posY = posY;
 
 		}
-		
-		if (PanelWorld.loadingScreenDone && !interfaceInitialized) {
+
+		if (StageWorld.loadingScreenDone && !interfaceInitialized) {
 			
 			interfaceInitialized = true;
 			interfaceManager.initializeInterface();
@@ -354,7 +375,7 @@ public class EntityPlayer extends EntityHuman {
 		System.out.println("Click: " + posX + " " + posY);
 		if (button == 1) {
 			
-			if (World.getPiece(posX, posY) == 0 && selectedItem.item.pieceID != 0) {
+			if (WorldManager.getWorld().getPiece(posX, posY) == 0 && selectedItem.item.pieceID != 0) {
 				
 				if (worldID != -1) 
 					CommunicationClient.addPacket(new PacketUpdateInteriorPiece(worldID, new Piece(posX, posY, selectedItem.item.pieceID, false)));
@@ -367,8 +388,8 @@ public class EntityPlayer extends EntityHuman {
 				
 				if (selectedItem.item.id == 23) {
 					
-					posX = (int) ((MouseClickListener.posX - World.globalOffsetX) / World.tileConstant);
-					posY = (int) ((MouseClickListener.posY - World.globalOffsetY) / World.tileConstant) - 1;
+					posX = (int) ((MouseClickListener.posX - WorldManager.getWorld().globalOffsetX) / World.tileConstant);
+					posY = (int) ((MouseClickListener.posY - WorldManager.getWorld().globalOffsetY) / World.tileConstant) - 1;
 					
 					if (Building.canBuildingFit(0, (int)posX, (int)posY)) {
 						CommunicationClient.addPacket(new PacketChangePiece(26, 0, (int)posX, (int)posY, 1));

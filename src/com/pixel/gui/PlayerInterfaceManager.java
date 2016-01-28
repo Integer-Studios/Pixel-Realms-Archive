@@ -15,6 +15,7 @@ import com.pixel.start.PixelRealms;
 import com.pixel.start.TextureLoader;
 import com.pixel.util.CollisionBox;
 import com.pixel.util.CoordinateKey;
+import com.pixel.world.WorldManager;
 
 public class PlayerInterfaceManager {
 	
@@ -45,18 +46,17 @@ public class PlayerInterfaceManager {
 	public CoordinateKey menuCoordinate;
 	
 	public GUIPieceOnMouse pieceOnMouse;
-	public static Image recipeSlot;
-
+	
+//	public static Image recipeSlot;
 	public static Image slotImage;
 	
 	public PlayerInterfaceManager(EntityPlayer player) {
 		this.player = player;
 		player.interfaceManager = this;
 		bunnyCounter = new GUIBunnyCounter();
-		slotImage = TextureLoader.load("resources/gui/inventory/slot.png");
-		recipeSlot = TextureLoader.load("resources/gui/interface/foldRight/recipeSlot.png");
 		chat = new GUIChat();
 		centerFold = new GUICenterFold(player);
+		PlayerInterfaceManager.slotImage = TextureLoader.load("resources/gui/inventory/slot.png");
 		hotbarWindow = new GUIHotbar(player);
 		healthBar = new GUIHealthBar(Display.getWidth()/2-225, 75, player);
 		hungerBar = new GUIHungerBar(Display.getWidth()/2+60, 75, player);
@@ -68,7 +68,8 @@ public class PlayerInterfaceManager {
 	}
 	
 	public void initializeInterface() {
-		
+		System.out.println("i hate my lyfe");
+
 		GUI.addGUIComponent(chat);
 		GUI.addGUIComponent(bunnyCounter);
 		foldRight.addToGUI();
@@ -105,7 +106,7 @@ public class PlayerInterfaceManager {
 
 //				PixelLogger.debug("CLICK", xFloat, yFloat);
 			
-				Piece p = CollisionBox.testPiecesAgainstCollisionBox(scope, PixelRealms.world);
+				Piece p = CollisionBox.testPiecesAgainstCollisionBox(scope, WorldManager.getWorld());
 				if (p == null) 
 					return;
 					

@@ -6,6 +6,7 @@ import com.pixel.communication.packet.PacketDamageEntity;
 import com.pixel.sound.PixelEffect;
 import com.pixel.sound.PixelSoundManager;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class EntityBunny extends EntityAnimal {
 	
@@ -34,7 +35,7 @@ public class EntityBunny extends EntityAnimal {
 	
 	public void kill(World w, Entity damageSource) {
 		super.kill(w,damageSource);
-		w.player.onBunnyDeath();
+		WorldManager.player.onBunnyDeath();
 		new SaveBunny().start();
 		
 	}

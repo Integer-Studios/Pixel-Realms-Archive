@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.pixel.entity.*;
 import com.pixel.start.PixelRealms;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class PlayerManager {
 
@@ -12,12 +13,19 @@ public class PlayerManager {
 	public static int session;
 	public static int currentUserID;
 	public static boolean kicked;
-	public static HashMap<Integer, EntityOnlinePlayer> players = new HashMap<Integer, EntityOnlinePlayer>();
+	public static HashMap<Integer, Integer> players = new HashMap<Integer, Integer>();
 	public static World world;
+	public static boolean playerLoggedIn;
 	
-	public static void spawnPlayer(String username, int userID, float x, float y) {
+	public static void spawnPlayer(String username, int userID, float x, float y, int serverID) {
 		
-		new EntityOnlinePlayer(userID, username, x, y);
+		new EntityOnlinePlayer(userID, username, x, y, serverID);
+		
+	}
+	
+	public static EntityOnlinePlayer getPlayer(int userID) {
+		
+		return (EntityOnlinePlayer) WorldManager.getWorld().entities.get(players.get(userID));
 		
 	}
 	
@@ -35,10 +43,12 @@ public class PlayerManager {
 
 	public static void updateVisible() {
 
-		for (EntityOnlinePlayer p : players.values()) {
+		for (Integer i : players.values()) {
 			 
-			if (p.worldID != PixelRealms.world.player.worldID) {
-				System.out.println(p.username + " adsad " + p.worldID + " " + PixelRealms.world.player.worldID);
+			EntityOnlinePlayer p = (EntityOnlinePlayer) WorldManager.getWorld().getEntity(i);
+			
+			if (p.worldID != WorldManager.player.worldID) {
+				System.out.println(p.username + " adsad " + p.worldID + " " + WorldManager.player.worldID);
 				players.remove(p.userID);
 			}
 			

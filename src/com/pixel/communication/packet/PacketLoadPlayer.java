@@ -6,31 +6,40 @@ import java.io.IOException;
 
 import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.PlayerManager;
-import com.pixel.frame.PanelWorld;
+import com.pixel.entity.EntityPlayer;
+import com.pixel.item.Item;
+import com.pixel.item.ItemStack;
+import com.pixel.stage.StageWorld;
 import com.pixel.start.PixelLogger;
-import com.pixel.start.PixelRealms;
+import com.pixel.world.WorldManager;
 
 public class PacketLoadPlayer extends Packet{
 
 	public String username;
 	public float posX, posY, health, satisfaction, energy;
 	public int itemID, itemAmount, worldID;
+	private int serverID;
+	
+	public PacketLoadPlayer() {this.id = 18;}
+	
+	public PacketLoadPlayer(String username) {
+		
+		this.id = 18;
+		this.username = username;
+		
+	}
+
 	
 	@Override
 	public void writeData(DataOutputStream output) throws IOException {
-		Packet.writeString(username, output);
-		output.writeFloat(this.posX);
-		output.writeFloat(this.posY);
-		output.writeFloat(this.health);
-		output.writeFloat(this.satisfaction);
-		output.writeFloat(this.energy);
-		output.writeInt(this.itemID);
-		output.writeInt(this.itemAmount);
 
+		Packet.writeString(username, output);
+		
 	}
 
 	@Override
 	public void readData(DataInputStream input) throws IOException {
+		PlayerManager.playerLoggedIn = true;
 
 		this.username = Packet.readString(16, input);
 
@@ -44,32 +53,53 @@ public class PacketLoadPlayer extends Packet{
 		this.itemID = input.readInt();
 		this.itemAmount = input.readInt();
 		this.worldID = input.readInt();
+		this.serverID = input.readInt();
 
 		if (this.userID == PlayerManager.currentUserID) {
 			
-			PixelRealms.world.playerReset = false;
-			PixelRealms.world.player.teleported = true;
-			PixelRealms.world.player.setPosition(posX, posY);
-			PixelRealms.world.player.setHealth(health);
-			PixelRealms.world.player.setSatisfaction(satisfaction);
-			PixelRealms.world.player.setEnergy(energy);
-			PixelRealms.world.player.worldID = worldID;
+			WorldManager.player = new EntityPlayer(posX, posX, health, satisfaction, energy, worldID, serverID);
+			WorldManager.player.teleported = true;
+			WorldManager.player.updated = true;
 
-			if (worldID != -1) {
+			int hotbarSize = input.readInt();
+			for (int i = 0; i < hotbarSize; i ++) {
 				
-				//load interior not world
-				CommunicationClient.addPacket(new PacketLoadInterior(worldID));
-				
-			} else {
+				int x = input.readInt();
+				int y = input.readInt();
+				int itemID = input.readInt();
+				int amount = input.readInt();
+				input.readInt();
+				WorldManager.player.inventory.hotbar.serverSetContent(x, y, new ItemStack(Item.getItemForId(itemID), amount));
 
-				CommunicationClient.addPacket(new PacketWorldData());
-				//load world
+			}
+			
+			int leftSize = input.readInt();
+			for (int i = 0; i < leftSize; i ++) {
 				
+				int x = input.readInt();
+				int y = input.readInt();
+				int itemID = input.readInt();
+				int amount = input.readInt();
+				input.readInt();
+				WorldManager.player.inventory.inventoryLeft.serverSetContent(x, y, new ItemStack(Item.getItemForId(itemID), amount));
+
+			}
+			
+			int rightSize = input.readInt();
+			for (int i = 0; i < rightSize; i ++) {
+				
+				int x = input.readInt();
+				int y = input.readInt();
+				int itemID = input.readInt();
+				int amount = input.readInt();
+				input.readInt();
+				WorldManager.player.inventory.inventoryRight.serverSetContent(x, y, new ItemStack(Item.getItemForId(itemID), amount));
+
 			}
 			
 			PixelLogger.log("Player Loaded!");
 			
-			PanelWorld.playerLoaded = true;
+			WorldManager.playerLoaded = true;
 			
 		}
 		

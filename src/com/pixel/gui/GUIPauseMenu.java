@@ -4,6 +4,7 @@ import com.pixel.communication.CommunicationClient;
 import com.pixel.communication.packet.PacketLogout;
 import com.pixel.start.MainLoop;
 import com.pixel.start.PixelRealms;
+import com.pixel.world.WorldManager;
 
 public class GUIPauseMenu extends GUIInGameMenu {
 	
@@ -36,7 +37,7 @@ public class GUIPauseMenu extends GUIInGameMenu {
 			quitGame.setPressed(false);
 			CommunicationClient.addPacket(new PacketLogout());
 
-			PixelRealms.world.panelWorld.disinstantiate();
+//			WorldManager.getWorld().panelWorld.disinstantiate();
 			MainLoop.setPanel(1);
 		}
 		if (backToGame.pressed) {
@@ -74,7 +75,7 @@ public class GUIPauseMenu extends GUIInGameMenu {
 			removeFromGUI();
 			if (shouldOpenOptionsMenu) {
 				shouldOpenOptionsMenu = false;
-				PixelRealms.world.player.interfaceManager.optionsMenu.addToGUI();
+				WorldManager.player.interfaceManager.optionsMenu.addToGUI();
 			}
 		}
 		

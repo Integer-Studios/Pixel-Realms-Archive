@@ -15,8 +15,6 @@ public class Particle {
 	public void tick(World w, int i) {
 		if (!animation.animationCompleted)
 			animation.play();
-		else
-			w.particles.remove(i);
 	}
 	
 	public void render(GameContainer c, Graphics g, World w) {

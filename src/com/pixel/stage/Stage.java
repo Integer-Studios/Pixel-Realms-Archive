@@ -1,9 +1,9 @@
-package com.pixel.frame;
+package com.pixel.stage;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-public class Panel {
+public class Stage {
 
 	/**
 	 * @param args

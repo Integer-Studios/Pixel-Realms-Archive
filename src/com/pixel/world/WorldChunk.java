@@ -1,5 +1,6 @@
 package com.pixel.world;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class WorldChunk {
 	public Map<Integer, Tile> tiles;
 	public Map<Integer, Piece> pieces;
 	public Map<Integer, PieceBuilding> buildings;
-	public Map<Integer, Entity> entities;
+	public ArrayList<Integer> entities;
 	public Map<Integer, ChunkRenderGroup> renderGroups;
 	public World world; 
 	public int x, y;
@@ -32,7 +33,7 @@ public class WorldChunk {
 		tiles = Collections.synchronizedMap(new LinkedHashMap<Integer, Tile>());
 		pieces = Collections.synchronizedMap(new LinkedHashMap<Integer, Piece>());
 		buildings = Collections.synchronizedMap(new LinkedHashMap<Integer, PieceBuilding>());
-		entities = Collections.synchronizedMap(new LinkedHashMap<Integer, Entity>());
+		entities = new ArrayList<Integer>();
 		renderGroups = Collections.synchronizedMap(new LinkedHashMap<Integer, ChunkRenderGroup>());
 
 		initializeRenderGroups();
@@ -46,12 +47,12 @@ public class WorldChunk {
 		tiles = Collections.synchronizedMap(new LinkedHashMap<Integer, Tile>());
 		pieces = Collections.synchronizedMap(new LinkedHashMap<Integer, Piece>());
 		buildings = Collections.synchronizedMap(new LinkedHashMap<Integer, PieceBuilding>());
-		entities = Collections.synchronizedMap(new LinkedHashMap<Integer, Entity>());
+		entities = new ArrayList<Integer>();
 		renderGroups = Collections.synchronizedMap(new LinkedHashMap<Integer, ChunkRenderGroup>());		initializeRenderGroups();
-		World.propagateChunk(this);
+		world.propagateChunk(this);
 		
 	}
-	
+
 	public void initializeRenderGroups() {
 		for (int i = 0; i < 33; i++) {
 			if (i == 0) {
@@ -63,31 +64,9 @@ public class WorldChunk {
 			}
 		}
 	}
-
-	public void tick() {
-		
-		for (Entity entity : entities.values()) {
-			try {
-				Thread.sleep(2);
-			} catch (Exception e){}
-
-			entity.tick(world);
-
-		}
-		
-		for (Piece piece : pieces.values()) {
-			try {
-				Thread.sleep(2);
-			} catch (Exception e){}
-
-			piece.tick(world);
-
-		}
-
-		
-	}
 	
 	public void render(GameContainer c, Graphics g, World w) {
+	
 		for (ChunkRenderGroup group : renderGroups.values()) {
 			group.render(c, g, w);
 		}
@@ -101,37 +80,50 @@ public class WorldChunk {
 
 	public void propagateTile(Tile tile) {
 
-		tiles.put((tile.posY * (World.c)) + tile.posX, tile);
+		tiles.put((tile.posY * (WorldManager.getWorld().c)) + tile.posX, tile);
 		
 	}
 	
 	public void propagatePiece(Piece piece) {
 
-		pieces.put((piece.posY * (World.c)) + piece.posX, piece);
+		pieces.put((piece.posY * (WorldManager.getWorld().c)) + piece.posX, piece);
 		
 	}
 	
+	public void propagateEntity(Entity entity) {
+
+		entities.add(entity.serverID);
+
+	}
+
+	public void removeEntity(Entity entity) {
+
+		entities.remove(entity.serverID);
+
+	}
+
+	
 	public Tile getTile(int x, int y) {
 
-		return tiles.get((y * (World.c)) + x);
+		return tiles.get((y * (WorldManager.getWorld().c)) + x);
 	
 	}
 
 	public Piece getPiece(int x, int y) {
 
-		return pieces.get((y * (World.c)) + x);
+		return pieces.get((y * (WorldManager.getWorld().c)) + x);
 	
 	}
 	
 	public void setTile(Tile t) {
 		
-		tiles.put((t.posY * (World.c)) + t.posX, t);
+		tiles.put((t.posY * (WorldManager.getWorld().c)) + t.posX, t);
 		
 	}
 
 	public void setPiece(Piece p) {
 		
-		pieces.put((p.posY * (World.c)) + p.posX, p);
+		pieces.put((p.posY * (WorldManager.getWorld().c)) + p.posX, p);
 		
 	}
 
@@ -146,12 +138,6 @@ public class WorldChunk {
 		for (Piece p : pieces.values()) {
 			
 			p.tick(w);
-			
-		}
-		
-		for (Entity e : entities.values()) {
-			
-			e.tick(w);
 			
 		}
 		

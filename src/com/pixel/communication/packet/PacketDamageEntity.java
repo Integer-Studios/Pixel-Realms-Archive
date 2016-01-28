@@ -7,6 +7,7 @@ import java.io.IOException;
 import com.pixel.entity.EntityAlive;
 import com.pixel.start.PixelRealms;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class PacketDamageEntity extends Packet {
 
@@ -41,7 +42,7 @@ public class PacketDamageEntity extends Packet {
 		System.out.println("reading");
 		this.serverID = input.readInt();
 		this.damage = input.readFloat();
-		((EntityAlive)World.entities.get(this.serverID)).damage(PixelRealms.world, this.damage, PixelRealms.world.player, true);
+		((EntityAlive)WorldManager.getWorld().entities.get(this.serverID)).damage(WorldManager.getWorld(), this.damage, WorldManager.player, true);
 //
 //		if (this.damage <= 0) {
 //

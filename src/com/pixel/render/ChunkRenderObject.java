@@ -8,6 +8,7 @@ import com.pixel.piece.Piece;
 import com.pixel.tile.Tile;
 import com.pixel.world.World;
 import com.pixel.world.WorldChunk;
+import com.pixel.world.WorldManager;
 
 public class ChunkRenderObject {
 	
@@ -26,21 +27,22 @@ public class ChunkRenderObject {
 		case 0:
 			//tile
 			Tile t = chunk.tiles.get(index);
-			if (t.posX > World.getMinXToPaint() && t.posX < World.getMaxXToPaint() && t.posY > World.getMinYToPaint() && t.posY < World.getMaxYToPaint()) {
+			if (t.posX > WorldManager.getWorld().getMinXToPaint() && t.posX < WorldManager.getWorld().getMaxXToPaint() && t.posY > WorldManager.getWorld().getMinYToPaint() && t.posY < WorldManager.getWorld().getMaxYToPaint()) {
 				t.render(c, g, w);
 			}
 			break;
 		case 1:
 			//piece
 			Piece p = chunk.pieces.get(index);
-			if (p.posX > World.getMinXToPaint() && p.posX < World.getMaxXToPaint() && p.posY > World.getMinYToPaint() && p.posY < World.getMaxYToPaint()) {
+			if (p.posX > WorldManager.getWorld().getMinXToPaint() && p.posX < WorldManager.getWorld().getMaxXToPaint() && p.posY > WorldManager.getWorld().getMinYToPaint() && p.posY < WorldManager.getWorld().getMaxYToPaint()) {
 				p.render(c, g, w);
 			}
 			break;
 		case 2:
 			//entity
-			Entity e = chunk.entities.get(index);
-			if (e.getX() > World.getMinXToPaint() && e.getX() < World.getMaxXToPaint() && e.getY() > World.getMinYToPaint() && e.getY() < World.getMaxYToPaint()) {
+			System.out.println("TESTING BITCH"); 
+			Entity e = WorldManager.getWorld().entities.get(index);
+			if (e.getX() > WorldManager.getWorld().getMinXToPaint() && e.getX() < WorldManager.getWorld().getMaxXToPaint() && e.getY() > WorldManager.getWorld().getMinYToPaint() && e.getY() < WorldManager.getWorld().getMaxYToPaint()) {
 				e.render(c, g, w);
 			}
 			e.render(c, g, w);

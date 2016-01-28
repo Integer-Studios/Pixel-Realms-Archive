@@ -54,8 +54,8 @@ public class GetBunnies extends Thread {
 				sb.append(line);
 			} 
 			
-			player.bunnies = Integer.parseInt(sb.toString());
-			player.interfaceManager.bunnyCounter.setBunnies(player.bunnies);
+//			player.bunnies = Integer.parseInt(sb.toString());
+//			player.interfaceManager.bunnyCounter.setBunnies(player.bunnies);
 
 		} catch (Exception e) {
 

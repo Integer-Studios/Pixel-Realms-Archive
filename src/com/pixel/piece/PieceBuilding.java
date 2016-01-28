@@ -3,6 +3,7 @@ package com.pixel.piece;
 import com.badlogic.gdx.math.Rectangle;
 import com.pixel.interior.Building;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class PieceBuilding extends Piece {
 
@@ -27,7 +28,7 @@ public class PieceBuilding extends Piece {
 		this.metadata = metadata;
 		this.lightID = lightID;
 		
-		World.propagatePiece(this);
+		WorldManager.propagatePiece(this);
 		init();
 		
 	}

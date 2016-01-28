@@ -6,6 +6,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class PieceCabinBasic  extends PieceInfo{
 	
@@ -18,7 +19,7 @@ public class PieceCabinBasic  extends PieceInfo{
 	public void paint(World w, Piece p, Graphics2D g2) {
 		ImageIcon i = new ImageIcon(texture);
 		Image img = i.getImage();	
-		g2.drawImage(img, p.posX*World.tileConstant+World.globalOffsetX, (p.posY-2)*World.tileConstant+World.globalOffsetY, World.tileConstant*4, World.tileConstant*3, null);
+		g2.drawImage(img, p.posX*World.tileConstant+WorldManager.getWorld().globalOffsetX, (p.posY-2)*World.tileConstant+WorldManager.getWorld().globalOffsetY, World.tileConstant*4, World.tileConstant*3, null);
 	}
 
 }

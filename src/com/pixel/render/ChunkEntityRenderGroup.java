@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.pixel.world.WorldChunk;
-
+import com.pixel.world.WorldManager;
 
 public class ChunkEntityRenderGroup extends ChunkRenderGroup {
 
@@ -23,7 +23,7 @@ public class ChunkEntityRenderGroup extends ChunkRenderGroup {
 			int index = 0;
 			boolean added = false;
 			for (ChunkRenderObject orderedObject : orderedObjects.values()) {
-				if (c.entities.get(object.index).posY < c.entities.get(orderedObject.index).posY) {
+				if (WorldManager.getWorld().entities.get(object.index).posY < WorldManager.getWorld().entities.get(orderedObject.index).posY) {
 					orderedObjects = insertObject(object, orderedObjects, index);
 					added = true;
 				}

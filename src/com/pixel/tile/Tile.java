@@ -7,6 +7,7 @@ import com.pixel.start.PixelRealms;
 import com.pixel.tile.TileHill;
 import com.pixel.util.Toolkit;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class Tile {
 	
@@ -17,7 +18,7 @@ public class Tile {
 		metadata = m;
 		
 		if (propagate)
-			World.propagateTile(this);
+			WorldManager.propagateTile(this);
 		
 	}
 	
@@ -27,8 +28,8 @@ public class Tile {
 	
 	public void tick(World w) {
 		info[id].tick(w, this);
-		if ((int)w.player.getX() == posX && (int)w.player.getY() == posY) {
-			info[id].onPlayerWalkOver(w, this, w.player);
+		if ((int)WorldManager.player.getX() == posX && (int)WorldManager.player.getY() == posY) {
+			info[id].onPlayerWalkOver(w, this, WorldManager.player);
 		}
 	}
 

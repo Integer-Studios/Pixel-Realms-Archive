@@ -1,4 +1,4 @@
-package com.pixel.frame;
+package com.pixel.stage;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,10 +16,10 @@ import com.pixel.gui.GUIComponentText;
 import com.pixel.start.MainLoop;
 import com.pixel.start.PixelRealms;
 
-public class PanelMainMenu extends Panel {
+public class StageMainMenu extends Stage {
 	
 	
-	public PanelMainMenu() {
+	public StageMainMenu() {
 		width = -1;
 		updateRenderSize();
 	}
@@ -46,7 +46,6 @@ public class PanelMainMenu extends Panel {
 		
 		if (multiPlayer.getOnMouseUp()) {
 			MainLoop.setPanel(2);
-			PixelRealms.server = true;
 
 		}
 		

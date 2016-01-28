@@ -25,6 +25,7 @@ public class ChunkRenderGroup {
 	
 	public void render(GameContainer c, Graphics g, World w) {
 		for (ChunkRenderObject obj : objects.values()) {
+			
 			obj.render(c, g, w);
 		}
 	}

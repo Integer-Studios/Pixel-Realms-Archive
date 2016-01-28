@@ -11,10 +11,6 @@ import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 
-import com.pixel.frame.Panel;
-import com.pixel.frame.PanelLogin;
-import com.pixel.frame.PanelMainMenu;
-import com.pixel.frame.PanelWorld;
 import com.pixel.gui.GUI;
 import com.pixel.gui.GUIAlert;
 import com.pixel.gui.GUINewsFeed;
@@ -22,6 +18,10 @@ import com.pixel.input.KeyboardListener;
 import com.pixel.input.MouseClickListener;
 import com.pixel.piece.Piece;
 import com.pixel.sound.PixelSoundManager;
+import com.pixel.stage.Stage;
+import com.pixel.stage.StageLogin;
+import com.pixel.stage.StageMainMenu;
+import com.pixel.stage.StageWorld;
 import com.pixel.tile.Tile;
 import com.pixel.world.World;
 
@@ -40,7 +40,7 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
     public boolean leftButton;
     public boolean rightButton;
     public static GUINewsFeed newsFeed;
-    public static Panel panel;
+    public static Stage stage;
     public static boolean init;
     
     public static int fps = 60;
@@ -68,7 +68,7 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
 			
 		}
 		
-		panel.render(c, g);
+		stage.render(c, g);
 		GUI.render(c, g);
 		
 		now = System.nanoTime();
@@ -80,20 +80,18 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
 	public void init(GameContainer c) throws SlickException {
 		// TODO Auto-generated method stub
 		GUI.init();
-		newsFeed = new GUINewsFeed("http://pixel-realms.com/news/feed.txt", "No News");
-		panel = new PanelLogin();
+		newsFeed = new GUINewsFeed("http://server.integerstudios.com/pixel/feed.txt", "No News");
+		stage = new StageLogin();
 
 	}
 
 	@Override
 	public void update(GameContainer c, int delta) throws SlickException {
 		// TODO Auto-generated method stub
-		panel.update(c, delta);
+		stage.update(c, delta);
 		MouseClickListener.update(c, delta);
 		KeyboardListener.update(c, delta);
 		PixelSoundManager.update();
-//		if (PanelWorld.loaded) {
-//		}
 
 	}
 
@@ -122,13 +120,13 @@ public class MainLoop extends BasicGame implements KeyListener, MouseListener {
 		GUI.clear();
 		switch (id) {
 		case 0:
-			panel = new PanelLogin();
+			stage = new StageLogin();
 			break;
 		case 1:
-			panel = new PanelMainMenu();
+			stage = new StageMainMenu();
 			break;
 		case 2:
-			panel = new PanelWorld().init();
+			stage = new StageWorld().init();
 			break;
 		
 		}

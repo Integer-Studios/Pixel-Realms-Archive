@@ -7,6 +7,7 @@ import org.newdawn.slick.Image;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.start.TextureLoader;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class TileInfo {
 	
@@ -22,10 +23,10 @@ public class TileInfo {
 	public void render(GameContainer c, Graphics g, World w, Tile t) {
 
 		if (image != null)  {
-			image.draw(t.posX*World.tileConstant+World.globalOffsetX, t.posY*World.tileConstant+World.globalOffsetY, World.tileConstant, World.tileConstant);
+			image.draw(t.posX*World.tileConstant+WorldManager.getWorld().globalOffsetX, t.posY*World.tileConstant+WorldManager.getWorld().globalOffsetY, World.tileConstant, World.tileConstant);
 		} else {
 			image = TextureLoader.load(texture);
-			image.draw(t.posX*World.tileConstant+World.globalOffsetX, t.posY*World.tileConstant+World.globalOffsetY, World.tileConstant, World.tileConstant);
+			image.draw(t.posX*World.tileConstant+WorldManager.getWorld().globalOffsetX, t.posY*World.tileConstant+WorldManager.getWorld().globalOffsetY, World.tileConstant, World.tileConstant);
 	
 		}
 

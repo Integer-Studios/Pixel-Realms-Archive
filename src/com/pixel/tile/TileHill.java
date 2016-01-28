@@ -13,6 +13,7 @@ import org.newdawn.slick.Image;
 
 import com.pixel.start.TextureLoader;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class TileHill extends TileInfo {
 
@@ -56,21 +57,21 @@ public class TileHill extends TileInfo {
 		int rO = -1;
 		int dO = -1;
 		int uO = -1;
-		if (t.posX > 0 && (World.getTile(t.posX-1, t.posY) == t.id)) {
+		if (t.posX > 0 && (WorldManager.getWorld().getTile(t.posX-1, t.posY) == t.id)) {
 			l = true;
-			lO = World.getTileObject(t.posX-1, t.posY).metadata;
+			lO = WorldManager.getWorld().getTileObject(t.posX-1, t.posY).metadata;
 		}
-		if (t.posX < World.c -1 && (World.getTile(t.posX+1, t.posY) == t.id)) {
+		if (t.posX < WorldManager.getWorld().c -1 && (WorldManager.getWorld().getTile(t.posX+1, t.posY) == t.id)) {
 			r = true;
-			rO = World.getTileObject(t.posX+1, t.posY).metadata;
+			rO = WorldManager.getWorld().getTileObject(t.posX+1, t.posY).metadata;
 		}
-		if (t.posY < World.c -1 && (World.getTile(t.posX, t.posY+1) == t.id)) {
+		if (t.posY < WorldManager.getWorld().c -1 && (WorldManager.getWorld().getTile(t.posX, t.posY+1) == t.id)) {
 			d = true;
-			dO = World.getTileObject(t.posX, t.posY+1).metadata;
+			dO = WorldManager.getWorld().getTileObject(t.posX, t.posY+1).metadata;
 		}
-		if (t.posY > 0 && (World.getTile(t.posX, t.posY-1) == t.id)) {
+		if (t.posY > 0 && (WorldManager.getWorld().getTile(t.posX, t.posY-1) == t.id)) {
 			u = true;
-			uO = World.getTileObject(t.posX, t.posY-1).metadata;
+			uO = WorldManager.getWorld().getTileObject(t.posX, t.posY-1).metadata;
 		}
 		
 		//if statement
@@ -214,7 +215,7 @@ public class TileHill extends TileInfo {
 		}
 		
 		Tile.info[t.background].render(c, g, w, t);
-		image.draw(t.posX*World.tileConstant+World.globalOffsetX, t.posY*World.tileConstant+World.globalOffsetY, World.tileConstant, World.tileConstant);
+		image.draw(t.posX*World.tileConstant+WorldManager.getWorld().globalOffsetX, t.posY*World.tileConstant+WorldManager.getWorld().globalOffsetY, World.tileConstant, World.tileConstant);
 		
 		
 

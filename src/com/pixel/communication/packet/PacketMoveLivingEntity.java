@@ -7,12 +7,14 @@ import java.io.IOException;
 import com.pixel.entity.Entity;
 import com.pixel.entity.EntityAlive;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class PacketMoveLivingEntity extends Packet {
 
 	EntityAlive entity;
 	int serverID, entityID;
-	public float velocityX, velocityY;
+	public float velocityX, velocityY, posX, posY;
+	public int worldID;
 	
 	public PacketMoveLivingEntity() {
 		this.id = 15;
@@ -24,6 +26,9 @@ public class PacketMoveLivingEntity extends Packet {
 		this.serverID = entity.serverID;
 		this.velocityX = entity.velocityX;
 		this.velocityY = entity.velocityY;
+		this.worldID = entity.worldID;
+		this.posX = entity.getX();
+		this.posY = entity.getY();
 		
 	}
 	
@@ -32,6 +37,9 @@ public class PacketMoveLivingEntity extends Packet {
 		output.writeInt(serverID);
 		output.writeFloat(velocityX);
 		output.writeFloat(velocityY);
+		output.writeFloat(posX);
+		output.writeFloat(posY);
+		output.writeInt(worldID);
 		
 	}
 
@@ -41,15 +49,20 @@ public class PacketMoveLivingEntity extends Packet {
 		serverID = input.readInt();
 		velocityX = input.readFloat();
 		velocityY = input.readFloat();
+		posX = input.readFloat();
+		posY = input.readFloat();
+		worldID = input.readInt();
 		
-		if (!World.entities.containsKey(serverID)) {
+		if (!WorldManager.getWorld().entities.containsKey(serverID)) {
 			Entity entity = Entity.getEntity(entityID);
 			entity.serverID = serverID;
-			World.propagateEntity(entity);
+			WorldManager.propagateEntity(entity);
 			
 		}
 		
-		((EntityAlive)World.entities.get(serverID)).setVelocity(velocityX, velocityY);
+		((EntityAlive)WorldManager.getWorld().entities.get(serverID)).setVelocity(velocityX, velocityY);
+		((EntityAlive)WorldManager.getWorld().entities.get(serverID)).worldID = worldID;
+
 	}
 
 }

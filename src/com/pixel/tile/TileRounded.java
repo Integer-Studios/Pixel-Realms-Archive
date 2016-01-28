@@ -6,6 +6,7 @@ import org.newdawn.slick.Image;
 
 import com.pixel.start.TextureLoader;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class TileRounded extends TileInfo {
 
@@ -94,16 +95,16 @@ public class TileRounded extends TileInfo {
 
 		try {
 
-			if (t.posX > 0 && World.getTile(t.posX-1, t.posY) != t.id) {
+			if (t.posX > 0 && WorldManager.getWorld().getTile(t.posX-1, t.posY) != t.id) {
 				l = true;
 			}
-			if (t.posX < World.c -1 && World.getTile(t.posX+1, t.posY) != t.id) {
+			if (t.posX < WorldManager.getWorld().c -1 && WorldManager.getWorld().getTile(t.posX+1, t.posY) != t.id) {
 				r = true;
 			}
-			if (t.posY < World.c -1 && World.getTile(t.posX, t.posY+1) != t.id) {
+			if (t.posY < WorldManager.getWorld().c -1 && WorldManager.getWorld().getTile(t.posX, t.posY+1) != t.id) {
 				d = true;
 			}
-			if (t.posY > 0 && World.getTile(t.posX, t.posY-1) != t.id) {
+			if (t.posY > 0 && WorldManager.getWorld().getTile(t.posX, t.posY-1) != t.id) {
 				u = true;
 			}
 
@@ -162,7 +163,7 @@ public class TileRounded extends TileInfo {
 		}
 		
 		Tile.info[t.background].render(c, g, w, t);
-		image.draw(t.posX*World.tileConstant+World.globalOffsetX, t.posY*World.tileConstant+World.globalOffsetY, World.tileConstant, World.tileConstant);
+		image.draw(t.posX*World.tileConstant+WorldManager.getWorld().globalOffsetX, t.posY*World.tileConstant+WorldManager.getWorld().globalOffsetY, World.tileConstant, World.tileConstant);
 	}
 	
 	public void setTexture(String texture) {

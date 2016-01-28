@@ -13,6 +13,7 @@ public class PixelSound {
 	private boolean started;
 	private Sound clip;
 	private float volume = 1.0F;
+	private boolean mute = true;
 	
 	public PixelSound(PixelEffect effect, int id) {
 		
@@ -65,10 +66,16 @@ public class PixelSound {
 	
 	public int start() {
 		
-		if (repeat) 
-			clip.loop(1.0F, volume);
+		float v;
+		if (mute)
+			v = 0.0F;
 		else
-			clip.play(1.0F, volume);
+			v = volume;
+		
+		if (repeat) 
+			clip.loop(1.0F, v);
+		else
+			clip.play(1.0F, v);
 
 		started = true;
 		

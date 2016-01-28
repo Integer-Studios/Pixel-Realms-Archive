@@ -8,6 +8,7 @@ import java.io.IOException;
 import com.pixel.communication.ChatMessage;
 import com.pixel.communication.PlayerManager;
 import com.pixel.start.PixelRealms;
+import com.pixel.world.WorldManager;
 
 public class PacketChat extends Packet {
 
@@ -129,7 +130,7 @@ public class PacketChat extends Packet {
 
 		if (this.userID != PlayerManager.currentUserID) {
 			
-			PixelRealms.world.player.interfaceManager.chat.addMessage(new ChatMessage(username, message, color, userID));
+			WorldManager.player.interfaceManager.chat.addMessage(new ChatMessage(username, message, color, userID));
 
 		}
 		

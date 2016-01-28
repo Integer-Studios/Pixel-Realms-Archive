@@ -1,9 +1,7 @@
 package com.pixel.util;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.pixel.communication.PlayerManager;
 import com.pixel.entity.Entity;
-import com.pixel.entity.EntityOnlinePlayer;
 import com.pixel.piece.Piece;
 import com.pixel.piece.PieceBuilding;
 import com.pixel.world.World;
@@ -44,9 +42,9 @@ public class CollisionBox {
 	
 	public static boolean testEntitiesAgainstPoint(Entity sender, float x, float y, World w) {
 		
-		for (int b = 0; b < World.entities.size(); b ++) {
+		for (int b = 0; b < w.entities.size(); b ++) {
 
-			Entity entity = (Entity) World.entities.values().toArray()[b];
+			Entity entity = (Entity) w.entities.values().toArray()[b];
 			
 			if (entity.getCollisionBox().contains(x, y) && !entity.equals(sender))
 				return true;
@@ -59,19 +57,9 @@ public class CollisionBox {
 	
 	public static Entity testEntitiesAgainstCollisionBox(Rectangle r, World w) {
 		
-		for (EntityOnlinePlayer player : PlayerManager.players.values()) {
+		for (int b = 0; b < w.entities.size(); b ++) {
 
-			if (player.getCollisionBox().overlaps(r)) {
-
-				return player;
-
-			}
-
-		}
-		
-		for (int b = 0; b < World.entities.size(); b ++) {
-
-			Entity entity = (Entity) World.entities.values().toArray()[b];
+			Entity entity = (Entity) w.entities.values().toArray()[b];
 			
 			if (entity.getCollisionBox().overlaps(r)) {
 				return entity;
@@ -88,7 +76,7 @@ public class CollisionBox {
 //		ArrayList<Piece> pieces = new ArrayList<Piece>();
 //		pieces.addAll(World.buildings.values());
 
-		for (WorldChunk c : World.chunks.values()) {
+		for (WorldChunk c : w.chunks.values()) {
 
 			for (Piece p : c.pieces.values()) {
 
@@ -209,9 +197,9 @@ public class CollisionBox {
 	
 	public static Entity getEntityAtPoint(Entity sender, float x, float y, World w) {
 		
-		for (int b = 0; b < World.entities.size(); b ++) {
+		for (int b = 0; b < w.entities.size(); b ++) {
 
-			Entity entity = (Entity) World.entities.values().toArray()[b];
+			Entity entity = (Entity) w.entities.values().toArray()[b];
 			
 			if (entity.getCollisionBox().contains(x, y) && !entity.equals(sender))
 				return entity;

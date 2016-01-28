@@ -9,6 +9,7 @@ import com.pixel.gui.GUITextBox;
 import com.pixel.gui.GUIWindow;
 import com.pixel.start.PixelRealms;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 
 public class MouseClickListener {
@@ -43,13 +44,13 @@ public class MouseClickListener {
 	}
 	
 	public static float getXWorldMousePosition() {
-		float x = (float)posX - World.globalOffsetX;
+		float x = (float)posX - WorldManager.getWorld().globalOffsetX;
 		x = x/World.tileConstant;
 		return x;
 	}
 	
 	public static float getYWorldMousePosition() {
-		float y = (float)posY - World.globalOffsetY;
+		float y = (float)posY - WorldManager.getWorld().globalOffsetY;
 		y = y/World.tileConstant;
 		return y;
 	}
@@ -91,7 +92,7 @@ public class MouseClickListener {
 		
 		if (World.loaded) {
 			
-			PixelRealms.world.player.interfaceManager.onMousePressed(x, y, (button == 1));
+			WorldManager.player.interfaceManager.onMousePressed(x, y, (button == 1));
 			
 		}
 		
@@ -112,8 +113,8 @@ public class MouseClickListener {
 
 		if (World.loaded) {
 
-			PixelRealms.world.player.interfaceManager.onMouseReleased(x, y, (button == 1));
-			PixelRealms.world.player.onMouseReleased(x, y, button);
+			WorldManager.player.interfaceManager.onMouseReleased(x, y, (button == 1));
+			WorldManager.player.onMouseReleased(x, y, button);
 			
 		}
 		

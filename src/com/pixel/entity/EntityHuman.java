@@ -12,7 +12,6 @@ public class EntityHuman extends EntityAlive {
 	public boolean punching;
 	public Clip walkingClip;
 	public Piece targetPiece;
-	public float energy = 100;
 	public ItemStack selectedItem = new ItemStack(Item.blank, 0);
 
 	public EntityHuman(float x, float y, float width, float height) {
@@ -28,12 +27,6 @@ public class EntityHuman extends EntityAlive {
 		targetPiece = p;
 	}
 
-	public void setEnergy(float energy) {
-
-		this.energy = energy;
-		
-	}
-	
 	public void setSelectedItem(ItemStack itemStack) {
 
 		this.selectedItem = itemStack;

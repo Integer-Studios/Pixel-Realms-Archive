@@ -14,6 +14,7 @@ import com.pixel.communication.packet.Packet;
 import com.pixel.gui.GUIAlert;
 import com.pixel.start.MainLoop;
 import com.pixel.start.PixelRealms;
+import com.pixel.world.WorldManager;
 
 public class CommunicationClient implements Runnable {
 
@@ -57,7 +58,7 @@ public class CommunicationClient implements Runnable {
 		} catch (IOException e) {
 			
 			PixelRealms.loop.displayAlert("The server is not up! Try again later.", Color.black, "connect");
-			System.err.println("Couldn't get I/O for the connection to: " + PixelRealms.ip  + ".");
+			System.err.println("Couldn't get I/O for the connection to: " + PixelRealms.getIP()  + ".");
 		}
 
 		
@@ -69,7 +70,7 @@ public class CommunicationClient implements Runnable {
 		if (socket != null && !socket.isConnected()) {
 			
 			PixelRealms.loop.displayAlert("The server is not up! Try again later.", Color.black, "connect");
-			System.err.println("Lost the connection to: " + PixelRealms.ip  + ".");
+			System.err.println("Lost the connection to: " + PixelRealms.getIP()  + ".");
 			
 		}
 		
@@ -141,7 +142,7 @@ public class CommunicationClient implements Runnable {
 	
 	public static void alertReturn() {
 		
-		PixelRealms.world.panelWorld.disinstantiate();
+//		WorldManager.getWorld().panelWorld.disinstantiate();
 		MainLoop.setPanel(1);
 		
 	}
@@ -161,7 +162,7 @@ public class CommunicationClient implements Runnable {
 			if (PlayerManager.kicked) {
 
 				new GUIAlert("Someone is logged in to your account!", Color.black, "disconnect");
-				System.err.println("Kicked from: " + PixelRealms.ip  + ".");
+				System.err.println("Kicked from: " + PixelRealms.getIP()  + ".");
 
 				PlayerManager.kicked = false;
 

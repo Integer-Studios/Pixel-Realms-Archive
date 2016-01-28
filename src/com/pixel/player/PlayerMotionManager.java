@@ -2,7 +2,8 @@ package com.pixel.player;
 
 
 import com.pixel.communication.CommunicationClient;
-import com.pixel.communication.packet.PacketMovePlayer;
+import com.pixel.communication.packet.PacketMoveLivingEntity;
+import com.pixel.communication.packet.PacketMovePlayerDeprecated;
 import com.pixel.entity.EntityPlayer;
 import com.pixel.input.KeyboardListener;
 import com.pixel.world.World;
@@ -96,8 +97,7 @@ public class PlayerMotionManager {
 			player.door = false;
 		
 		if ((player.getVelocityX() != player.getPreviousVelocityX() || player.getVelocityY() != player.getPreviousVelocityY()) && !player.teleported) {
-			CommunicationClient.addPacket(new PacketMovePlayer(player.getVelocityX(), player.getVelocityY(), player.getX(), player.getY()));
-
+			CommunicationClient.addPacket(new PacketMoveLivingEntity(player));
 		} else if (player.teleported && teleportCount == 1) {
 			
 			player.teleported = false;

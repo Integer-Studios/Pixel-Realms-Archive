@@ -39,6 +39,7 @@ public class GUI {
 	}
 	
 	public static void render(GameContainer c, Graphics g) {
+
 		for (int i = 0; i < components.size(); i++) {
 			components.get(i).render(c, g);
 		}

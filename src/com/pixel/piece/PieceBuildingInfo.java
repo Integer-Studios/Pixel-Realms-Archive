@@ -9,6 +9,7 @@ import com.pixel.interior.InteriorWorldManager;
 import com.pixel.start.TextureLoader;
 import com.pixel.util.CollisionBox;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class PieceBuildingInfo extends PieceInfo {
 
@@ -31,7 +32,7 @@ public class PieceBuildingInfo extends PieceInfo {
 	public void onPlayerCollided(World w, Piece p, EntityPlayer player) {
 		Building b = ((PieceBuilding) p).building;
 
-		if (CollisionBox.testBoxAgainstEntity(w.player, InteriorWorldManager.doors.get(b.worldID).box, w, true) && !player.inside) {
+		if (CollisionBox.testBoxAgainstEntity(WorldManager.player, InteriorWorldManager.doors.get(b.worldID).box, w, true) && !player.inside) {
 			player.door = true;
 			player.currentlySelectedInterior = ((PieceBuilding) p).building.worldID;
 			player.doorX = player.getX();
@@ -46,14 +47,14 @@ public class PieceBuildingInfo extends PieceInfo {
 		PieceBuilding p = (PieceBuilding) piece;
 		
 		if (image != null) {
-			image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY - ((building.height - 1) * World.tileConstant), World.tileConstant * building.width, World.tileConstant * building.height);
+			image.draw(p.posX*World.tileConstant+WorldManager.getWorld().globalOffsetX, p.posY*World.tileConstant+WorldManager.getWorld().globalOffsetY - ((building.height - 1) * World.tileConstant), World.tileConstant * building.width, World.tileConstant * building.height);
 //			image.draw(building.door.box.getX()*World.tileConstant+World.globalOffsetX ,  building.door.box.getY()*World.tileConstant+World.globalOffsetY, building.door.width, building.door.height);
 
 		} else {
 			
 			if (texture != null && texture.length() > 0) {
 				image = TextureLoader.load(texture + "0.png");
-				image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY - ((building.height - 1) * World.tileConstant), World.tileConstant * building.width, World.tileConstant * building.height);
+				image.draw(p.posX*World.tileConstant+WorldManager.getWorld().globalOffsetX, p.posY*World.tileConstant+WorldManager.getWorld().globalOffsetY - ((building.height - 1) * World.tileConstant), World.tileConstant * building.width, World.tileConstant * building.height);
 				
 			}
 

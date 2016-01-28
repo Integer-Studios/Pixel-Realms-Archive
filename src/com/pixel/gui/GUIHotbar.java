@@ -7,6 +7,7 @@ import com.pixel.entity.EntityPlayer;
 import com.pixel.start.PixelRealms;
 import com.pixel.start.TextureLoader;
 import com.pixel.util.CoordinateKey;
+import com.pixel.world.WorldManager;
 
 public class GUIHotbar {
 	
@@ -68,10 +69,10 @@ public class GUIHotbar {
 //				PixelSoundManager.stopMusic();
 //				
 //			}
-			PixelRealms.world.player.setSelectedItem(((GUIItemStack) ((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[1]).itemstack);
+			WorldManager.player.setSelectedItem(((GUIItemStack) ((GUIInventorySlot) inventory.slots.get(selectedSlot)).components[1]).itemstack);
 		} else {
 			
-			PixelRealms.world.player.setSelectedItem(null);
+			WorldManager.player.setSelectedItem(null);
 
 		}
 	}

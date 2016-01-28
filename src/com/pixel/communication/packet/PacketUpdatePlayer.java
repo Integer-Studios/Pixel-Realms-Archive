@@ -54,71 +54,57 @@ public class PacketUpdatePlayer extends Packet {
 	@Override
 	public void readData(DataInputStream input) throws IOException {
 
-		this.username = Packet.readString(16, input);
-		
-		this.posX = input.readFloat();
-		this.posY = input.readFloat();
-
-		this.health = input.readFloat();
-		this.satisfaction = input.readFloat();
-		this.energy = input.readFloat();
-		
-		this.itemID = input.readInt();
-		this.itemAmount = input.readInt();
-		this.worldID = input.readInt();
-
-		if (PlayerManager.currentUserID != this.userID) {
-
-			if (PlayerManager.players.containsKey(this.userID)) {
-
-				if (worldID != PixelRealms.world.player.worldID) {
-					
-					PlayerManager.despawnPlayerEntity(userID);
-					return;
-					
-				}
-				PlayerManager.players.get(userID).setX(posX);
-				PlayerManager.players.get(userID).setY(posY);
-				PlayerManager.players.get(userID).setHealth(health);
-				PlayerManager.players.get(userID).setSatisfaction(satisfaction);
-				PlayerManager.players.get(userID).setEnergy(energy);
-				PlayerManager.players.get(userID).setSelectedItem(new ItemStack(Item.getItemForId(itemID), itemAmount));
-				PlayerManager.players.get(userID).worldID = worldID;
-
-			} else if (worldID == PixelRealms.world.player.worldID) {
-					PlayerManager.spawnPlayer(username, userID, posX, posY);
-					PlayerManager.players.get(userID).setSatisfaction(satisfaction);
-					PlayerManager.players.get(userID).setHealth(health);
-					PlayerManager.players.get(userID).setEnergy(energy);
-					PlayerManager.players.get(userID).setSelectedItem(new ItemStack(Item.getItemForId(itemID), itemAmount));
-					PlayerManager.players.get(userID).worldID = worldID;
-					
-					int posYint = (int)posY;
-					WorldChunk chunk = World.getChunk(Math.round(posX), Math.round(posY));
-					PixelLogger.debug("PacketWorldData Entities PosY:", posY, posYint);
-					//9.8, 9; 9.3, 9; 9.0, 9; 8.9, 8;
-					if ((posY -(float)posYint) < World.pieceLayerOffset) {
-						ChunkEntityRenderGroup group = (ChunkEntityRenderGroup)chunk.renderGroups.get((2*posYint)+1);
-						group.objects.put(group.objects.size(), new ChunkRenderObject(chunk, 2, id));
-						group.reorder(chunk);
-						chunk.renderGroups.put((2*posYint)+1, group);
-					} else {
-						ChunkEntityRenderGroup group = (ChunkEntityRenderGroup)chunk.renderGroups.get((2*(posYint-1))+1);
-						group.objects.put(group.objects.size(), new ChunkRenderObject(chunk, 2, id));
-						group.reorder(chunk);
-						chunk.renderGroups.put((2*(posYint-1))+1, group);
-					}
-			}
-
-		} else {
-			
-			PixelRealms.world.playerReset = false;
-			PixelRealms.world.player.teleported = true;
-			PixelRealms.world.player.setPosition(posX,  posY);
-			PixelRealms.world.player.setHealth(health);
-			PixelRealms.world.player.setSatisfaction(satisfaction);
-			PixelRealms.world.player.setEnergy(energy);
+//		this.username = Packet.readString(16, input);
+//		
+//		this.posX = input.readFloat();
+//		this.posY = input.readFloat();
 //
+//		this.health = input.readFloat();
+//		this.satisfaction = input.readFloat();
+//		this.energy = input.readFloat();
+//		
+//		this.itemID = input.readInt();
+//		this.itemAmount = input.readInt();
+//		this.worldID = input.readInt();
+//
+//		if (PlayerManager.currentUserID != this.userID) {
+//
+//			if (PlayerManager.players.containsKey(this.userID)) {
+//
+//				if (worldID != PixelRealms.world.player.worldID) {
+//					
+//					PlayerManager.despawnPlayerEntity(userID);
+//					return;
+//					
+//				}
+//				PlayerManager.players.get(userID).setX(posX);
+//				PlayerManager.players.get(userID).setY(posY);
+//				PlayerManager.players.get(userID).setHealth(health);
+//				PlayerManager.players.get(userID).setSatisfaction(satisfaction);
+//				PlayerManager.players.get(userID).setEnergy(energy);
+//				PlayerManager.players.get(userID).setSelectedItem(new ItemStack(Item.getItemForId(itemID), itemAmount));
+//				PlayerManager.players.get(userID).worldID = worldID;
+//
+//			} else if (worldID == PixelRealms.world.player.worldID) {
+//					PlayerManager.spawnPlayer(username, userID, posX, posY);
+//					PlayerManager.players.get(userID).setSatisfaction(satisfaction);
+//					PlayerManager.players.get(userID).setHealth(health);
+//					PlayerManager.players.get(userID).setEnergy(energy);
+//					PlayerManager.players.get(userID).setSelectedItem(new ItemStack(Item.getItemForId(itemID), itemAmount));
+//					PlayerManager.players.get(userID).worldID = worldID;
+//					
+//					
+//			}
+//
+//		} else {
+//			
+//			PixelRealms.world.playerReset = false;
+//			PixelRealms.world.player.teleported = true;
+//			PixelRealms.world.player.setPosition(posX,  posY);
+//			PixelRealms.world.player.setHealth(health);
+//			PixelRealms.world.player.setSatisfaction(satisfaction);
+//			PixelRealms.world.player.setEnergy(energy);
+//	
 //			if (worldID != PixelRealms.world.player.worldID) {
 //				
 //				if (worldID == -1) 
@@ -131,11 +117,11 @@ public class PacketUpdatePlayer extends Packet {
 //				
 //			}
 			
-			PixelRealms.world.player.worldID = worldID;
+//			PixelRealms.world.player.worldID = worldID;
 
-		}
+//		}
 		
-		loaded = true;
+//		loaded = true;
 
 	}
 

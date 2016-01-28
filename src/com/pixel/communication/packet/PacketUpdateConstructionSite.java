@@ -10,6 +10,7 @@ import com.pixel.interior.ConstructionSite;
 import com.pixel.interior.ConstructionSiteManager;
 import com.pixel.start.PixelRealms;
 import com.pixel.util.CoordinateKey;
+import com.pixel.world.WorldManager;
 
 public class PacketUpdateConstructionSite extends Packet {
 
@@ -57,13 +58,13 @@ public class PacketUpdateConstructionSite extends Packet {
 		
 		if (itemAmount == -1) {
 			
-			if (PixelRealms.world.player.interfaceManager.foldLeft.menuID == 1) {
+			if (WorldManager.player.interfaceManager.foldLeft.menuID == 1) {
 				
-				GUIFoldConstruction fold = (GUIFoldConstruction) PixelRealms.world.player.interfaceManager.leftMenu;
+				GUIFoldConstruction fold = (GUIFoldConstruction) WorldManager.player.interfaceManager.leftMenu;
 				
 				if (fold.siteX == siteX && fold.siteY == siteY) {
 					
-					PixelRealms.world.player.interfaceManager.foldLeft.updateMenu(0);
+					WorldManager.player.interfaceManager.foldLeft.updateMenu(0);
 					
 				}
 				

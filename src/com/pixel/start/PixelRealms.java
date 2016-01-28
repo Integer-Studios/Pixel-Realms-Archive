@@ -8,19 +8,14 @@ import com.pixel.world.World;
 
 public class PixelRealms {
 
-	public static World world;
-	public static boolean server;
 	public static Toolkit t;
-	public static String ip;
-	public static int port = 25571;
-	public static boolean loggedIn = false;
+	private static String ip;
+	public static int port = 25565;
 	public static MainLoop loop;
 	
 	public static void main(String[] args) {
 		System.out.println("-- Pixel Realms V1.0 --");
 		
-		server = false;
-
 		t = new Toolkit();
 
 		try {
@@ -29,6 +24,12 @@ public class PixelRealms {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+	
+	public static String getIP() {
+		
+		return ip;
 		
 	}
 	
@@ -45,6 +46,10 @@ public class PixelRealms {
 		container.start();
 		
 		
+	}
+
+	public static void setIP(String ip) {
+		PixelRealms.ip = ip;
 	}
 
 }

@@ -9,6 +9,7 @@ import com.pixel.interior.Building;
 import com.pixel.interior.BuildingInfo;
 import com.pixel.start.TextureLoader;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class PieceConstructionSiteInfo extends PieceInfo {
 
@@ -50,14 +51,14 @@ public class PieceConstructionSiteInfo extends PieceInfo {
 		image = stages[p.metadata];
 		
 		if (image != null && compareImageToStage(p)) {
-			image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY - ((building.height - 1) * World.tileConstant), World.tileConstant * building.width, World.tileConstant * building.height);
+			image.draw(p.posX*World.tileConstant+WorldManager.getWorld().globalOffsetX, p.posY*World.tileConstant+WorldManager.getWorld().globalOffsetY - ((building.height - 1) * World.tileConstant), World.tileConstant * building.width, World.tileConstant * building.height);
 			//			image.draw(building.door.box.getX()*World.tileConstant+World.globalOffsetX ,  building.door.box.getY()*World.tileConstant+World.globalOffsetY, building.door.width, building.door.height);
 
 		} else {
 
 			if (texture != null && texture.length() > 0) {
 				image = TextureLoader.load(texture + p.metadata + ".png");
-				image.draw(p.posX*World.tileConstant+World.globalOffsetX, p.posY*World.tileConstant+World.globalOffsetY - ((building.height - 1) * World.tileConstant), World.tileConstant * building.width, World.tileConstant * building.height);
+				image.draw(p.posX*World.tileConstant+WorldManager.getWorld().globalOffsetX, p.posY*World.tileConstant+WorldManager.getWorld().globalOffsetY - ((building.height - 1) * World.tileConstant), World.tileConstant * building.width, World.tileConstant * building.height);
 
 				switch(p.metadata) {
 

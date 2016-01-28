@@ -9,10 +9,12 @@ import com.pixel.communication.packet.PacketDamageEntity;
 import com.pixel.sound.PixelEffect;
 import com.pixel.sound.PixelSoundManager;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class EntityAlive extends Entity {
 	
 	public float satisfaction;
+	public float energy = 100;
 	public int bodyID = -1;
 	public float speed;
 	public float health = 10.0F;
@@ -50,6 +52,12 @@ public class EntityAlive extends Entity {
 	public void setHealth(float health) {
 		
 		this.health = health;
+		
+	}
+	
+	public void setEnergy(float energy) {
+
+		this.energy = energy;
 		
 	}
 	
@@ -110,7 +118,7 @@ public class EntityAlive extends Entity {
 		
 		if (bodyID != -1) {
 			
-			World.setPiece(newX, newY, bodyID);
+			WorldManager.getWorld().setPiece(newX, newY, bodyID);
 			
 		}
 		

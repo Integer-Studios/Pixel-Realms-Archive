@@ -11,6 +11,7 @@ import com.pixel.gui.GUIBox;
 import com.pixel.gui.GUIKeyBindingButton;
 import com.pixel.start.PixelRealms;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class KeyboardListener {
 
@@ -68,19 +69,19 @@ public class KeyboardListener {
 		if (World.loaded) {
 
 //			if (code == KeyCode.KEY_N) {
-//				PixelRealms.world.setTile((int)PixelRealms.world.player.getX(), (int)PixelRealms.world.player.getY(), 7, 0);
+//				WorldManager.getWorld().setTile((int)WorldManager.player.getX(), (int)WorldManager.player.getY(), 7, 0);
 //			}
 			
 			if (code == KeyCode.KEY_ENTER) {
 
-				if (!PixelRealms.world.player.interfaceManager.chat.box.getPressed()) {
+				if (!WorldManager.player.interfaceManager.chat.box.getPressed()) {
 
-					PixelRealms.world.player.interfaceManager.chat.box.selected = true;
+					WorldManager.player.interfaceManager.chat.box.selected = true;
 
 				} else {
 
-					PixelRealms.world.player.interfaceManager.chat.send();
-					PixelRealms.world.player.interfaceManager.chat.box.selected = false;
+					WorldManager.player.interfaceManager.chat.send();
+					WorldManager.player.interfaceManager.chat.box.selected = false;
 
 				}
 
@@ -107,47 +108,47 @@ public class KeyboardListener {
 			switch(code) {
 
 			case KeyCode.KEY_1:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(0, 0);
+				WorldManager.player.interfaceManager.hotbarWindow.selectSlot(0, 0);
 				break;
 
 			case KeyCode.KEY_2:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(1, 0);
+				WorldManager.player.interfaceManager.hotbarWindow.selectSlot(1, 0);
 				break;
 
 			case KeyCode.KEY_3:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(2, 0);
+				WorldManager.player.interfaceManager.hotbarWindow.selectSlot(2, 0);
 				break;
 
 			case KeyCode.KEY_4:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(3, 0);
+				WorldManager.player.interfaceManager.hotbarWindow.selectSlot(3, 0);
 
 			case KeyCode.KEY_5:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(4, 0);
+				WorldManager.player.interfaceManager.hotbarWindow.selectSlot(4, 0);
 
 				break;
 
 			case KeyCode.KEY_6:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(5, 0);
+				WorldManager.player.interfaceManager.hotbarWindow.selectSlot(5, 0);
 				break;
 
 			case KeyCode.KEY_7:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(6, 0);
+				WorldManager.player.interfaceManager.hotbarWindow.selectSlot(6, 0);
 				break;
 
 			case KeyCode.KEY_8:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(7, 0);
+				WorldManager.player.interfaceManager.hotbarWindow.selectSlot(7, 0);
 				break;
 
 			case KeyCode.KEY_9:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(8, 0);
+				WorldManager.player.interfaceManager.hotbarWindow.selectSlot(8, 0);
 				break;
 
 			case KeyCode.KEY_0:
-				PixelRealms.world.player.interfaceManager.hotbarWindow.selectSlot(9, 0);
+				WorldManager.player.interfaceManager.hotbarWindow.selectSlot(9, 0);
 				break;
 				
 			case KeyCode.KEY_F:
-				PixelRealms.world.player.testLight();
+				WorldManager.player.testLight();
 				break;
 				
 			}
@@ -191,12 +192,12 @@ public class KeyboardListener {
 		if (World.loaded) {
 			
 			if (code == KeyCode.KEY_E) {
-				if (PixelRealms.world.player.door) {
-				PixelRealms.world.player.door = false;
-					if (PixelRealms.world.player.inside)
-						PixelRealms.world.leaveInterior();
+				if (WorldManager.player.door) {
+				WorldManager.player.door = false;
+					if (WorldManager.player.inside)
+						WorldManager.getWorld().leaveInterior();
 					else
-						CommunicationClient.addPacket(new PacketLoadInterior(PixelRealms.world.player.currentlySelectedInterior));
+						CommunicationClient.addPacket(new PacketLoadInterior(WorldManager.player.currentlySelectedInterior));
 					
 				}
 			}

@@ -5,28 +5,25 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.pixel.communication.PlayerManager;
-import com.pixel.frame.PanelWorld;
+import com.pixel.world.WorldManager;
+import com.pixel.entity.EntityAlive;
 
 public class PacketLogin extends Packet {
 
 	public String username;
 	public float posX, posY, health, satisfaction, energy;
-	public int itemID, itemAmount, worldID, session;
+	public int itemID, itemAmount, worldID, session, serverID;
 	
-	public PacketLogin(){}
+	public PacketLogin(){this.id = 1;}
 	
-	public PacketLogin(String username, int session) {
+	public PacketLogin(int userID) {
 
 		this.id = 1;
-		this.username = username;
-		this.session = session;
-
+		this.userID = userID;
+		
 	}
 	
 	public void writeData(DataOutputStream output) throws IOException {
-	
-		Packet.writeString(username, output);
-		output.writeInt(this.session);
 		
 	}
 
@@ -43,24 +40,21 @@ public class PacketLogin extends Packet {
 		this.satisfaction = input.readFloat();
 		this.session = input.readInt();
 		this.worldID = input.readInt();
+		this.serverID = input.readInt();
 		
 		if (PlayerManager.currentUserID != this.userID) {
 			
 			System.out.println("[Pixel Realms] User: " + username + " has logged in with id: " + userID);
 
-			PlayerManager.spawnPlayer(username, userID, posX, posY);
+			PlayerManager.spawnPlayer(username, userID, posX, posY, serverID);
 			System.out.println(username + " " + worldID);
-			PlayerManager.players.get(userID).worldID = worldID;
-			PlayerManager.players.get(userID).health = health;
-			PlayerManager.players.get(userID).satisfaction = satisfaction;
-			PlayerManager.players.get(userID).energy = energy;
+			WorldManager.getWorld().entities.get(serverID).worldID = worldID;
+			((EntityAlive)WorldManager.getWorld().entities.get(serverID)).setHealth(health);
+			((EntityAlive)WorldManager.getWorld().entities.get(serverID)).satisfaction = satisfaction;
+			((EntityAlive)WorldManager.getWorld().entities.get(serverID)).energy = energy;
 
 
-		} else {
-			
-			PanelWorld.loginRebound = true;
-			
-		}
+		} 
 		
 	}
 

@@ -2,9 +2,11 @@ package com.pixel.gui;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 import com.pixel.item.Item;
 import com.pixel.item.ItemStack;
+import com.pixel.start.TextureLoader;
 
 public class GUIRecipeSlot extends GUIComponentSet {
 	
@@ -12,10 +14,11 @@ public class GUIRecipeSlot extends GUIComponentSet {
 	public int current, needed;
 	public boolean hasAppliableItemStack = false;
 	public ItemStack itemstack;
+	public static Image recipeSlot;
 
 	public GUIRecipeSlot(int x, int y, Item i, int current, int needed) {
 		super(x, y, 26, 26, new GUIComponent[]{
-				new GUIComponent(x, y, 26, 26, PlayerInterfaceManager.recipeSlot),
+				new GUIComponent(x, y, 26, 26, recipeSlot),
 				new GUIRecipeStack(x+5, y+5, i, current, needed),
 		});
 		this.current = current;
@@ -25,7 +28,7 @@ public class GUIRecipeSlot extends GUIComponentSet {
 	
 	public GUIRecipeSlot(int x, int y) {
 		super(x, y, 26, 26, new GUIComponent[]{
-				new GUIComponent(x, y, 26, 26, PlayerInterfaceManager.recipeSlot),
+				new GUIComponent(x, y, 26, 26, recipeSlot),
 				new GUIRecipeStack(x+5, y+5, Item.blank, 0, 0),
 		});
 		this.current = 0;
@@ -46,6 +49,13 @@ public class GUIRecipeSlot extends GUIComponentSet {
 	}
 	
 	public void render(GameContainer c, Graphics g) {
+		
+		if (recipeSlot == null) {
+			
+			recipeSlot = TextureLoader.load("resources/gui/interface/foldRight/recipeSlot.png");
+			
+		}
+		
 		if (!hasAppliableItemStack) {
 			current = 0;
 			((GUIRecipeStack)components[1]).current = 0;

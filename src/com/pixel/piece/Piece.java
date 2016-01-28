@@ -16,6 +16,7 @@ import com.pixel.tile.Material;
 import com.pixel.util.CollisionBox;
 import com.pixel.util.Toolkit;
 import com.pixel.world.World;
+import com.pixel.world.WorldManager;
 
 public class Piece {
 	
@@ -28,7 +29,7 @@ public class Piece {
 		collisionBox = new Rectangle(posX + info[id].xOffset, posY + info[id].yOffset, info[id].width, info[id].height);
 	
 		if (propagate)
-			World.propagatePiece(this);
+			WorldManager.propagatePiece(this);
 	
 	}
 	
@@ -43,7 +44,7 @@ public class Piece {
 		collisionBox = new Rectangle(posX + info[id].xOffset, posY + info[id].yOffset, info[id].width, info[id].height);
 
 		if (propagate)
-			World.propagatePiece(this);
+			WorldManager.propagatePiece(this);
 		
 	}
 	
@@ -55,18 +56,18 @@ public class Piece {
 		info[id].tick(w, this);
 		if (info[id].shouldCollide) {
 			boolean flag = false;
-			if (playerInCollidedPosition && !w.player.isMoving()) {
+			if (playerInCollidedPosition && !WorldManager.player.isMoving()) {
 				info[id].setPlayerInInteractionZone(true);
 				flag = true;
-			} else if (playerInCollidedPosition && w.player.isMoving()) {
+			} else if (playerInCollidedPosition && WorldManager.player.isMoving()) {
 				flag = false;
 			}
-			if (CollisionBox.testPieceAgainstEntity(this, w.player, w, true)) {
+			if (CollisionBox.testPieceAgainstEntity(this, WorldManager.player, w, true)) {
 				if (playerInCollidedPosition) {
 					info[id].setPlayerInInteractionZone(true);
 				} else {
-					info[id].onPlayerCollided(w, this, w.player);
-					PlayerMotionManager.onCollidedWithPiece(w.player, posX, posY);
+					info[id].onPlayerCollided(w, this, WorldManager.player);
+					PlayerMotionManager.onCollidedWithPiece(WorldManager.player, posX, posY);
 				}
 				playerInCollidedPosition= true;
 				flag = true;
@@ -80,9 +81,9 @@ public class Piece {
 			playerInCollidedPosition = flag;
 			info[id].setPlayerInInteractionZone(playerInCollidedPosition);
 		} else {
-			if (CollisionBox.testPieceAgainstEntity(this, w.player, w, false)) {
-				info[id].onPlayerCollided(w, this, w.player);
-				w.player.onOverPiece(w, posX, posY);
+			if (CollisionBox.testPieceAgainstEntity(this, WorldManager.player, w, false)) {
+				info[id].onPlayerCollided(w, this, WorldManager.player);
+				WorldManager.player.onOverPiece(w, posX, posY);
 			}
 //			try {
 //				for (int x = 0; x < World.entities.size(); x++) {
@@ -101,7 +102,7 @@ public class Piece {
 		if ((int)MouseClickListener.getXWorldMousePosition() == posX && (int)MouseClickListener.getYWorldMousePosition() == posY) {
 
 			if (MouseClickListener.onMouseUp && id != 0) {
-				w.player.setTargetPiece(this);
+				WorldManager.player.setTargetPiece(this);
 			}
 			
 		}
@@ -113,7 +114,7 @@ public class Piece {
 		if (id == 0) 
 			return;
 		
-		info[id].onPlayerHitting(w, this, w.player);
+		info[id].onPlayerHitting(w, this, WorldManager.player);
 		damage -= i;
 		
 		PixelSoundManager.createEffect(PixelEffect.HIT_DEFAULT).start();

@@ -8,18 +8,18 @@ import com.pixel.communication.PlayerManager;
 import com.pixel.entity.EntityAlive;
 import com.pixel.world.World;
 
-public class PacketMovePlayer extends Packet {
+public class PacketMovePlayerDeprecated extends Packet {
 
 	EntityAlive entity;
 	int userID;
 	float velocityX, velocityY, posX, posY;
 	int worldID;
 	
-	public PacketMovePlayer() {
+	public PacketMovePlayerDeprecated() {
 		this.id = 16;
 	}
 	
-	public PacketMovePlayer(float changeX, float changeY, float posX, float posY) {
+	public PacketMovePlayerDeprecated(float changeX, float changeY, float posX, float posY) {
 		
 		this.id = 16;
 		this.userID = PlayerManager.currentUserID;
@@ -48,18 +48,18 @@ public class PacketMovePlayer extends Packet {
 		posX = input.readFloat();
 		posY = input.readFloat();
 		worldID = input.readInt();
-		if (!World.loaded)
-			return;
-		if (PlayerManager.currentUserID != userID) {
-			
-			if (PlayerManager.players.containsKey(userID)) {
-				
-				PlayerManager.players.get(userID).setVelocity(velocityX, velocityY); 
-				PlayerManager.players.get(userID).worldID = worldID;
-
-			} 
-			
-		}
+//		if (!World.loaded)
+//			return;
+//		if (PlayerManager.currentUserID != userID) {
+//			
+//			if (PlayerManager.players.containsKey(userID)) {
+//				
+//				PlayerManager.players.get(userID).setVelocity(velocityX, velocityY); 
+//				PlayerManager.players.get(userID).worldID = worldID;
+//
+//			} 
+//			
+//		}
 
 	}
 

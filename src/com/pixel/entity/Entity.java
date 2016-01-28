@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.pixel.animation.Animation;
+import com.pixel.util.Metadata;
 import com.pixel.world.World;
 
 public class Entity {
@@ -27,6 +28,7 @@ public class Entity {
 	public int serverID;
 	public int lightID = -1;
 	public int worldID = -1;
+	public Metadata metadata;
 	public float floatingOffset = 0.0F;
 	@SuppressWarnings("rawtypes")
 	private static HashMap<Integer, Class> entityMap = new HashMap<Integer, Class>();

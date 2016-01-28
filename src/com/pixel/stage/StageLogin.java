@@ -1,4 +1,4 @@
-package com.pixel.frame;
+package com.pixel.stage;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -27,22 +27,28 @@ import com.pixel.start.PixelRealms;
 import com.pixel.util.FileItem;
 import com.pixel.util.Toolkit;
 
-public class PanelLogin extends Panel {
+public class StageLogin extends Stage {
 	
-	Toolkit t;
-	String basePath, separator;
-	String[] login;
+	public Toolkit t;
+	public String basePath, separator;
+	public String[] login;
+	public GUIButton loginBtn;
+	public GUITextBox username;
+	public GUITextBoxPassword password;
+	public GUIComponentText errorField;
+	public int width = -1;
+	public int height = -1;
 	
-	public PanelLogin() {
-		width = -1;
-		updateRenderSize();
+	public StageLogin() {
+		
+		this.updateRenderSize();
 
 		String operatingSystem = System.getProperty("os.name");
 		boolean unix = !(operatingSystem.startsWith("Windows"));
 		t = new Toolkit();
 
-//		PixelRealms.ip = "127.0.0.1";
-		PixelRealms.ip = "server.pixel-realms.com";
+		PixelRealms.setIP("127.0.0.1");
+//		PixelRealms.ip = "server.pixel-realms.com";
 
 
 		switch (PixelRealms.port) {
@@ -58,7 +64,7 @@ public class PanelLogin extends Panel {
 			break;
 		}
 		
-		System.out.println("[Pixel Realms] Current Server IP: " + PixelRealms.ip + ":" + PixelRealms.port);
+		System.out.println("[Pixel Realms] Current Server IP: " + PixelRealms.getIP() + ":" + PixelRealms.port);
 
 		
 		if (unix) {
@@ -102,6 +108,7 @@ public class PanelLogin extends Panel {
 		
 		if (loginBtn.getOnMouseUp()) {
 			try {
+//				System.out.println("")
 				tryLogin(username.getText(), password.getText());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -162,7 +169,7 @@ public class PanelLogin extends Panel {
 
         urlParameters = "ign=" + ign + "&password=" + password;
 
-        String request = "http://pixel-realms.com/game_login.php";
+        String request = "http://server.integerstudios.com/pixel/login.php";
         URL url = new URL(request); 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
         connection.setDoOutput(true);
@@ -222,12 +229,7 @@ public class PanelLogin extends Panel {
         	errorField.setText("Sorry, that account isn't verified.");
         	errorField.setPosition(Display.getWidth()/2-190, Display.getHeight()/2-140);
         }
+	
 	}
-
-	public GUIButton loginBtn;
-	public GUITextBox username;
-	public GUITextBoxPassword password;
-	public GUIComponentText errorField;
-	public int width, height;
 
 }
